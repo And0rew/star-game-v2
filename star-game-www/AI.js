@@ -1,13 +1,18 @@
+var AI_functions = {}
 
-var AI = function (myAiId) {
+var AI = function (myAiId, dt) {
 	let object = Game.state.objects[myAiId]
 	
 	if (!object) {
 		return
 	}
 
-	if (object.ai === 'trooper') {
-		ai_trooper(myAiId, object)
+	// if (object.ai === 'trooper_p') {
+	// 	ai_trooper_p(myAiId, object)
+	// }
+
+	if (object.ai && AI_functions[object.ai]) {
+		AI_functions[object.ai](myAiId, object, dt)
 	}
 
 	// var chel
@@ -19,10 +24,19 @@ var AI = function (myAiId) {
 	// 	}
 	// }
 }
+var getDistance = function (event, target) {
+        var diffX = event.x - target.x;
+        var diffY = event.y - target.y;
+        return Math.sqrt((diffX * diffX) + (diffY * diffY));
+};
 
-function ai_trooper(id, object) {
+AI_functions.trooper_p = function trooper_p(id, object) {
 	if (!object.target) {
-		// найти цель
+		for (var key in Game.state.objects) {
+		 	if (key.id != id) {
+		 		target = Game.state.objects[key]
+			}
+		}
 	}
 	if (object.target) {
 		// разворот на цель

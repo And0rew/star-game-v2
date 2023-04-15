@@ -19,6 +19,8 @@ var start_game = function(canvas, ctx) {
     game_loadImage('shot1', 'pix/shot1.png')
     game_loadImage('tower1', 'pix/tower1.png')
 
+	game_loadImage('planet_earth', 'pix/earth.png')
+
   	var draw_map = function (width, height) {
   		if (!Game.state.map) {
   			return
@@ -59,97 +61,110 @@ var start_game = function(canvas, ctx) {
   		var tex2
   		var rt = 0
 
-		for (var key in Game.state.objects) {
-			var object = Game.state.objects[key]
+		for(var render_layer = 1; render_layer < 3; render_layer++) {
+			for (var key in Game.state.objects) {
+				var object = Game.state.objects[key]
 
-			AI(key)
-
-
-			if (object.vx !== 0 || object.vy !== 0) {
-				object.x = object.x + object.vx * dt
-				object.y = object.y + object.vy * dt
-			
-				if (Game.myId === key && object.target) {
-					let xm = object.target[0]
-					let ym = object.target[1]
-					
-					if (
-						(object.x > xm - STOP_DIFF && object.x < xm + STOP_DIFF)
-						&& (object.y > ym - STOP_DIFF && object.y < ym + STOP_DIFF)
-					) {						
-						game_update(["objects", key, "vx"], 0)
-						game_update(["objects", key, "vy"], 0)
-						game_update(["objects", key, "x"], object.x)
-						game_update(["objects", key, "y"], object.y)
-					}
-					
+				if (render_layer === 1 && render_layer !== object.render_layer) {
+					continue
+				} else if (render_layer === 2 && object.render_layer !== undefined) {
+					continue
 				}
-					
-			}
-			 
+				
+
+				AI(key, dt)
 
 
-			if (object.look === "trooper1") {
-				tex2 = Game.resources.trooper1
-			}
-			if (object.look === "tower1") {
-				tex2 = Game.resources.tower1
-			}
-			ctx.save()
-			ctx.translate(
-				object.x * Game.bloock_r - Game.camera[0] + Game.bloock_r * tex2.width / 2, 
-				object.y * Game.bloock_r - Game.camera[1] + Game.bloock_r * tex2.height / 2
-			);
-			ctx.rotate(object.g / 180 * Math.PI);
-			ctx.drawImage(
-				tex2,
+				if (object.vx !== 0 || object.vy !== 0) {
+					object.x = object.x + object.vx * dt
+					object.y = object.y + object.vy * dt
+				
+					if (Game.myId === key && object.target) {
+						let xm = object.target[0]
+						let ym = object.target[1]
+						
+						if (
+							(object.x > xm - STOP_DIFF && object.x < xm + STOP_DIFF)
+							&& (object.y > ym - STOP_DIFF && object.y < ym + STOP_DIFF)
+						) {						
+							game_update(["objects", key, "vx"], 0)
+							game_update(["objects", key, "vy"], 0)
+							game_update(["objects", key, "x"], object.x)
+							game_update(["objects", key, "y"], object.y)
+						}
+						
+					}
+						
+				}
+				
 
-				-Game.bloock_r * tex2.width / 2,
-				-Game.bloock_r * tex2.height / 2,
 
-				Game.bloock_r * tex2.width,
-				Game.bloock_r * tex2.height
+				if (object.look === "trooper1") {
+					tex2 = Game.resources.trooper1
+				} else if (object.look === "tower1") {
+					tex2 = Game.resources.tower1
+				} else if (Game.resources[object.look]) {
+					tex2 = Game.resources[object.look]
+				}
+				
+				ctx.save()
+				ctx.translate(
+					object.x * Game.bloock_r - Game.camera[0] + Game.bloock_r * tex2.width / 2, 
+					object.y * Game.bloock_r - Game.camera[1] + Game.bloock_r * tex2.height / 2
+				);
+				ctx.rotate(object.g / 180 * Math.PI);
+				ctx.drawImage(
+					tex2,
 
-			)
-			ctx.restore()
-			if (object.nickName != null) {
-				ctx.fillStyle = "rgba(255, 255, 255, 0.5)"
-				let rectWidth = ctx.measureText(object.nickName).width + 6
-				ctx.fillRect(
-					object.x * Game.bloock_r - Game.camera[0] - 3,
-					object.y * Game.bloock_r - Game.camera[1] - 24,
-					rectWidth,
-					12
+					-Game.bloock_r * tex2.width / 2,
+					-Game.bloock_r * tex2.height / 2,
+
+					Game.bloock_r * tex2.width,
+					Game.bloock_r * tex2.height
+
 				)
-				ctx.fillStyle = "Black"
-				ctx.fillText(
-					object.nickName,
+				ctx.restore()
+				if (object.nickName != null) {
+					ctx.fillStyle = "rgba(255, 255, 255, 0.5)"
+					let rectWidth = ctx.measureText(object.nickName).width + 6
+					ctx.fillRect(
+						object.x * Game.bloock_r - Game.camera[0] - 3,
+						object.y * Game.bloock_r - Game.camera[1] - 24,
+						rectWidth,
+						12
+					)
+					ctx.fillStyle = "Black"
+					ctx.fillText(
+						object.nickName,
 
-					object.x * Game.bloock_r - Game.camera[0],
-					object.y * Game.bloock_r - Game.camera[1] - 15
-				)
+						object.x * Game.bloock_r - Game.camera[0],
+						object.y * Game.bloock_r - Game.camera[1] - 15
+					)
+				}
+				// ctx.fillText(
+				// 	object.hitpoints,
+
+				// 	object.x * Game.bloock_r - Game.camera[0],
+				// 	object.y * Game.bloock_r - Game.camera[1] - 30
+				// )
+				if (object.hitpoints != null) {
+					ctx.fillStyle = "rgba(255, 255, 255, 0.5)"
+					ctx.fillRect(
+						object.x * Game.bloock_r - Game.camera[0] - 3,
+						object.y * Game.bloock_r - Game.camera[1] - (27 + 12),
+						56,
+						12
+					)
+					ctx.fillStyle = "Green"
+					ctx.fillRect(
+						object.x * Game.bloock_r - Game.camera[0],
+						object.y * Game.bloock_r - Game.camera[1] - (27 + 9),
+						(50 / object.max_hitpoints) * object.hitpoints,
+						6
+					)
+					ctx.fillStyle = "Black"
+				}
 			}
-			// ctx.fillText(
-			// 	object.hitpoints,
-
-			// 	object.x * Game.bloock_r - Game.camera[0],
-			// 	object.y * Game.bloock_r - Game.camera[1] - 30
-			// )
-			ctx.fillStyle = "rgba(255, 255, 255, 0.5)"
-			ctx.fillRect(
-				object.x * Game.bloock_r - Game.camera[0] - 3,
-				object.y * Game.bloock_r - Game.camera[1] - (27 + 12),
-				56,
-				12
-			)
-			ctx.fillStyle = "Green"
-			ctx.fillRect(
-				object.x * Game.bloock_r - Game.camera[0],
-				object.y * Game.bloock_r - Game.camera[1] - (27 + 9),
-				(50 / object.max_hitpoints) * object.hitpoints,
-				6
-			)
-			ctx.fillStyle = "Black"
 		}
 	}
 
