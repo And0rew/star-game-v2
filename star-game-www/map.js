@@ -14,12 +14,14 @@ var start_game = function(canvas, ctx) {
 	gs_init()
 
 	game_loadImage('sand1', 'pix/sand1.png')
-    game_loadImage('sand_dark', 'pix/sand_dark.png')
-    game_loadImage('sand2', 'pix/sand2.png')
-    game_loadImage('trooper1', 'pix/trooper1.png')
-    game_loadImage('shot1', 'pix/shot1.png')
-    game_loadImage('tower1', 'pix/tower1.png')
+	game_loadImage('sand_dark', 'pix/sand_dark.png')
+	game_loadImage('sand2', 'pix/sand2.png')
+	game_loadImage('trooper1', 'pix/trooper1.png')
+	game_loadImage('shot1', 'pix/shot1.png')
+	game_loadImage('tower1', 'pix/tower1.png')
 	game_loadImage('space1', 'pix/space1.png')
+	game_loadImage('ship_0', 'pix/ship_0.png')
+	game_loadImage('ship_1', 'pix/ship_1.png')
 
 	game_loadImage('planet_earth', 'pix/earth.png')
 	game_loadImage('planet_mars', 'pix/mars.png')
@@ -76,25 +78,25 @@ var start_game = function(canvas, ctx) {
 				if (object.vx !== 0 || object.vy !== 0) {
 					object.x = object.x + object.vx * dt
 					object.y = object.y + object.vy * dt
-				
+
 					if (Game.myId === key && object.target) {
 						let xm = object.target[0]
 						let ym = object.target[1]
-						
+
 						if (
 							(object.x > xm - STOP_DIFF && object.x < xm + STOP_DIFF)
 							&& (object.y > ym - STOP_DIFF && object.y < ym + STOP_DIFF)
-						) {						
+						) {
 							game_update(["objects", key, "vx"], 0)
 							game_update(["objects", key, "vy"], 0)
 							game_update(["objects", key, "x"], object.x)
 							game_update(["objects", key, "y"], object.y)
 						}
-						
+
 					}
-						
+
 				}
-				
+
 
 
 				if (object.look === "trooper1") {
@@ -104,10 +106,10 @@ var start_game = function(canvas, ctx) {
 				} else if (Game.resources[object.look]) {
 					tex2 = Game.resources[object.look]
 				}
-				
+
 				ctx.save()
 				ctx.translate(
-					object.x * Game.bloock_r - Game.camera[0] + Game.bloock_r * tex2.width / 2, 
+					object.x * Game.bloock_r - Game.camera[0] + Game.bloock_r * tex2.width / 2,
 					object.y * Game.bloock_r - Game.camera[1] + Game.bloock_r * tex2.height / 2
 				);
 				ctx.rotate(object.g / 180 * Math.PI);
@@ -177,19 +179,19 @@ var start_game = function(canvas, ctx) {
 			// if (shot.time_not_life <= Date.now()) {
 			// 	delete Game.state.shots[key]
 			// 	console.log("умер")
-			// 	continue				
+			// 	continue
 			// }
 
 			// if (shot.vx !== 0 || shot.vy !== 0) {
 			// 	shot.x = shot.x + shot.vx * dt
-			// 	shot.y = shot.y + shot.vy * dt		
+			// 	shot.y = shot.y + shot.vy * dt
 			// }
 
 			var tex = Game.resources.shot1
 
 			ctx.save()
 			ctx.translate(
-				shot.x * Game.bloock_r - Game.camera[0], 
+				shot.x * Game.bloock_r - Game.camera[0],
 				shot.y * Game.bloock_r - Game.camera[1]
 			);
 			ctx.rotate(shot.g / 180 * Math.PI);
@@ -206,7 +208,7 @@ var start_game = function(canvas, ctx) {
 			ctx.restore()
 		}
 	}
-	
+
 	setTimeout(() => {
 		window.requestAnimationFrame(render)
 	}, 500)
@@ -220,12 +222,12 @@ var start_game = function(canvas, ctx) {
 		t = Date.now()
 		dt = t - pt
 
-		
+
 		ctx.clearRect(0, 0, innerWidth, innerHeight)
 		draw_map(100,100)
 		draw_objects(dt)
 		draw_shots(dt)
 
-		window.requestAnimationFrame(render) 
+		window.requestAnimationFrame(render)
 	}
 }
