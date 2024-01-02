@@ -13,7 +13,7 @@ f3(addScript)
 
 const state = {
     map: [],
-    objects: {},    
+    objects: {},
     shots: {},
 }
 
@@ -23,9 +23,9 @@ const funcs = {
     delete: (kind, id) => {
         delete state[kind][id]
         lastBroadcastFunc({ deleteObject: { kind, id } })
-    },    
+    },
 
-    update: ( path, value ) => { 
+    update: ( path, value ) => {
         _.set(state, path, value)
         funcs.bulkPatch.push({
             path,
@@ -40,10 +40,10 @@ function game_start({ broadcast }) {
     lastBroadcastFunc = broadcast
     /*
         Пока мир один
-        Нужно при старте сервера собрать стейт, если он есть        
+        Нужно при старте сервера собрать стейт, если он есть
     */
-    state.map = game_tmp_gen_map(100, 100)   
- 
+    state.map = game_tmp_gen_map(100, 100)
+
     setInterval(() => {
         update_world({ broadcast })
     }, 10)
@@ -76,15 +76,15 @@ function update_world({ broadcast }) {
                 path: ['objects', objectId, 'x'],
                 value: object.x,
             })
-            
-        }  
+
+        }
         if (object.vy > 0) {
             object.y = object.y + object.vy * dt
             funcs.bulkPatch.push({
                 path: ['objects', objectId, 'y'],
                 value: object.y,
-            })            
-        }       
+            })
+        }
     }
 
     for (const shotId in state.shots) {
@@ -93,20 +93,20 @@ function update_world({ broadcast }) {
             funcs.delete('shots', shotId)
         } else if (shot.vx !== 0 || shot.vy !== 0) {
             funcs.update(
-                ['shots', shot.id, 'x'], 
+                ['shots', shot.id, 'x'],
                 shot.x + shot.vx * dt
             )
             funcs.update(
-                ['shots', shot.id, 'y'], 
+                ['shots', shot.id, 'y'],
                 shot.y + shot.vy * dt
-            )            
-        }        
+            )
+        }
     }
 
     if (funcs.bulkPatch.length > 0) {
         broadcast({ stateBulkPatch: funcs.bulkPatch })
-    }    
-    
+    }
+
 }
 
 function get_full_world_state() {
@@ -134,7 +134,7 @@ function game_tmp_gen_map(width, height) {
 
     for (let x = 0; x < width; x++) {
         map.push(new Array(height))
-        
+
         for (let y = 0; y < height; y++) {
             let block = numbers[Math.floor(Math.random() * blocks.length)]
             map[x][y] = {
