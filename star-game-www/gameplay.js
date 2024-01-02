@@ -98,7 +98,7 @@ function spawn_players() {
         x: 100,
         y: 100,
 
-        look: 'ship_0',
+        look: 'ship_3',
         ai: ['trooper', 'hitpoints'],
 
         g: 0,
