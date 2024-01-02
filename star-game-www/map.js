@@ -9,6 +9,7 @@ var Game = {
     bloock_r: 1,
     X_Y_block: 40
 }
+
 var start_game = function(canvas, ctx) {
 	gs_init()
 
@@ -18,8 +19,11 @@ var start_game = function(canvas, ctx) {
     game_loadImage('trooper1', 'pix/trooper1.png')
     game_loadImage('shot1', 'pix/shot1.png')
     game_loadImage('tower1', 'pix/tower1.png')
+	game_loadImage('space1', 'pix/space1.png')
 
 	game_loadImage('planet_earth', 'pix/earth.png')
+	game_loadImage('planet_mars', 'pix/mars.png')
+	game_loadImage('sun', 'pix/sun.png')
 
   	var draw_map = function (width, height) {
   		if (!Game.state.map) {
@@ -29,28 +33,26 @@ var start_game = function(canvas, ctx) {
 		for (var x = 0; x < width; x++) {
 			for (var y = 0; y < height; y++) {
 				let tex
-				if (Game.state.map[x][y].text === "dark_sand") {
+				let texName = Game.state.map[x][y].text
+				if (texName === "dark_sand") {
 					tex = Game.resources.sand_dark
-				} else if (Game.state.map[x][y].text === "sand1"){
-					tex = Game.resources.sand1
-				} else if (Game.state.map[x][y].text === "sand2") {
-					tex = Game.resources.sand2
+				} else if (Game.resources[texName]) {
+					tex = Game.resources[texName]
 				} else {
 					tex = Game.resources.sand1
 				}
 				ctx.drawImage(
-				tex,
+					tex,
 
-				x * 40 * Game.bloock_r - Game.camera[0],
-				y * 40 * Game.bloock_r - Game.camera[1],
+					x * 40 * Game.bloock_r - Game.camera[0],
+					y * 40 * Game.bloock_r - Game.camera[1],
 
-				Game.bloock_r * Game.X_Y_block,
-				Game.bloock_r * Game.X_Y_block
+					Game.bloock_r * Game.X_Y_block,
+					Game.bloock_r * Game.X_Y_block
 				)
 			}
 		}
 	}
-
 
 	var STOP_DIFF = 11
 
@@ -70,10 +72,6 @@ var start_game = function(canvas, ctx) {
 				} else if (render_layer === 2 && object.render_layer !== undefined) {
 					continue
 				}
-				
-
-				AI(key, dt)
-
 
 				if (object.vx !== 0 || object.vy !== 0) {
 					object.x = object.x + object.vx * dt
@@ -176,16 +174,16 @@ var start_game = function(canvas, ctx) {
 		for (var key in Game.state.shots) {
 			var shot = Game.state.shots[key]
 
-			if (shot.time_not_life <= Date.now()) {
-				delete Game.state.shots[key]
-				console.log("умер")
-				continue				
-			}
+			// if (shot.time_not_life <= Date.now()) {
+			// 	delete Game.state.shots[key]
+			// 	console.log("умер")
+			// 	continue				
+			// }
 
-			if (shot.vx !== 0 || shot.vy !== 0) {
-				shot.x = shot.x + shot.vx * dt
-				shot.y = shot.y + shot.vy * dt		
-			}
+			// if (shot.vx !== 0 || shot.vy !== 0) {
+			// 	shot.x = shot.x + shot.vx * dt
+			// 	shot.y = shot.y + shot.vy * dt		
+			// }
 
 			var tex = Game.resources.shot1
 
@@ -208,45 +206,7 @@ var start_game = function(canvas, ctx) {
 			ctx.restore()
 		}
 	}
-	var uron = 20
-	var RadPop = 0
-	var ux = 0
-	var uy = 0
-	var hp_shots = function () {
-		for (var key in Game.state.shots) {
-			for (var kero in Game.state.objects) {
-				var object = Game.state.objects[kero]
-				var shot = Game.state.shots[key]
-				if (!shot) {
-					return
-				}
-				if (!object) {
-					return
-				}
-				if (object.look === "trooper1") {
-					RadPop = 31
-					ux = 49 / 2
-					uy = 30 / 2
-				} else if (object.look === "tower1") {
-					RadPop = 81
-					ux = 40
-					uy = 40
-				}
-				if (shot.x > object.x + ux - RadPop && shot.x < object.x + ux + RadPop) {
-					if (shot.y > object.y + uy - RadPop && shot.y < object.y + uy + RadPop) {
-						if (object.id != shot.myid) {
-							console.log("попал")
-							object.hitpoints = object.hitpoints - uron
-							delete Game.state.shots[key]
-							if (object.hitpoints <= 0) {
-								delete Game.state.objects[kero]
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+	
 	setTimeout(() => {
 		window.requestAnimationFrame(render)
 	}, 500)
@@ -265,7 +225,6 @@ var start_game = function(canvas, ctx) {
 		draw_map(100,100)
 		draw_objects(dt)
 		draw_shots(dt)
-		hp_shots()
 
 		window.requestAnimationFrame(render) 
 	}

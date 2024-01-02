@@ -26,23 +26,23 @@ app.ws('/', (ws, req) => {
     sockets[socketId] = ws
 
     ws.on('message', (msg) => {
-        console.log('on message @ msg', msg)
+        // console.log('on message @ msg', msg)
         const data = unser(msg)
-        console.log('on message @ data', data)
+        // console.log('on message @ data', data)
 
         if (data.handshake) {
             ws.send(ser({ worldState: game.get_full_world_state() }))
         }
         if (data.playerJoin) {
 
-        }    
+        }
         if (data.statePatch) {
             // записать стейт локально
             game.apply_state_patch(data.statePatch)
 
             // взять наверное массив патчей и сделать отправку всем
             const message = { statePatch: data.statePatch }
-            broadcast(message, socketId)            
+            broadcast(message, socketId)
         }
         if (data.deleteObject) {
             // записать стейт локально
@@ -50,7 +50,7 @@ app.ws('/', (ws, req) => {
 
             // взять наверное массив патчей и сделать отправку всем
             const message = { deleteObject: data.deleteObject }
-            broadcast(message, socketId)            
+            broadcast(message, socketId)
         }
     })
 
@@ -63,13 +63,13 @@ app.ws('/', (ws, req) => {
 })
 
 app.listen(3000)
-console.log('Server started')
+console.log('Server started', 3000)
 
 function broadcast(message, excludeSocketId = '') {
     const serMessage = ser(message)
     for (const sId in sockets) {
         const s = sockets[sId]
-        
+
         if (!excludeSocketId || sId !== excludeSocketId) {
             s.send(serMessage)
         }

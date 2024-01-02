@@ -22,6 +22,7 @@ function gs_init() {
             game_was_updated_bulk(data.stateBulkPatch)
         }
         if (data.deleteObject) {
+            console.log('delete object', data.deleteObject)
             game_was_deleted(data.deleteObject.kind, data.deleteObject.id)
         }
     });

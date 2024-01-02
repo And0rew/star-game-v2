@@ -1,13 +1,43 @@
 const { update } = require('lodash')
 const _ = require('lodash')
 
+const { applyAI, addScript } = require('./ai-provider')
+
+const f1 = require('./ai-scripts/hitpoints')
+const f2 = require('./ai-scripts/planet')
+const f3 = require('./ai-scripts/trooper')
+
+f1(addScript)
+f2(addScript)
+f3(addScript)
+
 const state = {
     map: [],
     objects: {},    
     shots: {},
 }
 
+const funcs = {
+    bulkPatch: [],
+
+    delete: (kind, id) => {
+        delete state[kind][id]
+        lastBroadcastFunc({ deleteObject: { kind, id } })
+    },    
+
+    update: ( path, value ) => { 
+        _.set(state, path, value)
+        funcs.bulkPatch.push({
+            path,
+            value,
+        })
+    },
+}
+
+let lastBroadcastFunc = null
+
 function game_start({ broadcast }) {
+    lastBroadcastFunc = broadcast
     /*
         Пока мир один
         Нужно при старте сервера собрать стейт, если он есть        
@@ -16,7 +46,7 @@ function game_start({ broadcast }) {
  
     setInterval(() => {
         update_world({ broadcast })
-    }, 500)
+    }, 10)
 }
 
 let pt = 0
@@ -31,13 +61,18 @@ function update_world({ broadcast }) {
         return
     }
 
-    const bulkPatch = []
+    funcs.bulkPatch = []
 
     for (const objectId in state.objects) {
         const object = state.objects[objectId]
+
+        if (object.ai) {
+            applyAI(object, { state, funcs } , dt)
+        }
+
         if (object.vx > 0) {
             object.x = object.x + object.vx * dt
-            bulkPatch.push({
+            funcs.bulkPatch.push({
                 path: ['objects', objectId, 'x'],
                 value: object.x,
             })
@@ -45,16 +80,33 @@ function update_world({ broadcast }) {
         }  
         if (object.vy > 0) {
             object.y = object.y + object.vy * dt
-            bulkPatch.push({
+            funcs.bulkPatch.push({
                 path: ['objects', objectId, 'y'],
                 value: object.y,
             })            
         }       
     }
 
-    if (bulkPatch.length > 0) {
-        broadcast({ stateBulkPatch: bulkPatch })
+    for (const shotId in state.shots) {
+        const shot = state.shots[shotId]
+        if (shot.time_not_life <= Date.now()) {
+            funcs.delete('shots', shotId)
+        } else if (shot.vx !== 0 || shot.vy !== 0) {
+            funcs.update(
+                ['shots', shot.id, 'x'], 
+                shot.x + shot.vx * dt
+            )
+            funcs.update(
+                ['shots', shot.id, 'y'], 
+                shot.y + shot.vy * dt
+            )            
+        }        
+    }
+
+    if (funcs.bulkPatch.length > 0) {
+        broadcast({ stateBulkPatch: funcs.bulkPatch })
     }    
+    
 }
 
 function get_full_world_state() {
@@ -76,7 +128,8 @@ function apply_delete_object(deleteObject) {
 function game_tmp_gen_map(width, height) {
     const map = []
 
-    var blocks = ["sand1", "sand1", "sand1", "sand2", "sand2", "sand2", "dark_sand", "dark_sand"]
+    // var blocks = ["sand1", "sand1", "sand1", "sand2", "sand2", "sand2", "dark_sand", "dark_sand"]
+    var blocks = ["space1"]
     var numbers = [0, 1, 2, 3, 4, 5, 6, 7]
 
     for (let x = 0; x < width; x++) {
