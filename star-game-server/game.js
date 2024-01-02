@@ -128,8 +128,8 @@ function apply_delete_object(deleteObject) {
 function game_tmp_gen_map(width, height) {
     const map = []
 
-    // var blocks = ["sand1", "sand1", "sand1", "sand2", "sand2", "sand2", "dark_sand", "dark_sand"]
-    var blocks = ["space1"]
+    var blocks = ["sand1", "sand1", "sand1", "sand2", "sand2", "sand2", "dark_sand", "dark_sand"]
+    //var blocks = ["space1"]
     var numbers = [0, 1, 2, 3, 4, 5, 6, 7]
 
     for (let x = 0; x < width; x++) {
@@ -142,9 +142,17 @@ function game_tmp_gen_map(width, height) {
             }
         }
     }
-
+    
 
     return map
+}
+var rockGenirate = function (x, ) {
+    map[x][y] = {
+        text: "rock1"
+    }
+}
+for (var x = 0; x < 101; x++) {
+    rockGenirate(x, 0)
 }
 
 exports.game_tmp_gen_map = game_tmp_gen_map
