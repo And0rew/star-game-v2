@@ -2,7 +2,7 @@ var Game = {
     resources: {},
     camera:[0, 0],
     state: {
-    	map: null,
+    	map: [[]],
     	objects: {},
     	shots: {}
     },
