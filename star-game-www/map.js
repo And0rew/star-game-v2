@@ -41,6 +41,7 @@ var start_game = function(canvas, ctx) {
 	game_loadImage('ship_4', 'pix/ship_4.png')
 	game_loadImage('ship_5', 'pix/ship_5.png')
 	game_loadImage('rock1', 'pix/rock1.png')
+	game_loadImage('car0', 'pix/car0.png')
 
 	game_loadImage('planet_earth', 'pix/earth.png')
 	game_loadImage('planet_mars', 'pix/mars.png')
