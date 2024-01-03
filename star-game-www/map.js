@@ -10,6 +10,20 @@ var Game = {
     X_Y_block: 40
 }
 
+function get_block_from_coords(x, y) {
+	let block_num_x = Math.floor(x / Game.X_Y_block)
+	let block_num_y = Math.floor(y / Game.X_Y_block)
+	if (Game.map[block_num_x] && Game.map[block_num_x][block_num_y]) {
+		return { 
+			block_num_x, 
+			block_num_y, 
+			block: Game.map[block_num_x][block_num_y] 
+		}
+	}
+	return null
+}
+
+
 var start_game = function(canvas, ctx) {
 	gs_init()
 
@@ -81,8 +95,23 @@ var start_game = function(canvas, ctx) {
 				}
 
 				if (object.vx !== 0 || object.vy !== 0) {
-					object.x = object.x + object.vx * dt
-					object.y = object.y + object.vy * dt
+					let new_x = object.x + object.vx * dt
+					let new_y = object.y + object.vy * dt
+					
+					/* проверить что блок под new_x new_y это не рок */
+
+					if (new_x > 0 && new_x < 4001 && new_y > 0 && new_y < 41) {
+						// скорость 0
+					} else if (new_x > 0 && new_x < 4001 && new_y > 3979 && new_y < 4001) {
+
+					} else if (new_y > 0 && new_y < 4001 && new_x > 0 && new_x < 41) {
+
+					} else if (new_y > 0 && new_y < 4001 && new_x > 3979 && new_x < 4001) {
+
+					} else {
+						object.x = new_x //object.x + object.vx * dt
+						object.y = new_y // object.y + object.vy * dt	
+					}
 
 					if (Game.myId === key && object.target) {
 						let xm = object.target[0]
