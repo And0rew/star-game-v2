@@ -126,7 +126,7 @@ function apply_delete_object(deleteObject) {
 }
 
 function game_tmp_gen_map(width, height) {
-    const map = []
+    const map = [[]]
 
     var blocks = ["sand1", "sand1", "sand1", "sand2", "sand2", "sand2", "dark_sand", "dark_sand"]
     //var blocks = ["space1"]
@@ -142,17 +142,28 @@ function game_tmp_gen_map(width, height) {
             }
         }
     }
-    
 
-    return map
-}
-var rockGenirate = function (x, ) {
-    map[x][y] = {
-        text: "rock1"
+    for (var x = 0; x < 101; x++) {
+        map[x][0] = {
+            text: "rock1"
+        }
     }
-}
-for (var x = 0; x < 101; x++) {
-    rockGenirate(x, 0)
+    for (var x = 0; x < 101; x++) {
+        map[x][99] = {
+            text: "rock1"
+        }
+    }
+    for (var y = 0; y < 101; y++) {
+        map[0][y] = {
+            text: "rock1"
+        }
+    }
+    for (var y = 0; y < 101; y++) {
+        map[99][y] = {
+            text: "rock1"
+        }
+    }
+    return map
 }
 
 exports.game_tmp_gen_map = game_tmp_gen_map
