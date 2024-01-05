@@ -151,8 +151,8 @@ var start_game = function(canvas, ctx) {
 				ctx.drawImage(
 					tex2,
 
-					-Game.bloock_r * tex2.width / 2,
-					-Game.bloock_r * tex2.height / 2,
+					-Game.bloock_r * tex2.width / 2 - tex2.width / 2,
+					-Game.bloock_r * tex2.height / 2 - tex2.height / 2,
 
 					Game.bloock_r * tex2.width,
 					Game.bloock_r * tex2.height
