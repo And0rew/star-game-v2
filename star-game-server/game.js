@@ -163,6 +163,48 @@ function game_tmp_gen_map(width, height) {
             text: "rock1"
         }
     }
+    map[10][10] = {
+        text: "wallleft2"
+    }
+    map[11][10] = {
+        text: "wallright2"
+    }
+    map[10][11] = {
+        text: "gateperupleft2"
+    }
+    map[11][11] = {
+        text: "gateperupright2"
+    }
+    map[10][12] = {
+        text: "gateupleft2"
+    }
+    map[11][12] = {
+        text: "gateupright2"
+    }
+    map[10][13] = {
+        text: "gatecenterleft2"
+    }
+    map[11][13] = {
+        text: "gatecenterright2"
+    }
+    map[10][14] = {
+        text: "gatedownleft2"
+    }
+    map[11][14] = {
+        text: "gatedownright2"
+    }
+    map[10][15] = {
+        text: "gateperdownleft2"
+    }
+    map[11][15] = {
+        text: "gateperdownright2"
+    }
+    map[10][16] = {
+        text: "wallleft2"
+    }
+    map[11][16] = {
+        text: "wallright2"
+    }
     return map
 }
 

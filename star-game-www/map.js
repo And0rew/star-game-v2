@@ -43,6 +43,24 @@ var start_game = function(canvas, ctx) {
 	game_loadImage('rock1', 'pix/rock1.png')
 	game_loadImage('car0', 'pix/car0.png')
 
+	game_loadImage('gatecenter1', 'pix/gatecenter1.png') //деревня песка
+	game_loadImage('gateup1', 'pix/gateup1.png')
+	game_loadImage('gatedown1', 'pix/gatedown1.png')
+	game_loadImage('wallup1', 'pix/wallup1.png')
+
+	game_loadImage('gatecenteright2', 'pix/gatecenteright2.png')
+	game_loadImage('gatecenterleft2', 'pix/gatecenterleft2.png')
+	game_loadImage('gatedownleft2', 'pix/gatedownleft2.png')
+	game_loadImage('gatedownright2', 'pix/gatedownright2.png')
+	game_loadImage('gateperdownleft2', 'pix/gateperdownleft2.png')
+	game_loadImage('gateperdownright2', 'pix/gateperdownright2.png')
+	game_loadImage('gateperupleft2', 'pix/gateperupleft2.png')
+	game_loadImage('gateperupright2', 'pix/gateperupright2.png')
+	game_loadImage('gateupleft2', 'pix/gateupleft2.png')
+	game_loadImage('gateupright2', 'pix/gateupright2.png')
+	game_loadImage('wallleft2', 'pix/wallleft2.png')
+	game_loadImage('wallright2', 'pix/wallright2.png')
+
 	game_loadImage('planet_earth', 'pix/earth.png')
 	game_loadImage('planet_mars', 'pix/mars.png')
 	game_loadImage('sun', 'pix/sun.png')
