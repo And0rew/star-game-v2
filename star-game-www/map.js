@@ -14,10 +14,10 @@ function get_block_from_coords(x, y) {
 	let block_num_x = Math.floor(x / Game.X_Y_block)
 	let block_num_y = Math.floor(y / Game.X_Y_block)
 	if (Game.map[block_num_x] && Game.map[block_num_x][block_num_y]) {
-		return { 
-			block_num_x, 
-			block_num_y, 
-			block: Game.map[block_num_x][block_num_y] 
+		return {
+			block_num_x,
+			block_num_y,
+			block: Game.map[block_num_x][block_num_y]
 		}
 	}
 	return null
@@ -117,7 +117,7 @@ var start_game = function(canvas, ctx) {
 				if (object.vx !== 0 || object.vy !== 0) {
 					let new_x = object.x + object.vx * dt
 					let new_y = object.y + object.vy * dt
-					
+
 					/* проверить что блок под new_x new_y это не рок */
 
 					if (new_x > 0 && new_x < 4001 && new_y > 0 && new_y < 41) {
@@ -130,7 +130,7 @@ var start_game = function(canvas, ctx) {
 
 					} else {
 						object.x = new_x //object.x + object.vx * dt
-						object.y = new_y // object.y + object.vy * dt	
+						object.y = new_y // object.y + object.vy * dt
 					}
 
 					if (Game.myId === key && object.target) {
@@ -163,15 +163,15 @@ var start_game = function(canvas, ctx) {
 
 				ctx.save()
 				ctx.translate(
-					object.x * Game.bloock_r - Game.camera[0] + Game.bloock_r * tex2.width / 2,
-					object.y * Game.bloock_r - Game.camera[1] + Game.bloock_r * tex2.height / 2
+					object.x * Game.bloock_r - Game.camera[0], //+ Game.bloock_r * tex2.width / 2,
+					object.y * Game.bloock_r - Game.camera[1] //+ Game.bloock_r * tex2.height / 2
 				);
 				ctx.rotate(object.g / 180 * Math.PI);
 				ctx.drawImage(
 					tex2,
 
-					-Game.bloock_r * tex2.width / 2 - tex2.width / 2,
-					-Game.bloock_r * tex2.height / 2 - tex2.height / 2,
+					-Game.bloock_r * tex2.width / 2,  //- tex2.width / 2,
+					-Game.bloock_r * tex2.height / 2, //- tex2.height / 2,
 
 					Game.bloock_r * tex2.width,
 					Game.bloock_r * tex2.height
