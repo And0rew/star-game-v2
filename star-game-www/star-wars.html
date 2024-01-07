@@ -21,7 +21,7 @@
 	<canvas id = "canvas" width="1500" height="800"></canvas>
 	<script src="https://code.jquery.com/jquery-2.1.0.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" ></script>
-	<script src="map.js" ></script>	
+	<script src="map.js" ></script>
 
 	<script src="graphics.js" ></script>
 	<script src="sockets.js" ></script>
@@ -110,16 +110,16 @@
 			}
 			return id.join("")
 		}
-		
+
 		var xm = 0
 		var ym = 0
 
-		var clickHandler = function (event) {			
-			var xm = Math.floor((event.clientX + Game.camera[0]) / Game.bloock_r) 
+		var clickHandler = function (event) {
+			var xm = Math.floor((event.clientX + Game.camera[0]) / Game.bloock_r)
 			var ym = Math.floor((event.clientY + Game.camera[1]) / Game.bloock_r)
 			if (!Game.myId) {
 				return
-			} 
+			}
 			var object = Game.state.objects[Game.myId]
 
 			if (!object) {
@@ -130,10 +130,10 @@
 			var dy = ym - object.y
 
 			var k = Math.abs(dx / dy)
-			
+
 			var vy = object.v / Math.sqrt(k * k + 1)
 			var vx = k * vy
-			
+
 			if (xm < object.x) {
 				vx = -vx
 			}
@@ -152,20 +152,20 @@
 			game_update(["objects", Game.myId, "vy"], vy)
 
 		};
-		
+
 		var save
 		var clickHandlerV = function (event) {
-			save = _.size(Game.state.shots) 
+			save = _.size(Game.state.shots)
 
 			if (!Game.myId) {
 				return
-			} 
+			}
 			var object = Game.state.objects[Game.myId]
 			if (!object) {
 				return
 			}
 
-			var k = Math.tan(object.g / 180 * Math.PI)			
+			var k = Math.tan(object.g / 180 * Math.PI)
 			var V_SHOT = 0.4
 			var vy = V_SHOT / Math.sqrt(k * k + 1)
 			var vx = Math.abs(k * vy)
@@ -199,11 +199,11 @@
 		}
 
 		var moveHandler = function (event) {
-			var xm = Math.floor((event.clientX + Game.camera[0]) / Game.bloock_r) 
+			var xm = Math.floor((event.clientX + Game.camera[0]) / Game.bloock_r)
 			var ym = Math.floor((event.clientY + Game.camera[1]) / Game.bloock_r)
 			if (!Game.myId) {
 				return
-			} 
+			}
 			var object = Game.state.objects[Game.myId]
 
 			if (!object) {
@@ -219,7 +219,7 @@
 				g = g - 90
 			} else {
 				g = g + 90
-			}			
+			}
 			game_update(["objects", Game.myId, "g"], g)
 		}
 

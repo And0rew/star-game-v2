@@ -3,13 +3,13 @@ let ws
 function gs_init() {
     const host = 'ws://' + window.location.host.toString()
     console.log('Connect to', host)
-    
+
     ws = new WebSocket(host)
-    
+
     ws.addEventListener('open', () => {
         ws.send(ser({ handshake: true }));
     });
-      
+
     ws.addEventListener('message', (msg) => {
         const data = unser(msg.data)
         if (data.worldState) {
@@ -22,7 +22,6 @@ function gs_init() {
             game_was_updated_bulk(data.stateBulkPatch)
         }
         if (data.deleteObject) {
-            console.log('delete object', data.deleteObject)
             game_was_deleted(data.deleteObject.kind, data.deleteObject.id)
         }
     });

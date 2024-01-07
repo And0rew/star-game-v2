@@ -92,7 +92,28 @@ function spawn_players() {
         hitpoints: 100,
         max_hitpoints: 100,
     })
+}
 
+function spawn_car() {
+    game_update(['objects', 'Car102'], {
+        id: 'Car102',
+        nickName: 'Press e',
+        x: 700,
+        y: 420,
+        hitpoints: 100,
+        max_hitpoints: 100,
+        look: 'car0',
+              ai: ['trooper', 'hitpoints'],
+              type: "car",
+        g: 0,
+        vx: 0,
+        vy: 0,
+        v: 0.2,
+
+        driverId: null,
+        passengerIds: {},
+        maxPassengers: 1,
+    })
 }
 
 function game_delete_all() {
