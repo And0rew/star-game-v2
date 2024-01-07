@@ -101,7 +101,6 @@ var start_game = function(canvas, ctx) {
 		if (!Game.state.objects) {
   			return
   		}
-  		var tex2
   		var rt = 0
 
 		for(var render_layer = 1; render_layer < 3; render_layer++) {
@@ -151,33 +150,17 @@ var start_game = function(canvas, ctx) {
 
 				}
 
-
-
-				if (object.look === "trooper1") {
-					tex2 = Game.resources.trooper1
-				} else if (object.look === "tower1") {
-					tex2 = Game.resources.tower1
-				} else if (Game.resources[object.look]) {
-					tex2 = Game.resources[object.look]
+				if (object.carSit) {
+					continue
 				}
 
 				ctx.save()
-				ctx.translate(
-					object.x * Game.bloock_r - Game.camera[0], //+ Game.bloock_r * tex2.width / 2,
-					object.y * Game.bloock_r - Game.camera[1] //+ Game.bloock_r * tex2.height / 2
-				);
-				ctx.rotate(object.g / 180 * Math.PI);
-				ctx.drawImage(
-					tex2,
-
-					-Game.bloock_r * tex2.width / 2,  //- tex2.width / 2,
-					-Game.bloock_r * tex2.height / 2, //- tex2.height / 2,
-
-					Game.bloock_r * tex2.width,
-					Game.bloock_r * tex2.height
-
-				)
+				draw_object(ctx, object)
+				if (object.type === 'car') {
+					draw_car_seats(ctx, object)
+				}
 				ctx.restore()
+
 				if (object.nickName != null) {
 					ctx.fillStyle = "rgba(255, 255, 255, 0.5)"
 					let rectWidth = ctx.measureText(object.nickName).width + 6
@@ -195,12 +178,7 @@ var start_game = function(canvas, ctx) {
 						object.y * Game.bloock_r - Game.camera[1] - 15
 					)
 				}
-				// ctx.fillText(
-				// 	object.hitpoints,
 
-				// 	object.x * Game.bloock_r - Game.camera[0],
-				// 	object.y * Game.bloock_r - Game.camera[1] - 30
-				// )
 				if (object.hitpoints != null) {
 					ctx.fillStyle = "rgba(255, 255, 255, 0.5)"
 					ctx.fillRect(
@@ -218,6 +196,7 @@ var start_game = function(canvas, ctx) {
 					)
 					ctx.fillStyle = "Black"
 				}
+
 			}
 		}
 	}
@@ -260,6 +239,43 @@ var start_game = function(canvas, ctx) {
 
 			)
 			ctx.restore()
+		}
+	}
+
+	var draw_object = function (ctx, object) {
+		let tex2
+
+		if (object.look === "trooper1") {
+			tex2 = Game.resources.trooper1
+		} else if (object.look === "tower1") {
+			tex2 = Game.resources.tower1
+		} else if (Game.resources[object.look]) {
+			tex2 = Game.resources[object.look]
+		}
+
+		ctx.translate(
+			object.x * Game.bloock_r - Game.camera[0], //+ Game.bloock_r * tex2.width / 2,
+			object.y * Game.bloock_r - Game.camera[1] //+ Game.bloock_r * tex2.height / 2
+		);
+		ctx.rotate(object.g / 180 * Math.PI);
+		ctx.drawImage(
+			tex2,
+
+			-Game.bloock_r * tex2.width / 2,  //- tex2.width / 2,
+			-Game.bloock_r * tex2.height / 2, //- tex2.height / 2,
+
+			Game.bloock_r * tex2.width,
+			Game.bloock_r * tex2.height
+		)
+	}
+
+	var draw_car_seats = function(ctx, object) {
+		const driverId = object.driverId
+		const driver = Game.state.objects[driverId]
+		draw_object(ctx, driver)
+		for (const passengerId in car.passengerIds) {
+			const passenger = Game.state.objects[passengerId]
+			draw_object(ctx, passenger)
 		}
 	}
 
