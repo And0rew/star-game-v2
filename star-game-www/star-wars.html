@@ -91,9 +91,27 @@
 					if (car.type === "car") {
 						if (modul(myPlayer.x - car.x) < 101) {
 							if (modul(myPlayer.y - car.y) < 101) {
-								game_update(["objects", car.id, "x"], myPlayer.x)
+								if (car.driverId) {
+									game_update(["objects", car.id, "driverId"], myPlayer.id)
+									game_update(["objects", myPlayer.id, "carInId"], car.id)
+									game_update(["objects", myPlayer.id, "carSit"], "d")
+									game_update(["objects", myPlayer.id, "vx"], 0)
+									game_update(["objects", myPlayer.id, "vy"], 0)
+								} else if (_.size(car.passengerIds) < car.maxPassengers) {
+									game_update(["objects", car.id, "passengerIds", myPlayer.id], true)
+									// car.passengerIds[myPlayer.id] = true
+
+									game_update(["objects", myPlayer.id, "carInId"], car.id)
+									game_update(["objects", myPlayer.id, "carSit"], "p")
+									game_update(["objects", myPlayer.id, "vx"], 0)
+									game_update(["objects", myPlayer.id, "vy"], 0)
+									
+									myPlayer.carInId = car.id
+									myPlayer.carSit = "p"
+								}
+								/*game_update(["objects", car.id, "x"], myPlayer.x)
 								game_update(["objects", car.id, "y"], myPlayer.y)
-								game_update(["objects", car.id, "g"], myPlayer.g)
+								game_update(["objects", car.id, "g"], myPlayer.g)*/
 							}
 						}
 					}
