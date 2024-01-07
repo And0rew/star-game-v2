@@ -242,7 +242,7 @@ var start_game = function(canvas, ctx) {
 		}
 	}
 
-	var draw_object = function (ctx, object) {
+	var draw_object = function (ctx, object, options = {}) {
 		let tex2
 
 		if (object.look === "trooper1") {
@@ -253,10 +253,14 @@ var start_game = function(canvas, ctx) {
 			tex2 = Game.resources[object.look]
 		}
 
-		ctx.translate(
-			object.x * Game.bloock_r - Game.camera[0], //+ Game.bloock_r * tex2.width / 2,
-			object.y * Game.bloock_r - Game.camera[1] //+ Game.bloock_r * tex2.height / 2
-		);
+		let x = options?.x ?? object.x * Game.bloock_r - Game.camera[0]
+		let y = options?.y ?? object.y * Game.bloock_r - Game.camera[1]
+
+		ctx.translate(x, y)
+		// ctx.translate(
+			// object.x * Game.bloock_r - Game.camera[0], //+ Game.bloock_r * tex2.width / 2,
+			// object.y * Game.bloock_r - Game.camera[1] //+ Game.bloock_r * tex2.height / 2
+		// );
 		ctx.rotate(object.g / 180 * Math.PI);
 		ctx.drawImage(
 			tex2,
@@ -273,7 +277,7 @@ var start_game = function(canvas, ctx) {
 		if (object.driverId) {
 			const driverId = object.driverId
 			const driver = Game.state.objects[driverId]
-			draw_object(ctx, driver)
+			draw_object(ctx, driver, { x:0, y: 0 })
 		}
 		for (const passengerId in object.passengerIds) {
 			const passenger = Game.state.objects[passengerId]
