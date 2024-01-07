@@ -128,7 +128,8 @@ function apply_delete_object(deleteObject) {
 function game_tmp_gen_map(width, height) {
     const map = [[]]
 
-    var blocks = ["sand1", "sand1", "sand1", "sand2", "sand2", "sand2", "dark_sand", "dark_sand"]
+    var blocks = ["sand1", "sand1", "sand1", "sand2", "sand2", "sand2"]
+    // "dark_sand", "dark_sand"
     //var blocks = ["space1"]
     var numbers = [0, 1, 2, 3, 4, 5, 6, 7]
 
