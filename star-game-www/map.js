@@ -253,6 +253,10 @@ var start_game = function(canvas, ctx) {
 			tex2 = Game.resources[object.look]
 		}
 
+		if (!tex2) {
+			return
+		}
+
 		let x = options?.x ?? object.x * Game.bloock_r - Game.camera[0]
 		let y = options?.y ?? object.y * Game.bloock_r - Game.camera[1]
 
@@ -281,7 +285,7 @@ var start_game = function(canvas, ctx) {
 		}
 		for (const passengerId in object.passengerIds) {
 			const passenger = Game.state.objects[passengerId]
-			draw_object(ctx, passenger)
+			draw_object(ctx, passenger, { x: 40, y: 0 })
 		}
 	}
 
