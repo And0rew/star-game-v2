@@ -126,10 +126,10 @@ function apply_delete_object(deleteObject) {
 }
 
 function game_tmp_gen_map(width, height) {
-    const map = []
+    const map = [[]]
 
-    // var blocks = ["sand1", "sand1", "sand1", "sand2", "sand2", "sand2", "dark_sand", "dark_sand"]
-    var blocks = ["space1"]
+    var blocks = ["sand1", "sand1", "sand1", "sand2", "sand2", "sand2", "dark_sand", "dark_sand"]
+    //var blocks = ["space1"]
     var numbers = [0, 1, 2, 3, 4, 5, 6, 7]
 
     for (let x = 0; x < width; x++) {
@@ -143,7 +143,68 @@ function game_tmp_gen_map(width, height) {
         }
     }
 
-
+    for (var x = 0; x < 101; x++) {
+        map[x][0] = {
+            text: "rock1"
+        }
+    }
+    for (var x = 0; x < 101; x++) {
+        map[x][99] = {
+            text: "rock1"
+        }
+    }
+    for (var y = 0; y < 101; y++) {
+        map[0][y] = {
+            text: "rock1"
+        }
+    }
+    for (var y = 0; y < 101; y++) {
+        map[99][y] = {
+            text: "rock1"
+        }
+    }
+    map[10][10] = {
+        text: "wallleft2"
+    }
+    map[11][10] = {
+        text: "wallright2"
+    }
+    map[10][11] = {
+        text: "gateperupleft2"
+    }
+    map[11][11] = {
+        text: "gateperupright2"
+    }
+    map[10][12] = {
+        text: "gateupleft2"
+    }
+    map[11][12] = {
+        text: "gateupright2"
+    }
+    map[10][13] = {
+        text: "gatecenterleft2"
+    }
+    map[11][13] = {
+        text: "gatecenterright2"
+    }
+    map[10][14] = {
+        text: "gatedownleft2"
+    }
+    map[11][14] = {
+        text: "gatedownright2"
+    }
+    map[10][15] = {
+        text: "gateperdownleft2"
+    }
+    map[11][15] = {
+        text: "gateperdownright2"
+    }
+    map[10][16] = {
+        text: "wallleft2"
+    }
+    map[11][16] = {
+        text: "wallright2"
+    }
     return map
 }
 

@@ -38,24 +38,24 @@
 			38: "Up",
 			39: "Right",
 			40: "Down",
+			69: "e",
 			187: "Plus",
 			189: "Minus"
 		}
-		$("body").keydown(function (event) {
-			if (keys[event.keyCode] === "Left") {
-				Game.camera[0] = Game.camera[0] - 20
-			} else if (keys[event.keyCode] === "Right") {
-				Game.camera[0] = Game.camera[0] + 20
-			} else if (keys[event.keyCode] === "Up") {
-				Game.camera[1] = Game.camera[1] - 20
-			} else if (keys[event.keyCode] === "Down") {
-				Game.camera[1] = Game.camera[1] + 20
-			} else if (keys[event.keyCode] === "Plus") {
-				Game.bloock_r = Game.bloock_r + 0.05
-			} else if (keys[event.keyCode] === "Minus") {
-				Game.bloock_r = Game.bloock_r - 0.05
+		var obModul = function (number) {
+			if (number > 0) {
+				return -number
+			} else {
+				return number
 			}
-		});
+		}
+		var modul = function (number) {
+			if (number < 0) {
+				return -number
+			} else {
+				return number
+			}
+		}
 
 
 		if (localStorage.myObjectId) {
@@ -71,6 +71,35 @@
    			Game.myId = myObjectId
    			localStorage.myObjectId = myObjectId
 		}
+		$("body").keydown(function (event) {
+			if (keys[event.keyCode] === "Left") {
+				Game.camera[0] = Game.camera[0] - 20
+			} else if (keys[event.keyCode] === "Right") {
+				Game.camera[0] = Game.camera[0] + 20
+			} else if (keys[event.keyCode] === "Up") {
+				Game.camera[1] = Game.camera[1] - 20
+			} else if (keys[event.keyCode] === "Down") {
+				Game.camera[1] = Game.camera[1] + 20
+			} else if (keys[event.keyCode] === "Plus") {
+				Game.bloock_r = Game.bloock_r + 0.05
+			} else if (keys[event.keyCode] === "Minus") {
+				Game.bloock_r = Game.bloock_r - 0.05
+			} else if (keys[event.keyCode] === "e") {
+				for (var key in Game.state.objects) {
+					var car = Game.state.objects[key]
+					var myPlayer = Game.state.objects[Game.myId]
+					if (car.type === "car") {
+						if (modul(myPlayer.x - car.x) < 101) {
+							if (modul(myPlayer.y - car.y) < 101) {
+								game_update(["objects", car.id, "x"], myPlayer.x)
+								game_update(["objects", car.id, "y"], myPlayer.y)
+								game_update(["objects", car.id, "g"], myPlayer.g)
+							}
+						}
+					}
+				}
+			}
+		});
 
 		var n = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 		var random = function (length) {
@@ -84,163 +113,6 @@
 		
 		var xm = 0
 		var ym = 0
-
-		var new_game = function () {
-			game_update(['objects', 'Tower1'], { 
-			id: 'Tower1', 
-			x: 400, 
-			y: 400, 
-			hitpoints: 1000, 
-			max_hitpoints: 1000,
-			look: 'tower1',
-			g: 0,
-			vx: 0,
-			vy: 0,
-			v: 0.2
-			})
-			game_update(['objects', 'Tower2'], { 
-			id: 'Tower2', 
-			x: 1200, 
-			y: 400, 
-			hitpoints: 1000, 
-			max_hitpoints: 1000,
-			look: 'tower1',
-			g: 0,
-			vx: 0,
-			vy: 0,
-			v: 0.2
-			})
-			game_update(['objects', 'Maneken'], { 
-		    id: 'Maneken', 
-		    nickName: 'Maneken', 
-		    x: 500, 
-		    y: 400, 
-		    hitpoints: 100, 
-		    max_hitpoints: 100,
-		    look: 'trooper1',
-		    g: 0,
-		    vx: 0,
-		    vy: 0,
-		    v: 0.2
-		    })
-		    game_update(['objects', 'Maneken2'], { 
-		    id: 'Maneken2', 
-		    nickName: 'Maneken', 
-		    x: 500, 
-		    y: 420, 
-		    hitpoints: 100, 
-		    max_hitpoints: 100, 
-		    look: 'trooper1',
-		    g: 0,
-		    vx: 0,
-		    vy: 0,
-		    v: 0.2
-		    })
-		    game_update(['objects', 'Maneken3'], { 
-		    id: 'Maneken', 
-		    nickName: 'Maneken', 
-		    x: 500,
-		    y: 440, 
-		    hitpoints: 100, 
-		    max_hitpoints: 100,
-		    look: 'trooper1',
-		    g: 0,
-		    vx: 0,
-		    vy: 0,
-		    v: 0.2
-		    })
-		    game_update(['objects', 'Maneken4'], { 
-		    id: 'Maneken2', 
-		    nickName: 'Maneken', 
-		    x: 500,
-		    y: 460, 
-		    hitpoints: 100, 
-		    max_hitpoints: 100,
-		    look: 'trooper1',
-		    g: 0,
-		    vx: 0,
-		    vy: 0,
-		    v: 0.2
-		    })
-		    game_update(['objects', 'Maneken5'], { 
-		    id: 'Maneken2', 
-		    nickName: 'Maneken', 
-		    x: 500, 
-		    y: 480, 
-		    hitpoints: 100,
-		    max_hitpoints: 100, 
-		    look: 'trooper1',
-		    g: 0,
-		    vx: 0,
-		    vy: 0,
-		    v: 0.2
-		    })
-		    game_update(['objects', 'Maneken6'], { 
-		    id: 'Maneken', 
-		    nickName: 'Maneken', 
-		    x: 1140, 
-		    y: 400, 
-		    hitpoints: 100, 
-		    max_hitpoints: 100,
-		    look: 'trooper1',
-		    g: 0,
-		    vx: 0,
-		    vy: 0,
-		    v: 0.2
-		    })
-		    game_update(['objects', 'Maneken7'], { 
-		    id: 'Maneken2', 
-		    nickName: 'Maneken', 
-		   	x: 1140, 
-		    y: 420, 
-		    hitpoints: 100,
-		    max_hitpoints: 100, 
-		    look: 'trooper1',
-		    g: 0,
-		    vx: 0,
-		    vy: 0,
-		    v: 0.2
-		    })
-		    game_update(['objects', 'Maneken8'], { 
-		    id: 'Maneken', 
-		    nickName: 'Maneken', 
-		    x: 1140,
-		    y: 440, 
-		    hitpoints: 100, 
-		    max_hitpoints: 100,
-		    look: 'trooper1',
-		    g: 0,
-		    vx: 0,
-		    vy: 0,
-		    v: 0.2
-		    })
-		    game_update(['objects', 'Maneken9'], { 
-		    id: 'Maneken2', 
-		    nickName: 'Maneken', 
-		    x: 1140,   
-		    y: 460, 
-		    hitpoints: 100, 
-		    max_hitpoints: 100,
-		    look: 'trooper1',
-		    g: 0,
-		    vx: 0,
-		    vy: 0,
-		    v: 0.2
-		    })
-		    game_update(['objects', 'Maneken10'], { 
-		    id: 'Maneken2', 
-		    nickName: 'Maneken', 
-		    x: 1140,  
-		    y: 480, 
-		    hitpoints: 100, 
-		    max_hitpoints: 100,
-		    look: 'trooper1',
-		    g: 0,
-		    vx: 0,
-		    vy: 0,
-		    v: 0.2
-		    })
-		}
 
 		var clickHandler = function (event) {			
 			var xm = Math.floor((event.clientX + Game.camera[0]) / Game.bloock_r) 

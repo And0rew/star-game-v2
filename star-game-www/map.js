@@ -2,13 +2,27 @@ var Game = {
     resources: {},
     camera:[0, 0],
     state: {
-    	map: null,
+    	map: [[]],
     	objects: {},
     	shots: {}
     },
     bloock_r: 1,
     X_Y_block: 40
 }
+
+function get_block_from_coords(x, y) {
+	let block_num_x = Math.floor(x / Game.X_Y_block)
+	let block_num_y = Math.floor(y / Game.X_Y_block)
+	if (Game.map[block_num_x] && Game.map[block_num_x][block_num_y]) {
+		return { 
+			block_num_x, 
+			block_num_y, 
+			block: Game.map[block_num_x][block_num_y] 
+		}
+	}
+	return null
+}
+
 
 var start_game = function(canvas, ctx) {
 	gs_init()
@@ -27,6 +41,26 @@ var start_game = function(canvas, ctx) {
 	game_loadImage('ship_4', 'pix/ship_4.png')
 	game_loadImage('ship_5', 'pix/ship_5.png')
 	game_loadImage('ship_6', 'pix/ship_6.png')
+	game_loadImage('rock1', 'pix/rock1.png')
+	game_loadImage('car0', 'pix/car0.png')
+
+	game_loadImage('gatecenter1', 'pix/gatecenter1.png') //деревня песка
+	game_loadImage('gateup1', 'pix/gateup1.png')
+	game_loadImage('gatedown1', 'pix/gatedown1.png')
+	game_loadImage('wallup1', 'pix/wallup1.png')
+
+	game_loadImage('gatecenteright2', 'pix/gatecenteright2.png')
+	game_loadImage('gatecenterleft2', 'pix/gatecenterleft2.png')
+	game_loadImage('gatedownleft2', 'pix/gatedownleft2.png')
+	game_loadImage('gatedownright2', 'pix/gatedownright2.png')
+	game_loadImage('gateperdownleft2', 'pix/gateperdownleft2.png')
+	game_loadImage('gateperdownright2', 'pix/gateperdownright2.png')
+	game_loadImage('gateperupleft2', 'pix/gateperupleft2.png')
+	game_loadImage('gateperupright2', 'pix/gateperupright2.png')
+	game_loadImage('gateupleft2', 'pix/gateupleft2.png')
+	game_loadImage('gateupright2', 'pix/gateupright2.png')
+	game_loadImage('wallleft2', 'pix/wallleft2.png')
+	game_loadImage('wallright2', 'pix/wallright2.png')
 
 	game_loadImage('planet_earth', 'pix/earth.png')
 	game_loadImage('planet_mars', 'pix/mars.png')
@@ -81,8 +115,23 @@ var start_game = function(canvas, ctx) {
 				}
 
 				if (object.vx !== 0 || object.vy !== 0) {
-					object.x = object.x + object.vx * dt
-					object.y = object.y + object.vy * dt
+					let new_x = object.x + object.vx * dt
+					let new_y = object.y + object.vy * dt
+					
+					/* проверить что блок под new_x new_y это не рок */
+
+					if (new_x > 0 && new_x < 4001 && new_y > 0 && new_y < 41) {
+						// скорость 0
+					} else if (new_x > 0 && new_x < 4001 && new_y > 3979 && new_y < 4001) {
+
+					} else if (new_y > 0 && new_y < 4001 && new_x > 0 && new_x < 41) {
+
+					} else if (new_y > 0 && new_y < 4001 && new_x > 3979 && new_x < 4001) {
+
+					} else {
+						object.x = new_x //object.x + object.vx * dt
+						object.y = new_y // object.y + object.vy * dt	
+					}
 
 					if (Game.myId === key && object.target) {
 						let xm = object.target[0]
@@ -121,8 +170,8 @@ var start_game = function(canvas, ctx) {
 				ctx.drawImage(
 					tex2,
 
-					-Game.bloock_r * tex2.width / 2,
-					-Game.bloock_r * tex2.height / 2,
+					-Game.bloock_r * tex2.width / 2 - tex2.width / 2,
+					-Game.bloock_r * tex2.height / 2 - tex2.height / 2,
 
 					Game.bloock_r * tex2.width,
 					Game.bloock_r * tex2.height
