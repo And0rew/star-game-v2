@@ -91,7 +91,7 @@
 					if (car.type === "car") {
 						if (modul(myPlayer.x - car.x) < 101) {
 							if (modul(myPlayer.y - car.y) < 101) {
-								if (car.driverId) {
+								if (!car.driverId) {
 									game_update(["objects", car.id, "driverId"], myPlayer.id)
 									game_update(["objects", myPlayer.id, "carInId"], car.id)
 									game_update(["objects", myPlayer.id, "carSit"], "d")
@@ -105,7 +105,7 @@
 									game_update(["objects", myPlayer.id, "carSit"], "p")
 									game_update(["objects", myPlayer.id, "vx"], 0)
 									game_update(["objects", myPlayer.id, "vy"], 0)
-									
+
 									myPlayer.carInId = car.id
 									myPlayer.carSit = "p"
 								}
@@ -144,6 +144,10 @@
 				return
 			}
 
+			if (object.carInId && object.carSit === 'd') {
+				object = Game.state.objects[object.carInId]
+			}
+
 			var dx = xm - object.x
 			var dy = ym - object.y
 
@@ -162,12 +166,12 @@
 			console.log('vx, vy', [vx, vy])
 
 			// идея один. Запомни в игроке куда нажали
-			game_update(["objects", Game.myId, "target"], [xm, ym])
+			game_update(["objects", object.id, "target"], [xm, ym])
 
 			// идея два. Посчитай vx и vy тут и задай их как в консоле
 			// тут расчёт по формулам
-			game_update(["objects", Game.myId, "vx"], vx)
-			game_update(["objects", Game.myId, "vy"], vy)
+			game_update(["objects", object.id, "vx"], vx)
+			game_update(["objects", object.id, "vy"], vy)
 
 		};
 
@@ -228,6 +232,10 @@
 				return
 			}
 
+			if (object.carInId && object.carSit === 'd') {
+				object = Game.state.objects[object.carInId]
+			}
+
 			var dx = xm - object.x
 			var dy = ym - object.y
 
@@ -238,7 +246,7 @@
 			} else {
 				g = g + 90
 			}
-			game_update(["objects", Game.myId, "g"], g)
+			game_update(["objects", object.id, "g"], g)
 		}
 
 		$("canvas").mousemove(moveHandler);

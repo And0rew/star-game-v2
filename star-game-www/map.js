@@ -270,10 +270,12 @@ var start_game = function(canvas, ctx) {
 	}
 
 	var draw_car_seats = function(ctx, object) {
-		const driverId = object.driverId
-		const driver = Game.state.objects[driverId]
-		draw_object(ctx, driver)
-		for (const passengerId in car.passengerIds) {
+		if (object.driverId) {
+			const driverId = object.driverId
+			const driver = Game.state.objects[driverId]
+			draw_object(ctx, driver)
+		}
+		for (const passengerId in object.passengerIds) {
 			const passenger = Game.state.objects[passengerId]
 			draw_object(ctx, passenger)
 		}
