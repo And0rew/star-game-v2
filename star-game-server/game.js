@@ -185,7 +185,7 @@ function game_tmp_gen_map(width, height) {
         text: "gatecenterleft2"
     }
     map[11][13] = {
-        text: "gatecenterright2"
+        text: "gatecenteright2"
     }
     map[10][14] = {
         text: "gatedownleft2"
