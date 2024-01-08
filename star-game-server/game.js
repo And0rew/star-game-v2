@@ -125,13 +125,95 @@ function apply_delete_object(deleteObject) {
     }
 }
 
+function generateSome(What, WhatMap, xg, yg) {
+    WhatMap[xg][yg] = {
+        text: What
+    }
+}
+
+function generateVilageWallLeftRight(mapw, x, y) {
+    generateSome("wallleft2", mapw, x, y)
+    generateSome("wallright2", mapw, x + 1, y)
+}
+
+function generateVilageWallUpDown(mapw, x, y) {
+    generateSome("wallup2", mapw, x, y)
+    generateSome("walldown2", mapw, x, y + 1)
+}
+
+function generateVilageCornerUpLeft(mapw, x, y) {
+    generateSome("wallcornerupleft2", mapw, x, y)
+    generateSome("wallleft2", mapw, x, y + 1)
+    generateSome("wallup2", mapw, x + 1, y)
+    generateSome("wallobcornerdownleft2", mapw, x + 1, y + 1)
+}
+
+function generateVilageCornerUpRight(mapw, x, y) {
+    generateSome("wallup2", mapw, x, y)
+    generateSome("wallobcornerdownright2", mapw, x, y + 1)
+    generateSome("wallcornerupright2", mapw, x + 1, y)
+    generateSome("wallright2", mapw, x + 1, y + 1)
+}
+
+function generateVilageCornerDownLeft(mapw, x, y) {
+    generateSome("wallleft2", mapw, x, y)
+    generateSome("wallcornerdownleft2", mapw, x, y + 1)
+    generateSome("wallobcornerupright2", mapw, x + 1, y)
+    generateSome("walldown2", mapw, x + 1, y + 1)
+}
+
+function generateVilageCornerDownRight(mapw, x, y) {
+    generateSome("wallobcornerupleft2", mapw, x, y)
+    generateSome("walldown2", mapw, x, y + 1)
+    generateSome("wallright2", mapw, x + 1, y)
+    generateSome("wallcornerdownright2", mapw, x + 1, y + 1)
+}
+
+function generateVilageGate(mapv, x, y) {
+    generateSome("gateperupleft2", mapv, x, y - 2)
+    generateSome("gateperupright2", mapv, x + 1, y - 2)
+    generateSome("gateupleft2", mapv, x, y - 1)
+    generateSome("gateupright2", mapv, x + 1, y - 1)
+    generateSome("gatecenterleft2", mapv, x, y)
+    generateSome("gatecenteright2", mapv, x + 1, y)
+    generateSome("gatedownleft2", mapv, x, y + 1)
+    generateSome("gatedownright2", mapv, x + 1, y + 1)
+    generateSome("gateperdownleft2", mapv, x, y + 2)
+    generateSome("gateperdownright2", mapv, x + 1, y + 2)
+}
+
+function generateVilageWall (mapc, x, y, type) { //пока что type будет только 1
+    if (type === 1) {
+        generateVilageCornerUpLeft(mapc, x, y)
+        generateVilageCornerUpRight(mapc, x + 22, y)
+        generateVilageCornerDownLeft(mapc, x, y + 22)
+        generateVilageCornerDownRight(mapc, x + 22, y + 22)
+        generateVilageGate(mapc, x, y + 9)
+        for (var xForUpWall = 2; xForUpWall < 22; xForUpWall++) {
+            generateVilageWallUpDown(mapc, x + xForUpWall, y)
+        }
+        for (var xForDownWall = 2; xForDownWall < 22; xForDownWall++) {
+            generateVilageWallUpDown(mapc, x + xForDownWall, y + 22)
+        }
+        for (var yForLeftWallo = 2; yForLeftWallo < 7; yForLeftWallo++) {
+            generateVilageWallLeftRight(mapc, x, y + yForLeftWallo)
+        }
+        for (var yForLeftWallt = 12; yForLeftWallt < 22; yForLeftWallt++) {
+            generateVilageWallLeftRight(mapc, x, y + yForLeftWallt)
+        }
+        for (var yForRightWall = 2; yForRightWall < 22; yForRightWall++) {
+            generateVilageWallLeftRight(mapc, x + 22, y + yForRightWall)
+        }
+    }
+}
+
 function game_tmp_gen_map(width, height) {
     const map = [[]]
 
     var blocks = ["sand1", "sand1", "sand1", "sand2", "sand2", "sand2"]
     // "dark_sand", "dark_sand"
     //var blocks = ["space1"]
-    var numbers = [0, 1, 2, 3, 4, 5, 6, 7]
+    var numbers = [0, 1, 2, 3, 4, 5]
 
     for (let x = 0; x < width; x++) {
         map.push(new Array(height))
@@ -164,48 +246,8 @@ function game_tmp_gen_map(width, height) {
             text: "rock1"
         }
     }
-    map[10][10] = {
-        text: "wallleft2"
-    }
-    map[11][10] = {
-        text: "wallright2"
-    }
-    map[10][11] = {
-        text: "gateperupleft2"
-    }
-    map[11][11] = {
-        text: "gateperupright2"
-    }
-    map[10][12] = {
-        text: "gateupleft2"
-    }
-    map[11][12] = {
-        text: "gateupright2"
-    }
-    map[10][13] = {
-        text: "gatecenterleft2"
-    }
-    map[11][13] = {
-        text: "gatecenteright2"
-    }
-    map[10][14] = {
-        text: "gatedownleft2"
-    }
-    map[11][14] = {
-        text: "gatedownright2"
-    }
-    map[10][15] = {
-        text: "gateperdownleft2"
-    }
-    map[11][15] = {
-        text: "gateperdownright2"
-    }
-    map[10][16] = {
-        text: "wallleft2"
-    }
-    map[11][16] = {
-        text: "wallright2"
-    }
+
+    generateVilageWall (map, 10, 10, 1)
     return map
 }
 
