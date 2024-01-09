@@ -182,6 +182,56 @@ function generateVilageGate(mapv, x, y) {
     generateSome("gateperdownright2", mapv, x + 1, y + 2)
 }
 
+function generateHouseOne(maph, x, y) {
+    generateSome("houseupleft", maph, x, y)
+    generateSome("houseup", maph, x + 1, y)
+    generateSome("houseupright", maph, x + 2, y)
+    generateSome("houseleft", maph, x, y + 1)
+    generateSome("housecenter", maph, x + 1, y + 1)
+    generateSome("houseright", maph, x + 2, y + 1)
+    generateSome("housedownleft", maph, x, y + 2)
+    generateSome("housedown", maph, x + 1, y + 2)
+    generateSome("housedownright", maph, x + 2, y + 2)
+}
+
+function generateVilageHouses(how, naph, x, y) {
+    if (how === 1) {
+        generateHouseOne(naph, x + 5, y + 4)
+        generateSome("Road2", naph, x + 4, y + 5)
+        generateHouseOne(naph, x + 11, y + 4)
+        generateSome("Road2", naph, x + 10, y + 5)
+        generateHouseOne(naph, x + 5, y + 13)
+        generateSome("Road2", naph, x + 4, y + 14)
+        generateHouseOne(naph, x + 17, y + 13)
+        generateSome("Road2", naph, x + 16, y + 14)
+        generateHouseOne(naph, x + 5, y + 17)
+        generateSome("Road2", naph, x + 4, y + 18)
+        generateHouseOne(naph, x + 11, y + 17)
+        generateSome("Road2", naph, x + 10, y + 18)
+        generateHouseOne(naph, x + 17, y + 17)
+        generateSome("Road2", naph, x + 16, y + 18)
+        for(var yh = 5; yh < 19; yh++) {
+            generateSome("Road2", naph, x + 3, y + yh)
+        }
+        for(var yh = 5; yh < 19; yh++) {
+            generateSome("Road2", naph, x + 9, y + yh)
+        }
+        for(var yh = 8; yh < 19; yh++) {
+            generateSome("Road2", naph, x + 15, y + yh)
+        }
+        for(var xr = 2; xr < 16; xr++) {
+            for (var yr = 8; yr < 11; yr++) {
+                generateSome("Road2", naph, x + xr, y + yr)
+            }
+        }
+        for(var xp = 9; xp < 16; xp++) {
+            for (var yp = 11; yp < 13; yp++) {
+                generateSome("Road2", naph, x + xp, y + yp)
+            }
+        }
+    }
+}
+
 function generateVilageWall (mapc, x, y, type) { //пока что type будет только 1
     if (type === 1) {
         generateVilageCornerUpLeft(mapc, x, y)
@@ -248,6 +298,7 @@ function game_tmp_gen_map(width, height) {
     }
 
     generateVilageWall (map, 10, 10, 1)
+    generateVilageHouses(1, map, 10, 10)
     return map
 }
 

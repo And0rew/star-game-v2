@@ -84,6 +84,9 @@
 				Game.bloock_r = Game.bloock_r + 0.05
 			} else if (keys[event.keyCode] === "Minus") {
 				Game.bloock_r = Game.bloock_r - 0.05
+				if (Game.bloock_r < 0.05) {
+					Game.bloock_r = 0.05
+				}
 			} else if (keys[event.keyCode] === "e") {
 				var myPlayer = Game.state.objects[Game.myId]
 				if (!myPlayer.carInId) {

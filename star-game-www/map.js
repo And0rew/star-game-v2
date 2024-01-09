@@ -72,6 +72,17 @@ var start_game = function(canvas, ctx) {
 	game_loadImage('wallobcornerupright2', 'pix/wallobcornerupright2.png')
 	game_loadImage('wallup2', 'pix/wallup2.png')
 
+	game_loadImage('houseupleft', 'pix/houseupleft.png')
+	game_loadImage('houseup', 'pix/houseup.png')
+	game_loadImage('houseupright', 'pix/houseupright.png')
+	game_loadImage('houseleft', 'pix/houseleft.png')
+	game_loadImage('housecenter', 'pix/housecenter.png')
+	game_loadImage('houseright', 'pix/houseright.png')
+	game_loadImage('housedownleft', 'pix/housedownleft.png')
+	game_loadImage('housedown', 'pix/housedown.png')
+	game_loadImage('housedownright', 'pix/housedownright.png')
+	game_loadImage('Road2', 'pix/Road2.png')
+
 	game_loadImage('planet_earth', 'pix/earth.png')
 	game_loadImage('planet_mars', 'pix/mars.png')
 	game_loadImage('sun', 'pix/sun.png')
