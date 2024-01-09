@@ -7,12 +7,12 @@
 
 Куда класть файлы
     HTML и JS файлы самой игры класть в папку star-game-www.
-    Например, мы сделали файл game.html
+    Например, мы сделали файл star-game.html
     Если сервер успешно запустился — то локально можно увидеть файл
-        http://localhost:3000/game.html
+        http://localhost:3000/star-game.html
 
     С другого компьютера в сети его можно увидеть через IP адрес
-        http://ip_address:3000/game.html
+        http://ip_address:3000/star-game.html
 
 
 Как писать AI
