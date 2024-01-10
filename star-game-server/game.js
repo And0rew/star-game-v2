@@ -229,6 +229,77 @@ function generateVilageHouses(how, naph, x, y) {
                 generateSome("Road2", naph, x + xp, y + yp)
             }
         }
+    } else if (how === 2) {
+        generateHouseOne(naph, x + 5, y + 3)
+        generateSome("Road2", naph, x + 4, y + 4)
+        generateHouseOne(naph, x + 11, y + 3)
+        generateSome("Road2", naph, x + 10, y + 4)
+        generateHouseOne(naph, x + 18, y + 3)
+        generateSome("Road2", naph, x + 17, y + 4)
+        generateHouseOne(naph, x + 18, y + 7)
+        generateSome("Road2", naph, x + 17, y + 8)
+        generateHouseOne(naph, x + 12, y + 18)
+        generateSome("Road2", naph, x + 11, y + 19)
+        generateHouseOne(naph, x + 18, y + 18)
+        generateSome("Road2", naph, x + 17, y + 19)
+        generateSome("Road2", naph, x + 11, y + 16)
+        for(var yh = 4; yh < 8; yh++) {
+            generateSome("Road2", naph, x + 3, y + yh)
+        }
+        for(var yh = 4; yh < 8; yh++) {
+            generateSome("Road2", naph, x + 9, y + yh)
+        }
+        for(var yh = 4; yh < 8; yh++) {
+            generateSome("Road2", naph, x + 16, y + yh)
+        }
+        for(var yh = 16; yh < 20; yh++) {
+            generateSome("Road2", naph, x + 10, y + yh)
+        }
+        for(var yh = 17; yh < 20; yh++) {
+            generateSome("Road2", naph, x + 16, y + yh)
+        }
+        for(var xh = 2; xh < 17; xh++) {
+            for(var yh = 8; yh < 11; yh++) {
+                generateSome("Road2", naph, x + xh, y + yh)
+            }
+        }
+        for(var xh = 12; xh < 21; xh++) {
+            for(var yh = 11; yh < 17; yh++) {
+                generateSome("Road2", naph, x + xh, y + yh)
+            }
+        }
+    } else if (how === 3) {
+        generateHouseOne(naph, x + 9, y + 4)
+        generateHouseOne(naph, x + 14, y + 4)
+        generateHouseOne(naph, x + 17, y + 7)
+        generateSome("Road2", naph, x + 16, y + 8)
+        generateHouseOne(naph, x + 17, y + 11)
+        generateSome("Road2", naph, x + 16, y + 12)
+        generateHouseOne(naph, x + 9, y + 14)
+        generateSome("Road2", naph, x + 8, y + 15)
+        generateHouseOne(naph, x + 9, y + 18)
+        generateSome("Road2", naph, x + 8, y + 19)
+        for(var yh = 11; yh < 20; yh++) {
+            generateSome("Road2", naph, x + 7, y + yh)
+        } 
+        for(var yh = 5; yh < 8; yh++) {
+            generateSome("Road2", naph, x + 13, y + yh)
+        }
+        for(var xr = 3; xr < 9; xr++) {
+            for (var yr = 3; yr < 11; yr++) {
+                generateSome("Road2", naph, x + xr, y + yr)
+            }
+        }
+        for(var xr = 2; xr < 16; xr++) {
+            for (var yr = 8; yr < 11; yr++) {
+                generateSome("Road2", naph, x + xr, y + yr)
+            }
+        }
+        for(var xr = 13; xr < 16; xr++) {
+            for (var yr = 11; yr < 21; yr++) {
+                generateSome("Road2", naph, x + xr, y + yr)
+            }
+        }
     }
 }
 
@@ -254,6 +325,19 @@ function generateVilageWall (mapc, x, y, type) { //пока что type буде
         for (var yForRightWall = 2; yForRightWall < 22; yForRightWall++) {
             generateVilageWallLeftRight(mapc, x + 22, y + yForRightWall)
         }
+    }
+}
+var xgv = 0
+var ygv = 0
+function generateAllVilage(map, type) {
+    if (type === "sand") {
+        while (xgv < 3 || xgv > 74 || ygv < 3 || ygv > 74) {
+            xgv = Math.floor(Math.random() * 100)
+            ygv = Math.floor(Math.random() * 100) 
+            console.log(xgv + " " + ygv)
+        }
+        generateVilageHouses(Math.floor(Math.random() * 3) + 1, map, xgv, ygv)
+        generateVilageWall(map, xgv, ygv, 1)
     }
 }
 
@@ -297,8 +381,7 @@ function game_tmp_gen_map(width, height) {
         }
     }
 
-    generateVilageWall (map, 10, 10, 1)
-    generateVilageHouses(1, map, 10, 10)
+    generateAllVilage(map, "sand")
     return map
 }
 
