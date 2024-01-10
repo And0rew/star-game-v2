@@ -117,7 +117,7 @@ var start_game = function(canvas, ctx) {
 		}
 	}
 
-	var STOP_DIFF = 11
+	// var STOP_DIFF = 11
 
 	var draw_objects = function (dt) {
 		if (!Game.state.objects) {
@@ -143,8 +143,6 @@ var start_game = function(canvas, ctx) {
 					let new_x = object.x + object.vx * dt
 					let new_y = object.y + object.vy * dt
 
-					/* проверить что блок под new_x new_y это не рок */
-
 					if (new_x > 0 && new_x < 4001 && new_y > 0 && new_y < 41) {
 						// скорость 0
 					} else if (new_x > 0 && new_x < 4001 && new_y > 3979 && new_y < 4001) {
@@ -158,21 +156,21 @@ var start_game = function(canvas, ctx) {
 						object.y = new_y // object.y + object.vy * dt
 					}
 
-					if (Game.myId === key && object.target) {
-						let xm = object.target[0]
-						let ym = object.target[1]
+					// if (Game.myId === key && object.target) {
+					// 	let xm = object.target[0]
+					// 	let ym = object.target[1]
 
-						if (
-							(object.x > xm - STOP_DIFF && object.x < xm + STOP_DIFF)
-							&& (object.y > ym - STOP_DIFF && object.y < ym + STOP_DIFF)
-						) {
-							game_update(["objects", key, "vx"], 0)
-							game_update(["objects", key, "vy"], 0)
-							game_update(["objects", key, "x"], object.x)
-							game_update(["objects", key, "y"], object.y)
-						}
+					// 	if (
+					// 		(object.x > xm - STOP_DIFF && object.x < xm + STOP_DIFF)
+					// 		&& (object.y > ym - STOP_DIFF && object.y < ym + STOP_DIFF)
+					// 	) {
+					// 		game_update(["objects", key, "vx"], 0)
+					// 		game_update(["objects", key, "vy"], 0)
+					// 		game_update(["objects", key, "x"], object.x)
+					// 		game_update(["objects", key, "y"], object.y)
+					// 	}
 
-					}
+					// }
 
 				}
 

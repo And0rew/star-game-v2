@@ -186,16 +186,16 @@
 				vy = -vy
 			}
 
-			console.log('vx, vy', [vx, vy])
+			console.log('target vx, vy', [vx, vy])
 
 			// идея один. Запомни в игроке куда нажали
 			game_update(["objects", object.id, "target"], [xm, ym])
 
 			// идея два. Посчитай vx и vy тут и задай их как в консоле
 			// тут расчёт по формулам
-			game_update(["objects", object.id, "vx"], vx)
-			game_update(["objects", object.id, "vy"], vy)
 
+			// game_update(["objects", object.id, "vx"], vx)
+			// game_update(["objects", object.id, "vy"], vy)
 		};
 
 		var save
@@ -219,7 +219,6 @@
 			var vy = V_SHOT / Math.sqrt(k * k + 1)
 			var vx = Math.abs(k * vy)
 
-			console.log(object.g)
 			if (object.g >= 0 && object.g < 90) {
 				vy = -vy
 			} else if (object.g <= 0 && object.g > -90) {

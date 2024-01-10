@@ -19,6 +19,9 @@ const state = {
     shots: {},
 }
 
+let STOP_DIFF = 20
+let ALMOST_ZERO = 10
+
 const funcs = {
     bulkPatch: [],
 
@@ -72,7 +75,7 @@ function update_world({ broadcast }) {
             applyAI(object, { state, funcs } , dt)
         }
 
-        if (object.vx > 0) {
+        if (object.vx !== 0) {
             object.x = object.x + object.vx * dt
             funcs.bulkPatch.push({
                 path: ['objects', objectId, 'x'],
@@ -80,11 +83,67 @@ function update_world({ broadcast }) {
             })
 
         }
-        if (object.vy > 0) {
+        if (object.vy !== 0) {
             object.y = object.y + object.vy * dt
             funcs.bulkPatch.push({
                 path: ['objects', objectId, 'y'],
                 value: object.y,
+            })
+        }
+
+        if (object.target) {
+            let xm = object.target[0]
+            let ym = object.target[1]
+
+            let dx = xm - object.x
+			let dy = ym - object.y
+
+            let vx = 0
+            let vy = 0
+
+            if (Math.abs(dx) < ALMOST_ZERO) {
+                vy = object.v
+                vx = 0
+            } else if (Math.abs(dy) < ALMOST_ZERO) {
+                vy = 0
+                vx = object.v
+            } else {
+                let k = Math.abs(dx / dy)
+			    vy = object.v / Math.sqrt(k * k + 1)
+			    vx = k * vy
+            }
+
+			if (xm < object.x) {
+				vx = -vx
+			}
+			if (ym < object.y) {
+				vy = -vy
+			}
+
+            object.vx = vx
+            object.vy = vy
+
+            if (
+                (object.x > xm - STOP_DIFF && object.x < xm + STOP_DIFF)
+                && (object.y > ym - STOP_DIFF && object.y < ym + STOP_DIFF)
+            ) {
+                object.vx = 0
+                object.vy = 0
+                object.target = null
+
+                funcs.bulkPatch.push({
+                    path: ['objects', objectId, 'target'],
+                    value: null,
+                })
+            }
+
+            funcs.bulkPatch.push({
+                path: ['objects', objectId, 'vx'],
+                value: object.vx,
+            })
+            funcs.bulkPatch.push({
+                path: ['objects', objectId, 'vy'],
+                value: object.vy,
             })
         }
     }
