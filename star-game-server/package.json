@@ -4,6 +4,7 @@
   "description": "",
   "main": "server/star-game.js",
   "scripts": {
+    "start": "node star-game-server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
