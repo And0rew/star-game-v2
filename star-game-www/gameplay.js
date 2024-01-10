@@ -125,8 +125,9 @@ function game_delete_all() {
 }
 
 function spawn_ships() {
-    game_update(['objects', 'player1'], {
-        id: 'player1',
+    game_update(['objects', 'ship1'], {
+        id: 'ship1',
+
         x: 50,
         y: 50,
 
@@ -141,10 +142,13 @@ function spawn_ships() {
         nickName: 'Player 1',
         hitpoints: 100,
         max_hitpoints: 100,
+
+        map: 'space0',
     })
 
-    game_update(['objects', 'player2'], {
-        id: 'player2',
+    game_update(['objects', 'ship2'], {
+        id: 'ship2',
+
         x: 100,
         y: 100,
 
@@ -159,10 +163,13 @@ function spawn_ships() {
         nickName: 'Mixerka',
         hitpoints: 100,
         max_hitpoints: 100,
+
+        map: 'space0',
     })
 
-    game_update(['objects', 'max'], {
-        id: 'player3',
+    game_update(['objects', 'ship3'], {
+        id: 'ship3',
+
         x: 100,
         y: 100,
 
@@ -177,6 +184,8 @@ function spawn_ships() {
         nickName: 'Max',
         hitpoints: 100,
         max_hitpoints: 100,
+
+        map: 'space0',
     })
 }
 
