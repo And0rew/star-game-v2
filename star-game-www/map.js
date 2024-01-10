@@ -1,8 +1,9 @@
 var Game = {
     resources: {},
     camera:[0, 0],
+		currentMap: 'sand_planet',
     state: {
-    	map: [[]],
+    	maps: {},
     	objects: {},
     	shots: {}
     },
@@ -87,15 +88,15 @@ var start_game = function(canvas, ctx) {
 	game_loadImage('planet_mars', 'pix/mars.png')
 	game_loadImage('sun', 'pix/sun.png')
 
-  	var draw_map = function (width, height) {
-  		if (!Game.state.map) {
-  			return
-  		}
+	var draw_map = function (width, height) {
+		if (!Game.state?.maps[Game.currentMap]) {
+			return
+		}
 
 		for (var x = 0; x < width; x++) {
 			for (var y = 0; y < height; y++) {
 				let tex
-				let texName = Game.state.map[x][y].text
+				let texName = Game.state.maps[Game.currentMap][x][y].text
 				if (texName === "dark_sand") {
 					tex = Game.resources.sand_dark
 				} else if (Game.resources[texName]) {
@@ -127,6 +128,10 @@ var start_game = function(canvas, ctx) {
 		for(var render_layer = 1; render_layer < 3; render_layer++) {
 			for (var key in Game.state.objects) {
 				var object = Game.state.objects[key]
+
+				if (object.map && Game.currentMap !== object.map) {
+					continue
+				}
 
 				if (render_layer === 1 && render_layer !== object.render_layer) {
 					continue
@@ -229,6 +234,10 @@ var start_game = function(canvas, ctx) {
 
 		for (var key in Game.state.shots) {
 			var shot = Game.state.shots[key]
+
+			if (shot.map && Game.currentMap !== shot.map) {
+				continue
+			}
 
 			// if (shot.time_not_life <= Date.now()) {
 			// 	delete Game.state.shots[key]

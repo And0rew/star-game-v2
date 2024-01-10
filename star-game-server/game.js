@@ -3,6 +3,8 @@ const _ = require('lodash')
 
 const { applyAI, addScript } = require('./ai-provider')
 
+const { spawn_planets_0 } = require('./maps/map-space')
+
 const f1 = require('./ai-scripts/hitpoints')
 const f2 = require('./ai-scripts/planet')
 const f3 = require('./ai-scripts/trooper')
@@ -12,7 +14,7 @@ f2(addScript)
 f3(addScript)
 
 const state = {
-    map: [],
+    maps: {},
     objects: {},
     shots: {},
 }
@@ -38,11 +40,11 @@ let lastBroadcastFunc = null
 
 function game_start({ broadcast }) {
     lastBroadcastFunc = broadcast
-    /*
-        Пока мир один
-        Нужно при старте сервера собрать стейт, если он есть
-    */
-    state.map = game_tmp_gen_map(100, 100)
+
+    state.maps.sand_planet = generate_sand_planet(100, 100)
+    state.maps.space0 = generate_space_map(100, 100)
+
+    spawn_planets_0(state, 'space0')
 
     setInterval(() => {
         update_world({ broadcast })
@@ -281,7 +283,7 @@ function generateVilageHouses(how, naph, x, y) {
         generateSome("Road2", naph, x + 8, y + 19)
         for(var yh = 11; yh < 20; yh++) {
             generateSome("Road2", naph, x + 7, y + yh)
-        } 
+        }
         for(var yh = 5; yh < 8; yh++) {
             generateSome("Road2", naph, x + 13, y + yh)
         }
@@ -333,7 +335,7 @@ function generateAllVilage(map, type) {
     if (type === "sand") {
         while (xgv < 3 || xgv > 74 || ygv < 3 || ygv > 74) {
             xgv = Math.floor(Math.random() * 100)
-            ygv = Math.floor(Math.random() * 100) 
+            ygv = Math.floor(Math.random() * 100)
             console.log(xgv + " " + ygv)
         }
         generateVilageHouses(Math.floor(Math.random() * 3) + 1, map, xgv, ygv)
@@ -341,7 +343,7 @@ function generateAllVilage(map, type) {
     }
 }
 
-function game_tmp_gen_map(width, height) {
+function generate_sand_planet(width, height) {
     const map = [[]]
 
     var blocks = ["sand1", "sand1", "sand1", "sand2", "sand2", "sand2"]
@@ -385,7 +387,25 @@ function game_tmp_gen_map(width, height) {
     return map
 }
 
-exports.game_tmp_gen_map = game_tmp_gen_map
+function generate_space_map(width, height) {
+    const map = [[]]
+    let map_blocks = ["space1"]
+
+    for (let x = 0; x < width; x++) {
+        map.push(new Array(height))
+
+        for (let y = 0; y < height; y++) {
+            let block = map_blocks[Math.floor(Math.random() * map_blocks.length)]
+            map[x][y] = {
+                text: block
+            }
+        }
+    }
+
+    return map
+}
+
+
 exports.game_start = game_start
 exports.get_full_world_state = get_full_world_state
 exports.apply_state_patch = apply_state_patch

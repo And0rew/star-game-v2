@@ -94,6 +94,11 @@
 				}
 			} else if (keys[event.keyCode] === "e") {
 				var myPlayer = Game.state.objects[Game.myId]
+
+				if (Game.currentMap !== myPlayer.map) {
+					return
+				}
+
 				if (!myPlayer.carInId) {
 					for (var key in Game.state.objects) {
 						var car = Game.state.objects[key]
@@ -158,6 +163,10 @@
 				return
 			}
 
+			if (Game.currentMap !== object.map) {
+				return
+			}
+
 			if (object.carInId && object.carSit === 'd') {
 				object = Game.state.objects[object.carInId]
 			}
@@ -201,6 +210,10 @@
 				return
 			}
 
+			if (Game.currentMap !== object.map) {
+				return
+			}
+
 			var k = Math.tan(object.g / 180 * Math.PI)
 			var V_SHOT = 0.4
 			var vy = V_SHOT / Math.sqrt(k * k + 1)
@@ -229,7 +242,9 @@
 				date_create: date_create,
 				time_life: life,
 				time_not_life: date_create + life,
-				myid: Game.myId
+				myid: Game.myId,
+
+				map: object.map,
 			})
 			console.log(["Id:", shotId, "x:", Game.state.shots[shotId].x, "y:", Game.state.shots[shotId].y, "g:", Game.state.shots[shotId].g].join(" "))
 		}
@@ -243,6 +258,10 @@
 			var object = Game.state.objects[Game.myId]
 
 			if (!object) {
+				return
+			}
+
+			if (Game.currentMap !== object.map) {
 				return
 			}
 
