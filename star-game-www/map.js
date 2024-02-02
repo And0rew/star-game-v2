@@ -88,6 +88,10 @@ var start_game = function(canvas, ctx) {
 	game_loadImage('planet_mars', 'pix/mars.png')
 	game_loadImage('sun', 'pix/sun.png')
 
+	game_loadImage('trooper_v2', 'pix/trooper_body_v2.png')
+	game_loadImage('trooper_v2_legs_0', 'pix/trooper_body_v2_legs_0.png')
+	game_loadImage('trooper_v2_legs_1', 'pix/trooper_body_v2_legs_1.png')
+
 	var draw_map = function (width, height) {
 		if (!Game.state?.maps[Game.currentMap]) {
 			return
@@ -118,6 +122,41 @@ var start_game = function(canvas, ctx) {
 	}
 
 	// var STOP_DIFF = 11
+	var draw_nickname = function (object) {
+		ctx.fillStyle = "rgba(255, 255, 255, 0.5)"
+		let rectWidth = ctx.measureText(object.nickName).width + 6
+		ctx.fillRect(
+			object.x * Game.bloock_r - Game.camera[0] - 3,
+			object.y * Game.bloock_r - Game.camera[1] - 24,
+			rectWidth,
+			12
+		)
+		ctx.fillStyle = "Black"
+		ctx.fillText(
+			object.nickName,
+
+			object.x * Game.bloock_r - Game.camera[0],
+			object.y * Game.bloock_r - Game.camera[1] - 15
+		)
+	}
+
+	var draw_hitpoints = function (object) {
+		ctx.fillStyle = "rgba(255, 255, 255, 0.5)"
+		ctx.fillRect(
+			object.x * Game.bloock_r - Game.camera[0] - 3,
+			object.y * Game.bloock_r - Game.camera[1] - (27 + 12),
+			56,
+			12
+		)
+		ctx.fillStyle = "Green"
+		ctx.fillRect(
+			object.x * Game.bloock_r - Game.camera[0],
+			object.y * Game.bloock_r - Game.camera[1] - (27 + 9),
+			(50 / object.max_hitpoints) * object.hitpoints,
+			6
+		)
+		ctx.fillStyle = "Black"
+	}
 
 	var draw_objects = function (dt) {
 		if (!Game.state.objects) {
@@ -186,41 +225,12 @@ var start_game = function(canvas, ctx) {
 				ctx.restore()
 
 				if (object.nickName != null) {
-					ctx.fillStyle = "rgba(255, 255, 255, 0.5)"
-					let rectWidth = ctx.measureText(object.nickName).width + 6
-					ctx.fillRect(
-						object.x * Game.bloock_r - Game.camera[0] - 3,
-						object.y * Game.bloock_r - Game.camera[1] - 24,
-						rectWidth,
-						12
-					)
-					ctx.fillStyle = "Black"
-					ctx.fillText(
-						object.nickName,
-
-						object.x * Game.bloock_r - Game.camera[0],
-						object.y * Game.bloock_r - Game.camera[1] - 15
-					)
+					draw_nickname(object)
 				}
 
 				if (object.hitpoints != null) {
-					ctx.fillStyle = "rgba(255, 255, 255, 0.5)"
-					ctx.fillRect(
-						object.x * Game.bloock_r - Game.camera[0] - 3,
-						object.y * Game.bloock_r - Game.camera[1] - (27 + 12),
-						56,
-						12
-					)
-					ctx.fillStyle = "Green"
-					ctx.fillRect(
-						object.x * Game.bloock_r - Game.camera[0],
-						object.y * Game.bloock_r - Game.camera[1] - (27 + 9),
-						(50 / object.max_hitpoints) * object.hitpoints,
-						6
-					)
-					ctx.fillStyle = "Black"
+					draw_hitpoints(object)
 				}
-
 			}
 		}
 	}
@@ -293,7 +303,8 @@ var start_game = function(canvas, ctx) {
 			// object.x * Game.bloock_r - Game.camera[0], //+ Game.bloock_r * tex2.width / 2,
 			// object.y * Game.bloock_r - Game.camera[1] //+ Game.bloock_r * tex2.height / 2
 		// );
-		ctx.rotate(object.g / 180 * Math.PI);
+		const text_g = object.lookOptions?.ang ?? 0
+		ctx.rotate((object.g - text_g) / 180 * Math.PI);
 		ctx.drawImage(
 			tex2,
 
@@ -303,6 +314,27 @@ var start_game = function(canvas, ctx) {
 			Game.bloock_r * tex2.width,
 			Game.bloock_r * tex2.height
 		)
+
+		if (object.lookOptions?.legs && (object.vx !== 0 || object.vy !== 0)) {
+			if (object.lookOptions.legsIndex === undefined) {
+				object.lookOptions.legsIndex = 0
+				object.lookOptions.legsTimer = t
+			} else if (t - object.lookOptions.legsTimer > object.lookOptions.legsSpeed) {
+				object.lookOptions.legsIndex = (object.lookOptions.legsIndex + 1) % object.lookOptions.legs.length
+				object.lookOptions.legsTimer = t
+			}
+			const tex_name = object.lookOptions.legs[object.lookOptions.legsIndex]
+			const legs_tex = Game.resources[tex_name]
+			ctx.drawImage(
+				legs_tex,
+
+				-Game.bloock_r * legs_tex.width / 2,
+				-Game.bloock_r * legs_tex.height / 2,
+
+				Game.bloock_r * legs_tex.width,
+				Game.bloock_r * legs_tex.height
+			)
+		}
 	}
 
 	var draw_car_seats = function(ctx, object) {

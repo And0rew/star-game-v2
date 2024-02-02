@@ -82,7 +82,16 @@ function spawn_players() {
         x: 200,
         y: 200,
 
-        look: 'trooper1',
+        look: 'trooper_v2',
+        lookOptions: {
+            legsSpeed: 300,
+            ang: 180,
+            legs: [
+                'trooper_v2_legs_0',
+                'trooper_v2_legs_1'
+            ]
+        },
+
         ai: ['trooper', 'hitpoints'],
 
         g: 0,
