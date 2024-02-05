@@ -131,9 +131,17 @@
 						}
 					}
 				} else {
-					/*var car = Game.state.objects[myPlayer.carInId]
-					game_update(["objects", myPlayer.id, "carInId"], none)
-					game_update(["objects", myPlayer.id, "carSit"], none)*/
+					var car = Game.state.objects[myPlayer.carInId]
+					if (myPlayer.carSit === "d") {
+						game_update(["objects", car.id, "driverId"], null)
+					}
+					if (myPlayer.carSit === "p") {
+						game_update(["objects", car.id, "passengerIds", myPlayer.id], null)
+					}
+					game_update(["objects", myPlayer.id, "carInId"], null)
+					game_update(["objects", myPlayer.id, "carSit"], null)
+					game_update(["objects", myPlayer.id, "x"], car.x - 50)
+					game_update(["objects", myPlayer.id, "y"], car.y)
 				}
 			}
 		});

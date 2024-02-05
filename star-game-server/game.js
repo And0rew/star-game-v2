@@ -46,6 +46,7 @@ function game_start({ broadcast }) {
 
     state.maps.sand_planet = generate_sand_planet(100, 100)
     state.maps.space0 = generate_space_map(100, 100)
+    state.maps.big_house = generate_big_house()
 
     spawn_planets_0(state, 'space0')
 
@@ -255,6 +256,33 @@ function generateHouseOne(maph, x, y) {
     generateSome("housedownright", maph, x + 2, y + 2)
 }
 
+function generateHouseBig(maph, x, y) {
+    generateSome("houseupleft", maph, x, y)
+    generateSome("houseup", maph, x + 1, y)
+    generateSome("houseup", maph, x + 2, y)
+    generateSome("houseupright", maph, x + 3, y)
+    generateSome("houseleft2", maph, x, y + 1)
+    generateSome("housecenter", maph, x + 1, y + 1)
+    generateSome("housecenter", maph, x + 2, y + 1)
+    generateSome("houseright", maph, x + 3, y + 1)
+    generateSome("houseleft2", maph, x, y + 2)
+    generateSome("housecenter2", maph, x + 1, y + 2)
+    generateSome("housecenter2", maph, x + 2, y + 2)
+    generateSome("houseright", maph, x + 3, y + 2)
+    generateSome("houseleft", maph, x, y + 3)
+    generateSome("housecenter2", maph, x + 1, y + 3)
+    generateSome("housecenter2", maph, x + 2, y + 3)
+    generateSome("houseright", maph, x + 3, y + 3)
+    generateSome("houseleft2", maph, x, y + 4)
+    generateSome("housecenter", maph, x + 1, y + 4)
+    generateSome("housecenter", maph, x + 2, y + 4)
+    generateSome("houseright", maph, x + 3, y + 4)
+    generateSome("housedownleft", maph, x, y + 5)
+    generateSome("housedown", maph, x + 1, y + 5)
+    generateSome("housedown", maph, x + 2, y + 5)
+    generateSome("housedownright", maph, x + 3, y + 5)
+}
+
 function generateVilageHouses(how, naph, x, y) {
     if (how === 1) {
         generateHouseOne(naph, x + 5, y + 4)
@@ -290,6 +318,8 @@ function generateVilageHouses(how, naph, x, y) {
                 generateSome("Road2", naph, x + xp, y + yp)
             }
         }
+        generateHouseBig(naph, x + 17, y + 6)
+        generateSome("Road2", naph, x + 16, y + 9)
     } else if (how === 2) {
         generateHouseOne(naph, x + 5, y + 3)
         generateSome("Road2", naph, x + 4, y + 4)
@@ -329,6 +359,11 @@ function generateVilageHouses(how, naph, x, y) {
                 generateSome("Road2", naph, x + xh, y + yh)
             }
         }
+        generateHouseBig(naph, x + 5, y + 11)
+        generateSome("Road2", naph, x + 4, y + 15)
+        for(var yh = 12; yh < 17; yh++) {
+            generateSome("Road2", naph, x + 3, y + yh)
+        }
     } else if (how === 3) {
         generateHouseOne(naph, x + 9, y + 4)
         generateHouseOne(naph, x + 14, y + 4)
@@ -361,6 +396,8 @@ function generateVilageHouses(how, naph, x, y) {
                 generateSome("Road2", naph, x + xr, y + yr)
             }
         }
+        generateHouseBig(naph, x + 17, y + 15)
+        generateSome("Road2", naph, x + 16, y + 18)
     }
 }
 
@@ -390,6 +427,7 @@ function generateVilageWall (mapc, x, y, type) { //пока что type буде
 }
 var xgv = 0
 var ygv = 0
+var ran = 0
 function generateAllVilage(map, type) {
     if (type === "sand") {
         while (xgv < 3 || xgv > 74 || ygv < 3 || ygv > 74) {
@@ -397,7 +435,9 @@ function generateAllVilage(map, type) {
             ygv = Math.floor(Math.random() * 100)
             console.log(xgv + " " + ygv)
         }
-        generateVilageHouses(Math.floor(Math.random() * 3) + 1, map, xgv, ygv)
+        ran = Math.floor(Math.random() * 3) + 1
+        console.log(ran)
+        generateVilageHouses(ran, map, xgv, ygv)
         generateVilageWall(map, xgv, ygv, 1)
     }
 }
@@ -462,6 +502,27 @@ function generate_space_map(width, height) {
     }
 
     return map
+}
+
+function generate_big_house() {
+    const map = [[]]
+    generateSome("wallbhoseupleft", map, 0, 0)
+    for (var x = 1; x < 12; x++) {
+        generateSome("wallbhouseup", map, x, 0)
+    }
+    generateSome("wallbhoseupright", map, 12, 0)
+    for (var y = 1; y < 7; y++) {
+        generateSome("wallbhouseright", map, 12, y)
+    }
+    generateSome("wallbhosedownright", map, 12, 7)
+    for (var x = 1; x < 12; x++) {
+        generateSome("wallbhousedown", map, x, 7)
+    }
+    generateSome("wallbhosedownleft", map, 0, 7)
+    for (var y = 2; y < 7; y++) {
+        generateSome("wallbhouseleft", map, 0, y)
+    }
+    generateSome("doorbhouse", map, 0, 1)
 }
 
 
