@@ -360,8 +360,8 @@ function generateVilageHouses(how, naph, x, y) {
             }
         }
         generateHouseBig(naph, x + 5, y + 11)
-        generateSome("Road2", naph, x + 4, y + 15)
-        for(var yh = 12; yh < 17; yh++) {
+        generateSome("Road2", naph, x + 4, y + 14)
+        for(var yh = 11; yh < 15; yh++) {
             generateSome("Road2", naph, x + 3, y + yh)
         }
     } else if (how === 3) {
@@ -506,6 +506,9 @@ function generate_space_map(width, height) {
 
 function generate_big_house() {
     const map = [[]]
+    for (let x = 0; x < 13; x++) {
+        map.push(new Array(8))
+    }
     generateSome("wallbhoseupleft", map, 0, 0)
     for (var x = 1; x < 12; x++) {
         generateSome("wallbhouseup", map, x, 0)
@@ -523,6 +526,7 @@ function generate_big_house() {
         generateSome("wallbhouseleft", map, 0, y)
     }
     generateSome("doorbhouse", map, 0, 1)
+    return map
 }
 
 
