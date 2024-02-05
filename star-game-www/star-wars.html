@@ -16,6 +16,16 @@
 			top: 20px;
 			padding: 20px;
 		}
+
+		#debugImg {
+			position: fixed;
+			width: 100px;
+			height: 100px;
+			right: 40px;
+			bottom: 40px;
+			z-index: 10;
+			border: 1px solid black;
+		}
 	</style>
 </head>
 <body>
@@ -24,6 +34,8 @@
 		<button onclick="setMyObject()">Управлять</button>
 	</div>
 	<canvas id = "canvas" width="1500" height="800"></canvas>
+	<!-- <img id="debugImg" /> -->
+
 	<script src="https://code.jquery.com/jquery-2.1.0.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" ></script>
 	<script src="map.js" ></script>
@@ -33,10 +45,28 @@
 
 	<script src="gameplay.js" ></script>
 	<script>
+		var shadowCanvas = document.createElement('canvas');
+		var shadowCtx = shadowCanvas.getContext('2d');
+
+		// Set its size (this should match your main canvas size or the required size for the shadow)
+
 		var canvas = document.getElementById("canvas");
 		var ctx = canvas.getContext("2d");
-		canvas.width = innerWidth
-		canvas.height = innerHeight
+
+		// Function to resize the canvas
+		function resizeCanvas() {
+				canvas.width = window.innerWidth;
+				canvas.height = window.innerHeight;
+
+				shadowCanvas.width = window.innerWidth;
+				shadowCanvas.height = window.innerHeight;
+		}
+
+		// Initial resize
+		resizeCanvas();
+		// Add event listener to resize the canvas when window size changes
+		window.addEventListener('resize', resizeCanvas);
+
 		start_game(canvas, ctx)
 		var keys = {
 			37: "Left",
