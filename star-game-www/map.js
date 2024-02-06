@@ -97,9 +97,10 @@ var start_game = function(canvas, ctx) {
 	game_loadImage('doorbhouse', 'pix/doorbhouse.png')
 	game_loadImage('seatright', 'pix/seatright.png')
 	game_loadImage('seatleft', 'pix/seatleft.png')
-	game_loadImage('seat1', 'pix/seat1seat1.png')
+	game_loadImage('seat1', 'pix/seat1.png')
 	game_loadImage('table1', 'pix/table1.png')
 	game_loadImage('floor', 'pix/floor.png')
+	game_loadImage('nothing', 'pix/nothing.png')
 
 	game_loadImage('planet_earth', 'pix/earth.png')
 	game_loadImage('planet_mars', 'pix/mars.png')
@@ -201,11 +202,11 @@ var start_game = function(canvas, ctx) {
 
 					if (new_x > 0 && new_x < 4001 && new_y > 0 && new_y < 41) {
 						// скорость 0
-					} else if (new_x > 0 && new_x < 4001 && new_y > 3979 && new_y < 4001) {
+					} else if (new_y > 3979 && new_y < 4001 && new_x > 0 && new_x < 4001) {
 
 					} else if (new_y > 0 && new_y < 4001 && new_x > 0 && new_x < 41) {
 
-					} else if (new_y > 0 && new_y < 4001 && new_x > 3979 && new_x < 4001) {
+					} else if (new_x > 3979 && new_x < 4001 && new_y > 0 && new_y < 4001) {
 
 					} else {
 						object.x = new_x //object.x + object.vx * dt

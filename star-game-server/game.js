@@ -442,6 +442,15 @@ function generateAllVilage(map, type) {
     }
 }
 
+function generateTable(naph, x, y) {
+    generateSome("seatleft", naph, x, y)
+    generateSome("table1", naph, x + 1, y)
+    generateSome("seatright", naph, x + 2, y)
+    generateSome("seatleft", naph, x, y + 1)
+    generateSome("table1", naph, x + 1, y + 1)
+    generateSome("seatright", naph, x + 2, y + 1)
+}
+
 function generate_sand_planet(width, height) {
     const map = [[]]
 
@@ -506,26 +515,49 @@ function generate_space_map(width, height) {
 
 function generate_big_house() {
     const map = [[]]
-    for (let x = 0; x < 13; x++) {
-        map.push(new Array(8))
+    for (let x = 0; x < 100; x++) {
+        map.push(new Array(100))
     }
-    generateSome("wallbhoseupleft", map, 0, 0)
+    for (var x = 0; x < 100; x++) {
+        for (var y = 0; y < 100; y++) {
+            map[x][y] = {
+                text: "nothing"
+            }
+        }
+    }
+    generateSome("wallbhouseupleft", map, 0, 0)
     for (var x = 1; x < 12; x++) {
         generateSome("wallbhouseup", map, x, 0)
     }
-    generateSome("wallbhoseupright", map, 12, 0)
+    generateSome("wallbhouseupright", map, 12, 0)
     for (var y = 1; y < 7; y++) {
         generateSome("wallbhouseright", map, 12, y)
     }
-    generateSome("wallbhosedownright", map, 12, 7)
+    generateSome("wallbhousedownright", map, 12, 7)
     for (var x = 1; x < 12; x++) {
         generateSome("wallbhousedown", map, x, 7)
     }
-    generateSome("wallbhosedownleft", map, 0, 7)
+    generateSome("wallbhousedownleft", map, 0, 7)
     for (var y = 2; y < 7; y++) {
         generateSome("wallbhouseleft", map, 0, y)
     }
     generateSome("doorbhouse", map, 0, 1)
+    for (var x = 1; x < 12; x++) {
+        for (var y = 1; y < 7; y++) {
+            generateSome("floor", map, x, y)
+        }
+    }
+    for (var x = 3; x < 12; x++) {
+        generateSome("table1", map, x, 5)
+    }
+
+    generateTable(map, 3, 1)
+    generateTable(map, 6, 1)
+    generateTable(map, 9, 1)
+    generateSome("seat1", map, 4, 4)
+    generateSome("seat1", map, 6, 4)
+    generateSome("seat1", map, 8, 4)
+    generateSome("seat1", map, 10, 4)
     return map
 }
 
