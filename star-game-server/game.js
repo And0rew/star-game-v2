@@ -22,6 +22,21 @@ const state = {
 let STOP_DIFF = 20
 let ALMOST_ZERO = 10
 
+function getBlockFromCor(mapThatPic, xpic, ypic) {
+    var xblockC = xpic
+    var yblockC = ypic
+    var xblock = 0
+    var yblock = 0
+    xblock = Math.floor(xblockC / 40)
+    yblock = Math.floor(yblockC / 40)
+    console.log(xblock + " " + yblock + " " + mapThatPic[xblock][yblock] + " " + mapThatPic[xblock][yblock].col)
+    return {
+        xBlock: xblock,
+        yBlock: yblock,
+        mapblock: mapThatPic[xblock][yblock]
+    }
+}
+
 const funcs = {
     bulkPatch: [],
 
@@ -76,21 +91,47 @@ function update_world({ broadcast }) {
             applyAI(object, { state, funcs } , dt)
         }
 
-        if (object.vx !== 0) {
-            object.x = object.x + object.vx * dt
-            funcs.bulkPatch.push({
-                path: ['objects', objectId, 'x'],
-                value: object.x,
-            })
-
+        if (object.vx !== 0 || object.vy !== 0) {
+            let new_x = object.x + object.vx * dt
+            let new_y = object.y + object.vy * dt 
+            let mapObject = []
+            if (object.map === "sand_planet") {
+                mapObject = state.maps.sand_planet
+            } else if (object.map === "space0") {
+                mapObject = state.maps.space0
+            } else if (object.map === "big_house") {
+                mapObject = state.maps.big_house
+            }
+            if (getBlockFromCor(mapObject, new_x, new_y).mapblock.col !== "yes") {
+                object.x = new_x
+                object.y = new_y
+                funcs.bulkPatch.push({
+                    path: ['objects', objectId, 'x'],
+                    value: object.x,
+                })
+                funcs.bulkPatch.push({
+                    path: ['objects', objectId, 'y'],
+                    value: object.y,
+                })
+            } else if (getBlockFromCor(mapObject, new_x, new_y).mapblock.col === "yes") {
+                object.vx = 0
+                object.vy = 0
+                object.target = null
+                funcs.bulkPatch.push({
+                    path: ['objects', objectId, 'vx'],
+                    value: object.vx,
+                })
+                funcs.bulkPatch.push({
+                    path: ['objects', objectId, 'vy'],
+                    value: object.vy,
+                })
+                funcs.bulkPatch.push({
+                    path: ['objects', objectId, 'target'],
+                    value: object.target,
+                })
+            }
         }
-        if (object.vy !== 0) {
-            object.y = object.y + object.vy * dt
-            funcs.bulkPatch.push({
-                path: ['objects', objectId, 'y'],
-                value: object.y,
-            })
-        }
+        
 
         if (object.target) {
             let xm = object.target[0]
@@ -187,217 +228,220 @@ function apply_delete_object(deleteObject) {
     }
 }
 
-function generateSome(What, WhatMap, xg, yg) {
+
+
+function generateSome(What, WhatMap, xg, yg, colWhat) {
     WhatMap[xg][yg] = {
-        text: What
+        text: What,
+        col: colWhat
     }
 }
 
 function generateVilageWallLeftRight(mapw, x, y) {
-    generateSome("wallleft2", mapw, x, y)
-    generateSome("wallright2", mapw, x + 1, y)
+    generateSome("wallleft2", mapw, x, y, "yes")
+    generateSome("wallright2", mapw, x + 1, y, "yes")
 }
 
 function generateVilageWallUpDown(mapw, x, y) {
-    generateSome("wallup2", mapw, x, y)
-    generateSome("walldown2", mapw, x, y + 1)
+    generateSome("wallup2", mapw, x, y, "yes")
+    generateSome("walldown2", mapw, x, y + 1, "yes")
 }
 
 function generateVilageCornerUpLeft(mapw, x, y) {
-    generateSome("wallcornerupleft2", mapw, x, y)
-    generateSome("wallleft2", mapw, x, y + 1)
-    generateSome("wallup2", mapw, x + 1, y)
-    generateSome("wallobcornerdownleft2", mapw, x + 1, y + 1)
+    generateSome("wallcornerupleft2", mapw, x, y, "yes")
+    generateSome("wallleft2", mapw, x, y + 1, "yes")
+    generateSome("wallup2", mapw, x + 1, y, "yes")
+    generateSome("wallobcornerdownleft2", mapw, x + 1, y + 1, "yes")
 }
 
 function generateVilageCornerUpRight(mapw, x, y) {
-    generateSome("wallup2", mapw, x, y)
-    generateSome("wallobcornerdownright2", mapw, x, y + 1)
-    generateSome("wallcornerupright2", mapw, x + 1, y)
-    generateSome("wallright2", mapw, x + 1, y + 1)
+    generateSome("wallup2", mapw, x, y, "yes")
+    generateSome("wallobcornerdownright2", mapw, x, y + 1, "yes")
+    generateSome("wallcornerupright2", mapw, x + 1, y, "yes")
+    generateSome("wallright2", mapw, x + 1, y + 1, "yes")
 }
 
 function generateVilageCornerDownLeft(mapw, x, y) {
-    generateSome("wallleft2", mapw, x, y)
-    generateSome("wallcornerdownleft2", mapw, x, y + 1)
-    generateSome("wallobcornerupright2", mapw, x + 1, y)
-    generateSome("walldown2", mapw, x + 1, y + 1)
+    generateSome("wallleft2", mapw, x, y, "yes")
+    generateSome("wallcornerdownleft2", mapw, x, y + 1, "yes")
+    generateSome("wallobcornerupright2", mapw, x + 1, y, "yes")
+    generateSome("walldown2", mapw, x + 1, y + 1, "yes")
 }
 
 function generateVilageCornerDownRight(mapw, x, y) {
-    generateSome("wallobcornerupleft2", mapw, x, y)
-    generateSome("walldown2", mapw, x, y + 1)
-    generateSome("wallright2", mapw, x + 1, y)
-    generateSome("wallcornerdownright2", mapw, x + 1, y + 1)
+    generateSome("wallobcornerupleft2", mapw, x, y, "yes")
+    generateSome("walldown2", mapw, x, y + 1, "yes")
+    generateSome("wallright2", mapw, x + 1, y, "yes")
+    generateSome("wallcornerdownright2", mapw, x + 1, y + 1, "yes")
 }
 
 function generateVilageGate(mapv, x, y) {
-    generateSome("gateperupleft2", mapv, x, y - 2)
-    generateSome("gateperupright2", mapv, x + 1, y - 2)
-    generateSome("gateupleft2", mapv, x, y - 1)
-    generateSome("gateupright2", mapv, x + 1, y - 1)
-    generateSome("gatecenterleft2", mapv, x, y)
-    generateSome("gatecenteright2", mapv, x + 1, y)
-    generateSome("gatedownleft2", mapv, x, y + 1)
-    generateSome("gatedownright2", mapv, x + 1, y + 1)
-    generateSome("gateperdownleft2", mapv, x, y + 2)
-    generateSome("gateperdownright2", mapv, x + 1, y + 2)
+    generateSome("gateperupleft2", mapv, x, y - 2, "yes")
+    generateSome("gateperupright2", mapv, x + 1, y - 2, "yes")
+    generateSome("gateupleft2", mapv, x, y - 1, "no")
+    generateSome("gateupright2", mapv, x + 1, y - 1, "no")
+    generateSome("gatecenterleft2", mapv, x, y, "no")
+    generateSome("gatecenteright2", mapv, x + 1, y, "no")
+    generateSome("gatedownleft2", mapv, x, y + 1, "no")
+    generateSome("gatedownright2", mapv, x + 1, y + 1, "no")
+    generateSome("gateperdownleft2", mapv, x, y + 2, "yes")
+    generateSome("gateperdownright2", mapv, x + 1, y + 2, "yes")
 }
 
 function generateHouseOne(maph, x, y) {
-    generateSome("houseupleft", maph, x, y)
-    generateSome("houseup", maph, x + 1, y)
-    generateSome("houseupright", maph, x + 2, y)
-    generateSome("houseleft", maph, x, y + 1)
-    generateSome("housecenter", maph, x + 1, y + 1)
-    generateSome("houseright", maph, x + 2, y + 1)
-    generateSome("housedownleft", maph, x, y + 2)
-    generateSome("housedown", maph, x + 1, y + 2)
-    generateSome("housedownright", maph, x + 2, y + 2)
+    generateSome("houseupleft", maph, x, y, "yes")
+    generateSome("houseup", maph, x + 1, y, "yes")
+    generateSome("houseupright", maph, x + 2, y, "yes")
+    generateSome("houseleft", maph, x, y + 1, "yes")
+    generateSome("housecenter", maph, x + 1, y + 1, "yes")
+    generateSome("houseright", maph, x + 2, y + 1, "yes")
+    generateSome("housedownleft", maph, x, y + 2, "yes")
+    generateSome("housedown", maph, x + 1, y + 2, "yes")
+    generateSome("housedownright", maph, x + 2, y + 2, "yes")
 }
 
 function generateHouseBig(maph, x, y) {
-    generateSome("houseupleft", maph, x, y)
-    generateSome("houseup", maph, x + 1, y)
-    generateSome("houseup", maph, x + 2, y)
-    generateSome("houseupright", maph, x + 3, y)
-    generateSome("houseleft2", maph, x, y + 1)
-    generateSome("housecenter", maph, x + 1, y + 1)
-    generateSome("housecenter", maph, x + 2, y + 1)
-    generateSome("houseright", maph, x + 3, y + 1)
-    generateSome("houseleft2", maph, x, y + 2)
-    generateSome("housecenter2", maph, x + 1, y + 2)
-    generateSome("housecenter2", maph, x + 2, y + 2)
-    generateSome("houseright", maph, x + 3, y + 2)
-    generateSome("houseleft", maph, x, y + 3)
-    generateSome("housecenter2", maph, x + 1, y + 3)
-    generateSome("housecenter2", maph, x + 2, y + 3)
-    generateSome("houseright", maph, x + 3, y + 3)
-    generateSome("houseleft2", maph, x, y + 4)
-    generateSome("housecenter", maph, x + 1, y + 4)
-    generateSome("housecenter", maph, x + 2, y + 4)
-    generateSome("houseright", maph, x + 3, y + 4)
-    generateSome("housedownleft", maph, x, y + 5)
-    generateSome("housedown", maph, x + 1, y + 5)
-    generateSome("housedown", maph, x + 2, y + 5)
-    generateSome("housedownright", maph, x + 3, y + 5)
+    generateSome("houseupleft", maph, x, y, "yes")
+    generateSome("houseup", maph, x + 1, y, "yes")
+    generateSome("houseup", maph, x + 2, y, "yes")
+    generateSome("houseupright", maph, x + 3, y, "yes")
+    generateSome("houseleft2", maph, x, y + 1, "yes")
+    generateSome("housecenter", maph, x + 1, y + 1, "yes")
+    generateSome("housecenter", maph, x + 2, y + 1, "yes")
+    generateSome("houseright", maph, x + 3, y + 1, "yes")
+    generateSome("houseleft2", maph, x, y + 2, "yes")
+    generateSome("housecenter2", maph, x + 1, y + 2, "yes")
+    generateSome("housecenter2", maph, x + 2, y + 2, "yes")
+    generateSome("houseright", maph, x + 3, y + 2, "yes")
+    generateSome("houseleft", maph, x, y + 3, "no")
+    generateSome("housecenter2", maph, x + 1, y + 3, "yes")
+    generateSome("housecenter2", maph, x + 2, y + 3, "yes")
+    generateSome("houseright", maph, x + 3, y + 3, "yes")
+    generateSome("houseleft2", maph, x, y + 4, "yes")
+    generateSome("housecenter", maph, x + 1, y + 4, "yes")
+    generateSome("housecenter", maph, x + 2, y + 4, "yes")
+    generateSome("houseright", maph, x + 3, y + 4, "yes")
+    generateSome("housedownleft", maph, x, y + 5, "yes")
+    generateSome("housedown", maph, x + 1, y + 5, "yes")
+    generateSome("housedown", maph, x + 2, y + 5, "yes")
+    generateSome("housedownright", maph, x + 3, y + 5, "yes")
 }
 
 function generateVilageHouses(how, naph, x, y) {
     if (how === 1) {
         generateHouseOne(naph, x + 5, y + 4)
-        generateSome("Road2", naph, x + 4, y + 5)
+        generateSome("Road2", naph, x + 4, y + 5, "no")
         generateHouseOne(naph, x + 11, y + 4)
-        generateSome("Road2", naph, x + 10, y + 5)
+        generateSome("Road2", naph, x + 10, y + 5, "no")
         generateHouseOne(naph, x + 5, y + 13)
-        generateSome("Road2", naph, x + 4, y + 14)
+        generateSome("Road2", naph, x + 4, y + 14, "no")
         generateHouseOne(naph, x + 17, y + 13)
-        generateSome("Road2", naph, x + 16, y + 14)
+        generateSome("Road2", naph, x + 16, y + 14, "no")
         generateHouseOne(naph, x + 5, y + 17)
-        generateSome("Road2", naph, x + 4, y + 18)
+        generateSome("Road2", naph, x + 4, y + 18, "no")
         generateHouseOne(naph, x + 11, y + 17)
-        generateSome("Road2", naph, x + 10, y + 18)
+        generateSome("Road2", naph, x + 10, y + 18, "no")
         generateHouseOne(naph, x + 17, y + 17)
-        generateSome("Road2", naph, x + 16, y + 18)
+        generateSome("Road2", naph, x + 16, y + 18, "no")
         for(var yh = 5; yh < 19; yh++) {
-            generateSome("Road2", naph, x + 3, y + yh)
+            generateSome("Road2", naph, x + 3, y + yh, "no")
         }
         for(var yh = 5; yh < 19; yh++) {
-            generateSome("Road2", naph, x + 9, y + yh)
+            generateSome("Road2", naph, x + 9, y + yh, "no")
         }
         for(var yh = 8; yh < 19; yh++) {
-            generateSome("Road2", naph, x + 15, y + yh)
+            generateSome("Road2", naph, x + 15, y + yh, "no")
         }
         for(var xr = 2; xr < 16; xr++) {
             for (var yr = 8; yr < 11; yr++) {
-                generateSome("Road2", naph, x + xr, y + yr)
+                generateSome("Road2", naph, x + xr, y + yr, "no")
             }
         }
         for(var xp = 9; xp < 16; xp++) {
             for (var yp = 11; yp < 13; yp++) {
-                generateSome("Road2", naph, x + xp, y + yp)
+                generateSome("Road2", naph, x + xp, y + yp, "no")
             }
         }
         generateHouseBig(naph, x + 17, y + 6)
-        generateSome("Road2", naph, x + 16, y + 9)
+        generateSome("Road2", naph, x + 16, y + 9, "no")
     } else if (how === 2) {
         generateHouseOne(naph, x + 5, y + 3)
-        generateSome("Road2", naph, x + 4, y + 4)
+        generateSome("Road2", naph, x + 4, y + 4, "no")
         generateHouseOne(naph, x + 11, y + 3)
-        generateSome("Road2", naph, x + 10, y + 4)
+        generateSome("Road2", naph, x + 10, y + 4, "no")
         generateHouseOne(naph, x + 18, y + 3)
-        generateSome("Road2", naph, x + 17, y + 4)
+        generateSome("Road2", naph, x + 17, y + 4, "no")
         generateHouseOne(naph, x + 18, y + 7)
-        generateSome("Road2", naph, x + 17, y + 8)
+        generateSome("Road2", naph, x + 17, y + 8, "no")
         generateHouseOne(naph, x + 12, y + 18)
-        generateSome("Road2", naph, x + 11, y + 19)
+        generateSome("Road2", naph, x + 11, y + 19, "no")
         generateHouseOne(naph, x + 18, y + 18)
-        generateSome("Road2", naph, x + 17, y + 19)
-        generateSome("Road2", naph, x + 11, y + 16)
+        generateSome("Road2", naph, x + 17, y + 19, "no")
+        generateSome("Road2", naph, x + 11, y + 16, "no")
         for(var yh = 4; yh < 8; yh++) {
-            generateSome("Road2", naph, x + 3, y + yh)
+            generateSome("Road2", naph, x + 3, y + yh, "no")
         }
         for(var yh = 4; yh < 8; yh++) {
-            generateSome("Road2", naph, x + 9, y + yh)
+            generateSome("Road2", naph, x + 9, y + yh, "no")
         }
         for(var yh = 4; yh < 8; yh++) {
-            generateSome("Road2", naph, x + 16, y + yh)
+            generateSome("Road2", naph, x + 16, y + yh, "no")
         }
         for(var yh = 16; yh < 20; yh++) {
-            generateSome("Road2", naph, x + 10, y + yh)
+            generateSome("Road2", naph, x + 10, y + yh, "no")
         }
         for(var yh = 17; yh < 20; yh++) {
-            generateSome("Road2", naph, x + 16, y + yh)
+            generateSome("Road2", naph, x + 16, y + yh, "no")
         }
         for(var xh = 2; xh < 17; xh++) {
             for(var yh = 8; yh < 11; yh++) {
-                generateSome("Road2", naph, x + xh, y + yh)
+                generateSome("Road2", naph, x + xh, y + yh, "no")
             }
         }
         for(var xh = 12; xh < 21; xh++) {
             for(var yh = 11; yh < 17; yh++) {
-                generateSome("Road2", naph, x + xh, y + yh)
+                generateSome("Road2", naph, x + xh, y + yh, "no")
             }
         }
         generateHouseBig(naph, x + 5, y + 11)
-        generateSome("Road2", naph, x + 4, y + 14)
+        generateSome("Road2", naph, x + 4, y + 14, "no")
         for(var yh = 11; yh < 15; yh++) {
-            generateSome("Road2", naph, x + 3, y + yh)
+            generateSome("Road2", naph, x + 3, y + yh, "no")
         }
     } else if (how === 3) {
         generateHouseOne(naph, x + 9, y + 4)
         generateHouseOne(naph, x + 14, y + 4)
         generateHouseOne(naph, x + 17, y + 7)
-        generateSome("Road2", naph, x + 16, y + 8)
+        generateSome("Road2", naph, x + 16, y + 8, "no")
         generateHouseOne(naph, x + 17, y + 11)
-        generateSome("Road2", naph, x + 16, y + 12)
+        generateSome("Road2", naph, x + 16, y + 12, "no")
         generateHouseOne(naph, x + 9, y + 14)
-        generateSome("Road2", naph, x + 8, y + 15)
+        generateSome("Road2", naph, x + 8, y + 15, "no")
         generateHouseOne(naph, x + 9, y + 18)
-        generateSome("Road2", naph, x + 8, y + 19)
+        generateSome("Road2", naph, x + 8, y + 19, "no")
         for(var yh = 11; yh < 20; yh++) {
-            generateSome("Road2", naph, x + 7, y + yh)
+            generateSome("Road2", naph, x + 7, y + yh, "no")
         }
         for(var yh = 5; yh < 8; yh++) {
-            generateSome("Road2", naph, x + 13, y + yh)
+            generateSome("Road2", naph, x + 13, y + yh, "no")
         }
         for(var xr = 3; xr < 9; xr++) {
             for (var yr = 3; yr < 11; yr++) {
-                generateSome("Road2", naph, x + xr, y + yr)
+                generateSome("Road2", naph, x + xr, y + yr, "no")
             }
         }
         for(var xr = 2; xr < 16; xr++) {
             for (var yr = 8; yr < 11; yr++) {
-                generateSome("Road2", naph, x + xr, y + yr)
+                generateSome("Road2", naph, x + xr, y + yr, "no")
             }
         }
         for(var xr = 13; xr < 16; xr++) {
             for (var yr = 11; yr < 21; yr++) {
-                generateSome("Road2", naph, x + xr, y + yr)
+                generateSome("Road2", naph, x + xr, y + yr, "no")
             }
         }
         generateHouseBig(naph, x + 17, y + 15)
-        generateSome("Road2", naph, x + 16, y + 18)
+        generateSome("Road2", naph, x + 16, y + 18, "no")
     }
 }
 
@@ -465,29 +509,34 @@ function generate_sand_planet(width, height) {
         for (let y = 0; y < height; y++) {
             let block = numbers[Math.floor(Math.random() * blocks.length)]
             map[x][y] = {
-                text: blocks[block]
+                text: blocks[block],
+                col: "no"
             }
         }
     }
 
     for (var x = 0; x < 101; x++) {
         map[x][0] = {
-            text: "rock1"
+            text: "rock1",
+            col: "yes"
         }
     }
     for (var x = 0; x < 101; x++) {
         map[x][99] = {
-            text: "rock1"
+            text: "rock1",
+            col: "yes"
         }
     }
     for (var y = 0; y < 101; y++) {
         map[0][y] = {
-            text: "rock1"
+            text: "rock1",
+            col: "yes"
         }
     }
     for (var y = 0; y < 101; y++) {
         map[99][y] = {
-            text: "rock1"
+            text: "rock1",
+            col: "yes"
         }
     }
 

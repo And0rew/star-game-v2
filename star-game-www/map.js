@@ -102,6 +102,14 @@ var start_game = function(canvas, ctx) {
 	game_loadImage('floor', 'pix/floor.png')
 	game_loadImage('nothing', 'pix/nothing.png')
 
+	game_loadImage('palatkcenter1', 'pix/palatkcenter1.png')
+	game_loadImage('palatkleft1', 'pix/palatkleft1.png')
+	game_loadImage('palatkright1', 'pix/palatkright1.png')
+	game_loadImage('palatktupleft1', 'pix/palatktupleft1.png')
+	game_loadImage('palatktupright1', 'pix/palatktupright1.png')
+	game_loadImage('palatktdownleft1', 'pix/palatktdownleft1.png')
+	game_loadImage('palatktdownright1', 'pix/palatktdownright1.png')
+
 	game_loadImage('planet_earth', 'pix/earth.png')
 	game_loadImage('planet_mars', 'pix/mars.png')
 	game_loadImage('sun', 'pix/sun.png')
@@ -202,11 +210,11 @@ var start_game = function(canvas, ctx) {
 
 					if (new_x > 0 && new_x < 4001 && new_y > 0 && new_y < 41) {
 						// скорость 0
-					} else if (new_y > 3979 && new_y < 4001 && new_x > 0 && new_x < 4001) {
+					} else if (new_y > 3959 && new_y < 4001 && new_x > 0 && new_x < 4001) {
 
 					} else if (new_y > 0 && new_y < 4001 && new_x > 0 && new_x < 41) {
 
-					} else if (new_x > 3979 && new_x < 4001 && new_y > 0 && new_y < 4001) {
+					} else if (new_x > 3959 && new_x < 4001 && new_y > 0 && new_y < 4001) {
 
 					} else {
 						object.x = new_x //object.x + object.vx * dt
