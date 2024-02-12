@@ -110,6 +110,18 @@ var start_game = function(canvas, ctx) {
 	game_loadImage('palatktdownleft1', 'pix/palatktdownleft1.png')
 	game_loadImage('palatktdownright1', 'pix/palatktdownright1.png')
 
+	game_loadImage('weapon1', 'pix/weapon1.png')
+	game_loadImage('weapon2', 'pix/weapon2.png')
+	game_loadImage('weapon3', 'pix/weapon3.png')
+	game_loadImage('weapon4', 'pix/weapon4.png')
+	game_loadImage('weapon5', 'pix/weapon5.png')
+	game_loadImage('weapon6', 'pix/weapon6.png')
+	game_loadImage('weapon7', 'pix/weapon7.png')
+	game_loadImage('weapon8', 'pix/weapon8.png')
+	game_loadImage('weapon9', 'pix/weapon9.png')
+	game_loadImage('weapon10', 'pix/weapon10.png')
+	game_loadImage('weapon11', 'pix/weapon11.png')
+
 	game_loadImage('planet_earth', 'pix/earth.png')
 	game_loadImage('planet_mars', 'pix/mars.png')
 	game_loadImage('sun', 'pix/sun.png')
@@ -309,6 +321,9 @@ var start_game = function(canvas, ctx) {
 	}
 
 	var draw_object = function (ctx, object, options = {}) {
+		if (object.map !== Game.currentMap) {
+			Game.currentMap === object.map
+		}
 		let tex2
 
 		if (object.look === "trooper1") {

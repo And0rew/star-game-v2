@@ -130,6 +130,13 @@ function update_world({ broadcast }) {
                     value: object.target,
                 })
             }
+            if (getBlockFromCor(mapObject, new_x, new_y).xBlock === villCor[3] && getBlockFromCor(mapObject, new_x, new_y).yBlock === villCor[4] && object.map === "sand_planet") {
+                object.map = "big_house"
+                funcs.bulkPatch.push({
+                    path: ['objects', objectId, 'map'],
+                    value: object.map,
+                })
+            }
         }
         
 
@@ -472,6 +479,7 @@ function generateVilageWall (mapc, x, y, type) { //пока что type буде
 var xgv = 0
 var ygv = 0
 var ran = 0
+var villCor = [0, 0, 0, 0, 0]
 function generateAllVilage(map, type) {
     if (type === "sand") {
         while (xgv < 3 || xgv > 74 || ygv < 3 || ygv > 74) {
@@ -479,8 +487,26 @@ function generateAllVilage(map, type) {
             ygv = Math.floor(Math.random() * 100)
             console.log(xgv + " " + ygv)
         }
+        villCor[0] = xgv
+        villCor[1] = ygv
+
         ran = Math.floor(Math.random() * 3) + 1
+
+        villCor[2] = ran
+        if (ran === 1) {
+            villCor[3] = xgv + 17
+            villCor[4] = ygv + 9
+        } else if (ran === 2) {
+            villCor[3] = xgv + 5
+            villCor[4] = ygv + 14
+        } else if (ran === 3) {
+            villCor[3] = xgv + 17
+            villCor[4] = ygv + 18
+        }
+    
         console.log(ran)
+        console.log(villCor[3])
+        console.log(villCor[4])
         generateVilageHouses(ran, map, xgv, ygv)
         generateVilageWall(map, xgv, ygv, 1)
     }
