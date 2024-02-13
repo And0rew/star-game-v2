@@ -8,6 +8,7 @@ const { spawn_planets_0 } = require('./maps/map-space')
 const f1 = require('./ai-scripts/hitpoints')
 const f2 = require('./ai-scripts/planet')
 const f3 = require('./ai-scripts/trooper')
+const planet = require('./ai-scripts/planet')
 
 f1(addScript)
 f2(addScript)
@@ -520,6 +521,37 @@ function generateTable(naph, x, y) {
     generateSome("table1", naph, x + 1, y + 1)
     generateSome("seatright", naph, x + 2, y + 1)
 }
+var palatkCorX = 0
+var palatkCorY = 0
+var palatkCorXS = 0
+var palatkCorYS = 0
+function generatePalatk (nap) {
+    while (palatkCorX < 3 || palatkCorX > 74 || palatkCorY < 3 || palatkCorY > 74) {
+        palatkCorX = Math.floor(Math.random() * 100)
+        palatkCorY = Math.floor(Math.random() * 100)
+        console.log(palatkCorX + " " + palatkCorY)
+        if (palatkCorX > villCor[0] - 1 && palatkCorY > villCor[1] - 1 && palatkCorX > villCor[0] + 24 && palatkCorY > villCor[1] + 24) {
+            palatkCorY = 0
+            palatkCorX = 0
+        }
+    }
+    palatkCorXS = palatkCorX + 2
+    palatkCorYS = palatkCorY + 4
+    generateSome("palatktupleft1", nap, palatkCorX, palatkCorY, "no")
+    generateSome("palatktupright1", nap, palatkCorX + 4, palatkCorY, "no")
+    generateSome("palatktdownleft1", nap, palatkCorX, palatkCorY + 4, "no")
+    generateSome("palatktdownright1", nap, palatkCorX + 4, palatkCorY + 4, "no")
+    for (var y = 1; y < 4; y++) {
+        generateSome("palatkleft1", nap, palatkCorX + 1, palatkCorY + y, "no")
+    }
+    for (var y = 1; y < 4; y++) {
+        generateSome("palatkcenter1", nap, palatkCorX + 2, palatkCorY + y, "no")
+    }
+    for (var y = 1; y < 4; y++) {
+        generateSome("palatkright1", nap, palatkCorX + 3, palatkCorY + y, "no")
+    }
+
+}
 
 function generate_sand_planet(width, height) {
     const map = [[]]
@@ -567,6 +599,7 @@ function generate_sand_planet(width, height) {
     }
 
     generateAllVilage(map, "sand")
+    generatePalatk(map)
     return map
 }
 
