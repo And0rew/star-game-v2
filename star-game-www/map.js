@@ -137,6 +137,7 @@ var start_game = function(canvas, ctx) {
 	game_loadImage("trooper_body_v2_pilot's","pix/trooper_body_v2_pilot's.png")
 	game_loadImage('trooper_body_v2_purple', 'pix/trooper_body_v2_purple.png')
 	game_loadImage('trooper_body_v2_yellow', 'pix/trooper_body_v2_yellow.png')
+	game_loadImage('trooper_body_v2_lemon_lime', 'pix/trooper_body_v2_lemon_lime.png')
 
 	var draw_map = function (width, height) {
 		if (!Game.state?.maps[Game.currentMap]) {
