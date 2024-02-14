@@ -32,6 +32,8 @@ var start_game = function(canvas, ctx) {
 	game_loadImage('sand_dark', 'pix/sand_dark.png')
 	game_loadImage('sand2', 'pix/sand2.png')
 	game_loadImage('trooper1', 'pix/trooper1.png')
+	game_loadImage('enemy1', 'pix/enemy1.png')
+	game_loadImage('enemy404', 'pix/enemy404.png')
 	game_loadImage('shot1', 'pix/shot1.png')
 	game_loadImage('tower1', 'pix/tower1.png')
 	game_loadImage('space1', 'pix/space1.png')
@@ -129,6 +131,12 @@ var start_game = function(canvas, ctx) {
 	game_loadImage('trooper_v2', 'pix/trooper_body_v2.png')
 	game_loadImage('trooper_v2_legs_0', 'pix/trooper_body_v2_legs_0.png')
 	game_loadImage('trooper_v2_legs_1', 'pix/trooper_body_v2_legs_1.png')
+	game_loadImage('trooper_body_v2_blue', 'pix/trooper_body_v2_blue.png')
+	game_loadImage('trooper_body_v2_lime', 'pix/trooper_body_v2_lime.png')
+	game_loadImage('trooper_body_v2_orange', 'pix/trooper_body_v2_orange.png')
+	game_loadImage("trooper_body_v2_pilot's","pix/trooper_body_v2_pilot's.png")
+	game_loadImage('trooper_body_v2_purple', 'pix/trooper_body_v2_purple.png')
+	game_loadImage('trooper_body_v2_yellow', 'pix/trooper_body_v2_yellow.png')
 
 	var draw_map = function (width, height) {
 		if (!Game.state?.maps[Game.currentMap]) {
@@ -321,8 +329,12 @@ var start_game = function(canvas, ctx) {
 	}
 
 	var draw_object = function (ctx, object, options = {}) {
+		console.log(object.map)
+		console.log(Game.currentMap)
 		if (object.map !== Game.currentMap) {
+			console.log(object.map)
 			Game.currentMap === object.map
+			console.log(Game.currentMap)
 		}
 		let tex2
 
