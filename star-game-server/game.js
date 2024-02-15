@@ -72,9 +72,11 @@ function game_start({ broadcast }) {
 }
 
 let pt = 0
+let timeToSpawn = 0
 function update_world({ broadcast }) {
     let t = Date.now()
     let dt = 0
+    
     if (pt > 0) {
         dt = t - pt
     }
@@ -82,6 +84,14 @@ function update_world({ broadcast }) {
     if (dt === 0) {
         return
     }
+    timeToSpawn = timeToSpawn + dt
+    if (timeToSpawn > 49999) {
+        if (colOfEnemySandNow < colOfEnemySand) {
+            generate_object("enemy" + colOfEnemySandNow, palatkCorXS, palatkCorYS, "enemy1", "enemyOnSand", "enemy", 200, "sand_planet")
+        }
+        timeToSpawn = timeToSpawn - 50000
+    }
+    console.log(timeToSpawn)
 
     funcs.bulkPatch = []
 
@@ -236,8 +246,28 @@ function apply_delete_object(deleteObject) {
     }
 }
 
+function generate_object(id, x, y, look, groop, nickName, hitpoints, map) {
+    _.set(state, ['objects', id], {
+        id: id,
+        x: x,
+        y: y,
 
+        look: look,
+        groop: groop,
+        ai: ['trooper', 'hitpoints'],
 
+        g: 0,
+        vx: 0,
+        vy: 0,
+        v: 0.2,
+
+        nickName: nickName,
+        hitpoints: hitpoints,
+        max_hitpoints: hitpoints,
+
+        map: map
+    })
+}
 function generateSome(What, WhatMap, xg, yg, colWhat) {
     WhatMap[xg][yg] = {
         text: What,
@@ -525,6 +555,8 @@ var palatkCorX = 0
 var palatkCorY = 0
 var palatkCorXS = 0
 var palatkCorYS = 0
+var colOfEnemySand = 8
+var colOfEnemySandNow = 0
 function generatePalatk (nap) {
     while (palatkCorX < 3 || palatkCorX > 74 || palatkCorY < 3 || palatkCorY > 74) {
         palatkCorX = Math.floor(Math.random() * 100)

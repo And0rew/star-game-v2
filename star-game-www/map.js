@@ -330,8 +330,6 @@ var start_game = function(canvas, ctx) {
 	}
 
 	var draw_object = function (ctx, object, options = {}) {
-		console.log(object.map)
-		console.log(Game.currentMap)
 		if (object.map !== Game.currentMap) {
 			console.log(object.map)
 			Game.currentMap === object.map
