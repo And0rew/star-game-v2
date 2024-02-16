@@ -57,6 +57,8 @@ const funcs = {
 
 let lastBroadcastFunc = null
 
+const game = { state, funcs }
+
 function game_start({ broadcast }) {
     lastBroadcastFunc = broadcast
 
@@ -65,6 +67,7 @@ function game_start({ broadcast }) {
     state.maps.big_house = generate_big_house()
 
     spawn_planets_0(state, 'space0')
+    generatePalatk("player", state, 'sand_planet')
 
     setInterval(() => {
         update_world({ broadcast })
@@ -74,6 +77,7 @@ function game_start({ broadcast }) {
 let pt = 0
 let timeToSpawn = 0
 function update_world({ broadcast }) {
+
     let t = Date.now()
     let dt = 0
     
@@ -87,11 +91,14 @@ function update_world({ broadcast }) {
     timeToSpawn = timeToSpawn + dt
     if (timeToSpawn > 49999) {
         if (colOfEnemySandNow < colOfEnemySand) {
-            generate_object("enemy" + colOfEnemySandNow, palatkCorXS, palatkCorYS, "enemy1", "enemyOnSand", "enemy", 200, "sand_planet")
+            console.log('spawn enemy')
+            console.log(state.objects.player.x)
+            console.log(state.objects.player.y + (1.5 * 40))
+            generate_object("enemy" + Date.now(), state.objects.player.x, state.objects.player.y + (1.5 * 40), "enemy1", "enemyOnSand", "enemy", 200, "sand_planet", game)
+            timeToSpawn = timeToSpawn - 50000
+            colOfEnemySandNow = colOfEnemySandNow + 1
         }
-        timeToSpawn = timeToSpawn - 50000
     }
-    console.log(timeToSpawn)
 
     funcs.bulkPatch = []
 
@@ -99,7 +106,7 @@ function update_world({ broadcast }) {
         const object = state.objects[objectId]
 
         if (object.ai) {
-            applyAI(object, { state, funcs } , dt)
+            applyAI(object, game , dt)
         }
 
         if (object.vx !== 0 || object.vy !== 0) {
@@ -246,9 +253,28 @@ function apply_delete_object(deleteObject) {
     }
 }
 
-function generate_object(id, x, y, look, groop, nickName, hitpoints, map) {
-    _.set(state, ['objects', id], {
-        id: id,
+function generate_object(id, x, y, look, groop, nickName, hitpoints, map, game) {
+    //_.set(state, ['objects', id], {
+
+        game.funcs.update(['objects', id, 'id'], id)
+        game.funcs.update(['objects', id, 'y'], y)
+        game.funcs.update(['objects', id, 'x'], x)
+
+        game.funcs.update(['objects', id, 'look'], look)
+        game.funcs.update(['objects', id, 'groop'], groop)
+        game.funcs.update(['objects', id, 'ai'], ['trooper', 'hitpoints'])
+
+        game.funcs.update(['objects', id, 'g'], 0)
+        game.funcs.update(['objects', id, 'vx'], 0)
+        game.funcs.update(['objects', id, 'vy'], 0)
+        game.funcs.update(['objects', id, 'v'], 0.2)
+
+        game.funcs.update(['objects', id, 'nickName'], nickName)
+        game.funcs.update(['objects', id, 'hitpoints'], hitpoints)
+        game.funcs.update(['objects', id, 'max_hitpoints'], hitpoints)
+
+        game.funcs.update(['objects', id, 'map'], map)
+        /*id: id,
         x: x,
         y: y,
 
@@ -266,7 +292,7 @@ function generate_object(id, x, y, look, groop, nickName, hitpoints, map) {
         max_hitpoints: hitpoints,
 
         map: map
-    })
+    })*/
 }
 function generateSome(What, WhatMap, xg, yg, colWhat) {
     WhatMap[xg][yg] = {
@@ -553,12 +579,12 @@ function generateTable(naph, x, y) {
 }
 var palatkCorX = 0
 var palatkCorY = 0
-var palatkCorXS = 0
-var palatkCorYS = 0
+//var palatkCorXS = 0
+//var palatkCorYS = 0
 var colOfEnemySand = 8
 var colOfEnemySandNow = 0
-function generatePalatk (nap) {
-    while (palatkCorX < 3 || palatkCorX > 74 || palatkCorY < 3 || palatkCorY > 74) {
+function generatePalatk (who, game, map_name) {
+    while (palatkCorX < 3 || palatkCorX > 93 || palatkCorY < 3 || palatkCorY > 93) {
         palatkCorX = Math.floor(Math.random() * 100)
         palatkCorY = Math.floor(Math.random() * 100)
         console.log(palatkCorX + " " + palatkCorY)
@@ -567,22 +593,43 @@ function generatePalatk (nap) {
             palatkCorX = 0
         }
     }
-    palatkCorXS = palatkCorX + 2
-    palatkCorYS = palatkCorY + 4
-    generateSome("palatktupleft1", nap, palatkCorX, palatkCorY, "no")
-    generateSome("palatktupright1", nap, palatkCorX + 4, palatkCorY, "no")
-    generateSome("palatktdownleft1", nap, palatkCorX, palatkCorY + 4, "no")
-    generateSome("palatktdownright1", nap, palatkCorX + 4, palatkCorY + 4, "no")
-    for (var y = 1; y < 4; y++) {
-        generateSome("palatkleft1", nap, palatkCorX + 1, palatkCorY + y, "no")
-    }
-    for (var y = 1; y < 4; y++) {
-        generateSome("palatkcenter1", nap, palatkCorX + 2, palatkCorY + y, "no")
-    }
-    for (var y = 1; y < 4; y++) {
-        generateSome("palatkright1", nap, palatkCorX + 3, palatkCorY + y, "no")
-    }
+    //palatkCorXS = palatkCorX + 2
+    //palatkCorYS = palatkCorY + 4
+        /*game.funcs.update(['objects', id, 'id'], who)
+        game.funcs.update(['objects', id, 'x'], palatkCorX)
+        game.funcs.update(['objects', id, 'y'], palatkCorY)
 
+        game.funcs.update(['objects', id, 'look'], "palatkAll")
+        game.funcs.update(['objects', id, 'groop'], "palatk")
+        game.funcs.update(['objects', id, 'ai'], ['trooper', 'hitpoints'])
+
+        game.funcs.update(['objects', id, 'g'], 0)
+        game.funcs.update(['objects', id, 'vx'], 0)
+        game.funcs.update(['objects', id, 'vy'], 0)
+        game.funcs.update(['objects', id, 'v'], 0)
+
+        game.funcs.update(['objects', id, 'nickName'], who + "'s palatk")
+        game.funcs.update(['objects', id, 'hitpoints'], 500)
+        game.funcs.update(['objects', id, 'max_hitpoints'], 500)
+
+        game.funcs.update(['objects', id, 'map'], "sand_planet")*/
+        _.set(game, ['objects', who], {
+            id: who,
+            x: palatkCorX * 40,
+            y: palatkCorY * 40,
+            look: "palatkAll",
+            groop: "palatk",
+            ai: ['trooper', 'hitpoints'],
+            g: 0,
+            vx: 0,
+            vy: 0,
+            v: 0,
+      
+            nickName: who + "'s palatk",
+            hitpoints: 500,
+            max_hitpoints: 500,
+            map: map_name
+        })
 }
 
 function generate_sand_planet(width, height) {
@@ -631,7 +678,6 @@ function generate_sand_planet(width, height) {
     }
 
     generateAllVilage(map, "sand")
-    generatePalatk(map)
     return map
 }
 

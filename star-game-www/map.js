@@ -111,6 +111,7 @@ var start_game = function(canvas, ctx) {
 	game_loadImage('palatktupright1', 'pix/palatktupright1.png')
 	game_loadImage('palatktdownleft1', 'pix/palatktdownleft1.png')
 	game_loadImage('palatktdownright1', 'pix/palatktdownright1.png')
+	game_loadImage('palatkAll', 'pix/palatkAll.png')
 
 	game_loadImage('weapon1', 'pix/weapon1.png')
 	game_loadImage('weapon2', 'pix/weapon2.png')
