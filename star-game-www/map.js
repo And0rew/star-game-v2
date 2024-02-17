@@ -142,6 +142,14 @@ var start_game = function(canvas, ctx) {
 	game_loadImage('trooper_body_v2_yellow', 'pix/trooper_body_v2_yellow.png')
 	game_loadImage('trooper_body_v2_lemon_lime', 'pix/trooper_body_v2_lemon_lime.png')
 
+	var forImg = function (CorThatNeed, xPixc, yPixc) {
+		if (yPixc > xPixc) {
+			return [xPixc / yPixc * CorThatNeed, CorThatNeed]
+		} else {
+			return [CorThatNeed, yPixc / xPixc * CorThatNeed]
+		}
+	}
+
 	var draw_map = function (width, height) {
 		if (!Game.state?.maps[Game.currentMap]) {
 			return
@@ -449,7 +457,7 @@ var start_game = function(canvas, ctx) {
 		}
 	}
 
-	var isTrade = false
+	var isTrade = true
 	var scaleX = 0
 	var scaleY = 0
 	var bigTradeObjects = [["weapon1", "20"], ["weapon2", "15"], ["weapon3", "30"], ["weapon4", "25"], ["weapon5", "35"], ["weapon6", "35"], ["weapon7", "40"], ["weapon8", "100"], ["weapon9", "15"], ["weapon10", "60"], ["weapon11", "120"]];
@@ -466,19 +474,21 @@ var start_game = function(canvas, ctx) {
 		ctx.lineWidth = 1;
 		for (var x = 0; x < 55 * 2; x = x + 55) {
 			for (var y = 0; y < 55 * 10; y = y + 55) {
-				ctx.fillRect(x + scaleX, y + scaleY, 60, 60)
-				ctx.strokeRect(x + scaleX, y + scaleY, 60, 60);
+				ctx.fillRect(x + scaleX, y + scaleY, 55, 55)
+				ctx.strokeRect(x + scaleX, y + scaleY, 55, 55);
 			}
 		}
 		ctx.fillStyle = "#e5aa7a"
-		ctx.fillRect(scaleX + 115, scaleY, 500, 555)
+		ctx.fillRect(scaleX + 110, scaleY, 505, 550)
 		ctx.fillStyle = "Grey"
 		for (var x = 0; x < 55 * 4; x = x + 55) {
 			for (var y = 0; y < 55 * 10; y = y + 55) {
-				ctx.fillRect(x + scaleX + 615, y + scaleY, 60, 60)
-				ctx.strokeRect(x + scaleX + 615, y + scaleY, 60, 60);
+				ctx.fillRect(x + scaleX + 615, y + scaleY, 55, 55)
+				ctx.strokeRect(x + scaleX + 615, y + scaleY, 55, 55);
 			}
 		}
+
+		ctx.font = "25px Comic Sans MS";
 		ctx.fillStyle = "Black"
 		ctx.textAlign = "left";
         ctx.textBaseline = "top";
@@ -486,33 +496,42 @@ var start_game = function(canvas, ctx) {
 		ctx.textAlign = "right";
 		ctx.fillText("Sell", scaleX + 610, scaleY + 5);
 		ctx.textAlign = "left";
+		ctx.font = "15px Comic Sans MS";
+		
+		var xShopNow = 0
+		var yShopNow = 0
+		var text = "sand0"
+		var tex2
+		for (var justCor = 0; justCor < bigTradeObjects.length; justCor++) {
+			if (yShopNow > 9) {
+				xShopNow++
+				yShopNow -= 10
+			}
+
+			text = bigTradeObjects[justCor][0]
+
+			if (Game.resources[text]) {
+				tex2 = Game.resources[text]
+			}
+	
+			if (!tex2) {
+				return
+			}
+
+			ctx.drawImage(
+				tex2,
+	
+				scaleX + (55 * xShopNow),
+				scaleY + (55 * yShopNow),
+
+				forImg(55, tex2.width, tex2.height)[0],
+				forImg(55, tex2.width, tex2.height)[1]
+			)
+			ctx.fillText(bigTradeObjects[justCor][1], scaleX + (55 * xShopNow) + 15, scaleY + (55 * yShopNow) + 40);
+			yShopNow++
+		}
         ctx.textBaseline = "middle";
-
-		for (var y = 0; y < bigTradeObjects.length; y++) {
-
-
-		}
-
-
-
-
-		if (Game.resources["trooper"]) {
-			tex2 = Game.resources["trooper"]
-		}
-
-		if (!tex2) {
-			return
-		}
-
-		ctx.drawImage(
-			tex2,
-
-			-Game.bloock_r * tex2.width / 2,  //- tex2.width / 2,
-			-Game.bloock_r * tex2.height / 2, //- tex2.height / 2,
-
-			Game.bloock_r * tex2.width,
-			Game.bloock_r * tex2.height
-		)
+		ctx.font = "15px Arial";
 	}
 
 	setTimeout(() => {
