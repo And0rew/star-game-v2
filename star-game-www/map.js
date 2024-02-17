@@ -457,7 +457,7 @@ var start_game = function(canvas, ctx) {
 		}
 	}
 
-	var isTrade = true
+	var isTrade = false
 	var scaleX = 0
 	var scaleY = 0
 	var bigTradeObjects = [["weapon1", "20"], ["weapon2", "15"], ["weapon3", "30"], ["weapon4", "25"], ["weapon5", "35"], ["weapon6", "35"], ["weapon7", "40"], ["weapon8", "100"], ["weapon9", "15"], ["weapon10", "60"], ["weapon11", "120"]];
@@ -497,7 +497,7 @@ var start_game = function(canvas, ctx) {
 		ctx.fillText("Sell", scaleX + 610, scaleY + 5);
 		ctx.textAlign = "left";
 		ctx.font = "15px Comic Sans MS";
-		
+
 		var xShopNow = 0
 		var yShopNow = 0
 		var text = "sand0"
@@ -513,14 +513,14 @@ var start_game = function(canvas, ctx) {
 			if (Game.resources[text]) {
 				tex2 = Game.resources[text]
 			}
-	
+
 			if (!tex2) {
 				return
 			}
 
 			ctx.drawImage(
 				tex2,
-	
+
 				scaleX + (55 * xShopNow),
 				scaleY + (55 * yShopNow),
 
