@@ -30,7 +30,6 @@ function getBlockFromCor(mapThatPic, xpic, ypic) {
     var yblock = 0
     xblock = Math.floor(xblockC / 40)
     yblock = Math.floor(yblockC / 40)
-    console.log(xblock + " " + yblock + " " + mapThatPic[xblock][yblock] + " " + mapThatPic[xblock][yblock].col)
     return {
         xBlock: xblock,
         yBlock: yblock,
@@ -77,6 +76,7 @@ function game_start({ broadcast }) {
 let pt = 0
 let timeToSpawn = 0
 function update_world({ broadcast }) {
+    funcs.bulkPatch = []
 
     let t = Date.now()
     let dt = 0
@@ -100,7 +100,7 @@ function update_world({ broadcast }) {
         }
     }
 
-    funcs.bulkPatch = []
+    
 
     for (const objectId in state.objects) {
         const object = state.objects[objectId]
@@ -255,7 +255,7 @@ function apply_delete_object(deleteObject) {
 
 function generate_object(id, x, y, look, groop, nickName, hitpoints, map, game) {
     //_.set(state, ['objects', id], {
-
+        console.log("generate_object")
         game.funcs.update(['objects', id, 'id'], id)
         game.funcs.update(['objects', id, 'y'], y)
         game.funcs.update(['objects', id, 'x'], x)
@@ -274,6 +274,27 @@ function generate_object(id, x, y, look, groop, nickName, hitpoints, map, game) 
         game.funcs.update(['objects', id, 'max_hitpoints'], hitpoints)
 
         game.funcs.update(['objects', id, 'map'], map)
+
+        // game.funcs.update(['objects', id], {
+        //     id,
+        //     x,
+        //     y,
+        //     look,
+        //     groop,
+        //     ai: ['trooper', 'hitpoints'],
+        //     g: 0,
+        //     vx: 0,
+        //     vy: 0,
+        //     v: 0.2,
+
+        //     nickName,
+        //     hitpoints,
+        //     max_hitpoints: hitpoints,
+
+        //     map
+        // })
+
+
         /*id: id,
         x: x,
         y: y,

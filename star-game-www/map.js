@@ -424,6 +424,72 @@ var start_game = function(canvas, ctx) {
 		}
 	}
 
+	var isTrade = false
+	var scaleX = 0
+	var scaleY = 0
+	var bigTradeObjects = [["weapon1", "20"], ["weapon2", "15"], ["weapon3", "30"], ["weapon4", "25"], ["weapon5", "35"], ["weapon6", "35"], ["weapon7", "40"], ["weapon8", "100"], ["weapon9", "15"], ["weapon10", "60"], ["weapon11", "120"]];
+
+	var draw_trade = function() {
+		if (isTrade === false) {
+			return
+		}
+		//посчитать scale x и scale y
+		scaleX = (window.innerWidth - 840) / 2;
+		scaleY = (window.innerHeight - 555) / 2
+		ctx.fillStyle = "Grey"
+		ctx.strokeStyle = "Black"
+		ctx.lineWidth = 1;
+		for (var x = 0; x < 55 * 2; x = x + 55) {
+			for (var y = 0; y < 55 * 10; y = y + 55) {
+				ctx.fillRect(x + scaleX, y + scaleY, 60, 60)
+				ctx.strokeRect(x + scaleX, y + scaleY, 60, 60);
+			}
+		}
+		ctx.fillStyle = "#e5aa7a"
+		ctx.fillRect(scaleX + 115, scaleY, 500, 555)
+		ctx.fillStyle = "Grey"
+		for (var x = 0; x < 55 * 4; x = x + 55) {
+			for (var y = 0; y < 55 * 10; y = y + 55) {
+				ctx.fillRect(x + scaleX + 615, y + scaleY, 60, 60)
+				ctx.strokeRect(x + scaleX + 615, y + scaleY, 60, 60);
+			}
+		}
+		ctx.fillStyle = "Black"
+		ctx.textAlign = "left";
+        ctx.textBaseline = "top";
+		ctx.fillText("Buy", scaleX + 120, scaleY + 5);
+		ctx.textAlign = "right";
+		ctx.fillText("Sell", scaleX + 610, scaleY + 5);
+		ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+		
+		for (var y = 0; y < bigTradeObjects.length; y++) {
+
+
+		}
+
+
+
+
+		if (Game.resources["trooper"]) {
+			tex2 = Game.resources["trooper"]
+		}
+
+		if (!tex2) {
+			return
+		}
+
+		ctx.drawImage(
+			tex2,
+
+			-Game.bloock_r * tex2.width / 2,  //- tex2.width / 2,
+			-Game.bloock_r * tex2.height / 2, //- tex2.height / 2,
+
+			Game.bloock_r * tex2.width,
+			Game.bloock_r * tex2.height
+		)
+	}
+
 	setTimeout(() => {
 		window.requestAnimationFrame(render)
 	}, 500)
@@ -459,6 +525,8 @@ var start_game = function(canvas, ctx) {
 		draw_objects(dt)
 
 		draw_shots(dt)
+
+		draw_trade()
 
 		window.requestAnimationFrame(render)
 	}
