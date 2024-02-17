@@ -66,7 +66,7 @@ function game_start({ broadcast }) {
     state.maps.big_house = generate_big_house()
 
     spawn_planets_0(state, 'space0')
-    generatePalatk("player", state, 'sand_planet')
+    generatePalatk("playerSpawner", state, 'sand_planet')
 
     setInterval(() => {
         update_world({ broadcast })
@@ -80,7 +80,7 @@ function update_world({ broadcast }) {
 
     let t = Date.now()
     let dt = 0
-    
+
     if (pt > 0) {
         dt = t - pt
     }
@@ -91,16 +91,19 @@ function update_world({ broadcast }) {
     timeToSpawn = timeToSpawn + dt
     if (timeToSpawn > 49999) {
         if (colOfEnemySandNow < colOfEnemySand) {
-            console.log('spawn enemy')
-            console.log(state.objects.player.x)
-            console.log(state.objects.player.y + (1.5 * 40))
-            generate_object("enemy" + Date.now(), state.objects.player.x, state.objects.player.y + (1.5 * 40), "enemy1", "enemyOnSand", "enemy", 200, "sand_planet", game)
+            if (state.objects.playerSpawner) {
+                console.log('spawn enemy')
+                console.log(state.objects.playerSpawner.x)
+                console.log(state.objects.playerSpawner.y + (1.5 * 40))
+                generate_object("enemy" + Date.now(), state.objects.playerSpawner.x, state.objects.playerSpawner.y + (1.5 * 40), "enemy1", "enemyOnSand", "enemy", 200, "sand_planet", game)
+                colOfEnemySandNow = colOfEnemySandNow + 1
+            }
             timeToSpawn = timeToSpawn - 50000
-            colOfEnemySandNow = colOfEnemySandNow + 1
+
         }
     }
 
-    
+
 
     for (const objectId in state.objects) {
         const object = state.objects[objectId]
@@ -111,7 +114,7 @@ function update_world({ broadcast }) {
 
         if (object.vx !== 0 || object.vy !== 0) {
             let new_x = object.x + object.vx * dt
-            let new_y = object.y + object.vy * dt 
+            let new_y = object.y + object.vy * dt
             let mapObject = []
             if (object.map === "sand_planet") {
                 mapObject = state.maps.sand_planet
@@ -156,7 +159,7 @@ function update_world({ broadcast }) {
                 })
             }
         }
-        
+
 
         if (object.target) {
             let xm = object.target[0]
@@ -581,7 +584,7 @@ function generateAllVilage(map, type) {
             villCor[3] = xgv + 17
             villCor[4] = ygv + 18
         }
-    
+
         console.log(ran)
         console.log(villCor[3])
         console.log(villCor[4])
@@ -645,7 +648,7 @@ function generatePalatk (who, game, map_name) {
             vx: 0,
             vy: 0,
             v: 0,
-      
+
             nickName: who + "'s palatk",
             hitpoints: 500,
             max_hitpoints: 500,

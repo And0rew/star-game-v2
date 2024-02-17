@@ -120,7 +120,9 @@ var start_game = function(canvas, ctx) {
 	game_loadImage('weapon5', 'pix/weapon5.png')
 	game_loadImage('weapon6', 'pix/weapon6.png')
 	game_loadImage('weapon7', 'pix/weapon7.png')
+	game_loadImage('weapon7_sm', 'pix/weapon7_sm.png')
 	game_loadImage('weapon8', 'pix/weapon8.png')
+	game_loadImage('weapon8_sm', 'pix/weapon8_sm.png')
 	game_loadImage('weapon9', 'pix/weapon9.png')
 	game_loadImage('weapon10', 'pix/weapon10.png')
 	game_loadImage('weapon11', 'pix/weapon11.png')
@@ -331,11 +333,11 @@ var start_game = function(canvas, ctx) {
 	}
 
 	var draw_object = function (ctx, object, options = {}) {
-		if (object.map !== Game.currentMap) {
-			console.log(object.map)
-			Game.currentMap === object.map
-			console.log(Game.currentMap)
-		}
+		// if (object.map !== Game.currentMap) {
+		// 	console.log(object.map)
+		// 	Game.currentMap === object.map
+		// 	console.log(Game.currentMap)
+		// }
 		let tex2
 
 		if (object.look === "trooper1") {
@@ -360,25 +362,6 @@ var start_game = function(canvas, ctx) {
 
 		ctx.rotate((object.g - text_g) / 180 * Math.PI);
 		shadowCtx.rotate((object.g - text_g) / 180 * Math.PI);
-
-		ctx.drawImage(
-			tex2,
-
-			-Game.bloock_r * tex2.width / 2,  //- tex2.width / 2,
-			-Game.bloock_r * tex2.height / 2, //- tex2.height / 2,
-
-			Game.bloock_r * tex2.width,
-			Game.bloock_r * tex2.height
-		)
-		shadowCtx.drawImage(
-			tex2,
-
-			-Game.bloock_r * tex2.width / 2,  //- tex2.width / 2,
-			-Game.bloock_r * tex2.height / 2, //- tex2.height / 2,
-
-			Game.bloock_r * tex2.width,
-			Game.bloock_r * tex2.height
-		)
 
 		if (object.lookOptions?.legs && (object.vx !== 0 || object.vy !== 0)) {
 			if (object.lookOptions.legsIndex === undefined) {
@@ -409,6 +392,48 @@ var start_game = function(canvas, ctx) {
 				Game.bloock_r * legs_tex.width,
 				Game.bloock_r * legs_tex.height
 			)
+		}
+
+		ctx.drawImage(
+			tex2,
+
+			-Game.bloock_r * tex2.width / 2,  //- tex2.width / 2,
+			-Game.bloock_r * tex2.height / 2, //- tex2.height / 2,
+
+			Game.bloock_r * tex2.width,
+			Game.bloock_r * tex2.height
+		)
+		if (!object.renderOpt?.noShadow) {
+			shadowCtx.drawImage(
+				tex2,
+
+				-Game.bloock_r * tex2.width / 2,  //- tex2.width / 2,
+				-Game.bloock_r * tex2.height / 2, //- tex2.height / 2,
+
+				Game.bloock_r * tex2.width,
+				Game.bloock_r * tex2.height
+			)
+		}
+
+		if (object.gun) {
+			let gun = ALL_GUNS[object.gun]
+			let gunTex = Game.resources[gun.tex]
+			ctx.save()
+			ctx.translate(
+				gun.renderOpt.x * Game.bloock_r,
+				gun.renderOpt.y * Game.bloock_r
+			);
+			ctx.rotate(gun.renderOpt.g / 180 * Math.PI);
+			ctx.drawImage(
+				gunTex,
+
+				-Game.bloock_r * gun.renderOpt.w / 2,  //- tex2.width / 2,
+				-Game.bloock_r * gun.renderOpt.h / 2, //- tex2.height / 2,
+
+				Game.bloock_r * gun.renderOpt.w,
+				Game.bloock_r * gun.renderOpt.h
+			)
+			ctx.restore()
 		}
 	}
 
@@ -462,7 +487,7 @@ var start_game = function(canvas, ctx) {
 		ctx.fillText("Sell", scaleX + 610, scaleY + 5);
 		ctx.textAlign = "left";
         ctx.textBaseline = "middle";
-		
+
 		for (var y = 0; y < bigTradeObjects.length; y++) {
 
 

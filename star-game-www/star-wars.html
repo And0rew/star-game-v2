@@ -44,6 +44,8 @@
 	<script src="sockets.js" ></script>
 
 	<script src="gameplay.js" ></script>
+	<script src="guns.js" ></script>
+	<script src="utils.js" ></script>
 	<script>
 		var shadowCanvas = document.createElement('canvas');
 		var shadowCtx = shadowCanvas.getContext('2d');
@@ -130,6 +132,8 @@
 				}
 
 				if (!myPlayer.carInId) {
+					tryToGrabGun(myPlayer)
+
 					for (var key in Game.state.objects) {
 						var car = Game.state.objects[key]
 						if (car.type === "car") {
