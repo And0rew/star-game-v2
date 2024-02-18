@@ -35,6 +35,7 @@ var start_game = function(canvas, ctx) {
 	game_loadImage('enemy1', 'pix/enemy1.png')
 	game_loadImage('enemy404', 'pix/enemy404.png')
 	game_loadImage('shot1', 'pix/shot1.png')
+	game_loadImage('shot_round', 'pix/shot_round.png')
 	game_loadImage('tower1', 'pix/tower1.png')
 	game_loadImage('space1', 'pix/space1.png')
 	game_loadImage('ship_0', 'pix/ship_0.png')
@@ -318,7 +319,10 @@ var start_game = function(canvas, ctx) {
 			// 	shot.y = shot.y + shot.vy * dt
 			// }
 
-			var tex = Game.resources.shot1
+			let tex = Game.resources.shot1
+			if (shot.tex) {
+				tex = Game.resources[shot.tex]
+			}
 
 			ctx.save()
 			ctx.translate(
@@ -402,6 +406,44 @@ var start_game = function(canvas, ctx) {
 			)
 		}
 
+		if (object.gun) {
+			let gun = ALL_GUNS[object.gun]
+			let gunTex = Game.resources[gun.tex]
+			ctx.save()
+			ctx.translate(
+				gun.renderOpt.x * Game.bloock_r,
+				gun.renderOpt.y * Game.bloock_r
+			);
+			ctx.rotate(gun.renderOpt.g / 180 * Math.PI);
+			ctx.drawImage(
+				gunTex,
+
+				-Game.bloock_r * gun.renderOpt.w / 2,  //- tex2.width / 2,
+				-Game.bloock_r * gun.renderOpt.h / 2, //- tex2.height / 2,
+
+				Game.bloock_r * gun.renderOpt.w,
+				Game.bloock_r * gun.renderOpt.h
+			)
+			ctx.restore()
+
+			shadowCtx.save()
+			shadowCtx.translate(
+				gun.renderOpt.x * Game.bloock_r,
+				gun.renderOpt.y * Game.bloock_r
+			);
+			shadowCtx.rotate(gun.renderOpt.g / 180 * Math.PI);
+			shadowCtx.drawImage(
+				gunTex,
+
+				-Game.bloock_r * gun.renderOpt.w / 2,  //- tex2.width / 2,
+				-Game.bloock_r * gun.renderOpt.h / 2, //- tex2.height / 2,
+
+				Game.bloock_r * gun.renderOpt.w,
+				Game.bloock_r * gun.renderOpt.h
+			)
+			shadowCtx.restore()
+		}
+
 		ctx.drawImage(
 			tex2,
 
@@ -423,26 +465,7 @@ var start_game = function(canvas, ctx) {
 			)
 		}
 
-		if (object.gun) {
-			let gun = ALL_GUNS[object.gun]
-			let gunTex = Game.resources[gun.tex]
-			ctx.save()
-			ctx.translate(
-				gun.renderOpt.x * Game.bloock_r,
-				gun.renderOpt.y * Game.bloock_r
-			);
-			ctx.rotate(gun.renderOpt.g / 180 * Math.PI);
-			ctx.drawImage(
-				gunTex,
 
-				-Game.bloock_r * gun.renderOpt.w / 2,  //- tex2.width / 2,
-				-Game.bloock_r * gun.renderOpt.h / 2, //- tex2.height / 2,
-
-				Game.bloock_r * gun.renderOpt.w,
-				Game.bloock_r * gun.renderOpt.h
-			)
-			ctx.restore()
-		}
 	}
 
 	var draw_car_seats = function(ctx, object) {
