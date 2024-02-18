@@ -1,6 +1,7 @@
 var Game = {
     resources: {},
     camera:[0, 0],
+	myId: "",
 		currentMap: 'sand_planet',
     state: {
     	maps: {},
@@ -8,8 +9,10 @@ var Game = {
     	shots: {}
     },
     bloock_r: 1,
-    X_Y_block: 40
+    X_Y_block: 40,
+	isTrade: false
 }
+
 
 function get_block_from_coords(x, y) {
 	let block_num_x = Math.floor(x / Game.X_Y_block)
@@ -103,6 +106,13 @@ var start_game = function(canvas, ctx) {
 	game_loadImage('table1', 'pix/table1.png')
 	game_loadImage('floor', 'pix/floor.png')
 	game_loadImage('nothing', 'pix/nothing.png')
+
+	game_loadImage('privup', 'pix/privup.png')
+	game_loadImage('privdown', 'pix/privdown.png')
+	game_loadImage('privupleft', 'pix/privupleft.png')
+	game_loadImage('privupright', 'pix/privupright.png')
+	game_loadImage('privdownleft', 'pix/privdownleft.png')
+	game_loadImage('privdownright', 'pix/privdownright.png')
 
 	game_loadImage('palatkcenter1', 'pix/palatkcenter1.png')
 	game_loadImage('palatkleft1', 'pix/palatkleft1.png')
@@ -457,13 +467,13 @@ var start_game = function(canvas, ctx) {
 		}
 	}
 
-	var isTrade = false
 	var scaleX = 0
 	var scaleY = 0
 	var bigTradeObjects = [["weapon1", "20"], ["weapon2", "15"], ["weapon3", "30"], ["weapon4", "25"], ["weapon5", "35"], ["weapon6", "35"], ["weapon7", "40"], ["weapon8", "100"], ["weapon9", "15"], ["weapon10", "60"], ["weapon11", "120"]];
+	
 
 	var draw_trade = function() {
-		if (isTrade === false) {
+		if (Game.isTrade === false) {
 			return
 		}
 		//посчитать scale x и scale y
@@ -530,6 +540,49 @@ var start_game = function(canvas, ctx) {
 			ctx.fillText(bigTradeObjects[justCor][1], scaleX + (55 * xShopNow) + 15, scaleY + (55 * yShopNow) + 40);
 			yShopNow++
 		}
+		var xShopNowP = 0
+		var yShopNowP = 0
+		var textP = "sand0"
+		var tex2P
+		var myPlayerShopping = Game.state.objects[Game.myId];
+		if (myPlayerShopping && myPlayerShopping.inventory) {
+			for (var justCorP = 0; justCorP < myPlayerShopping.inventory.guns.length; justCorP++) {
+
+
+				if (yShopNowP > 9) {
+					xShopNowP++
+					yShopNowP -= 10
+				}
+	
+				textP = myPlayerShopping.inventory.guns[justCorP][0]
+	
+				if (Game.resources[textP]) {
+					tex2P = Game.resources[textP]
+				}
+	
+				if (!tex2P) {
+					return
+				}
+	
+				ctx.drawImage(
+					tex2P,
+	
+					scaleX + (55 * xShopNowP) + 615,
+					scaleY + (55 * yShopNowP),
+	
+					forImg(55, tex2P.width, tex2P.height)[0],
+					forImg(55, tex2P.width, tex2P.height)[1]
+				)
+				ctx.fillText(myPlayerShopping.inventory.guns[justCorP][1], scaleX + (55 * xShopNowP) + 630, scaleY + (55 * yShopNowP) + 40);
+				yShopNowP++
+			}
+		ctx.font = "20px Comic Sans MS";
+		ctx.fillStyle = "Black"
+        ctx.textBaseline = "top";
+		ctx.textAlign = "right";
+		ctx.fillText("Gold: " + myPlayerShopping.inventory.gold, scaleX + 610, scaleY + 35);
+		}
+		ctx.textAlign = "left";
         ctx.textBaseline = "middle";
 		ctx.font = "15px Arial";
 	}

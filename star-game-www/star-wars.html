@@ -76,6 +76,7 @@
 			39: "Right",
 			40: "Down",
 			69: "e",
+			70: "f",
 			187: "Plus",
 			189: "Minus"
 		}
@@ -177,6 +178,15 @@
 					game_update(["objects", myPlayer.id, "x"], car.x - 50)
 					game_update(["objects", myPlayer.id, "y"], car.y)
 				}
+			} else if (keys[event.keyCode] === "f") {
+				if (Game.state.objects["vilTrader"] && Game.state.objects[Game.myId]) {
+					var villT = Game.state.objects["vilTrader"]
+					var myPlayerForF = Game.state.objects[Game.myId]
+					if (modul(villT.x - myPlayerForF.x) < 80 && modul(villT.y - myPlayerForF.y) < 80) {
+						console.log("isTradeOnF")
+						Game.isTrade = true
+					}
+				}
 			}
 		});
 
@@ -189,7 +199,6 @@
 			}
 			return id.join("")
 		}
-
 		var xm = 0
 		var ym = 0
 
