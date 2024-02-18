@@ -56,13 +56,28 @@
 //     })
 // }
 
-function spawn_players() {
-    game_update(['objects', 'player1'], {
-        id: 'player1',
-        x: 100,
-        y: 100,
+function spawnMe() {
+    let nickName = document.getElementById("nick").value
+    let id = document.getElementById("objectId").value
+    let hitpoints = document.getElementById("hitpoints").value
 
-        look: 'trooper1',
+    localStorage.myNickname = nickName
+
+    game_update(['objects', id], {
+        id: id,
+        x: 200,
+        y: 200,
+
+        look: 'trooper_v2',
+        lookOptions: {
+            legsSpeed: 300,
+            ang: 180,
+            legs: [
+                'trooper_v2_legs_0',
+                'trooper_v2_legs_1'
+            ]
+        },
+
         ai: ['trooper', 'hitpoints'],
 
         g: 0,
@@ -70,12 +85,34 @@ function spawn_players() {
         vy: 0,
         v: 0.2,
 
-        nickName: 'Player 1',
-        hitpoints: 100,
-        max_hitpoints: 100,
+        nickName,
+        hitpoints,
+        max_hitpoints: hitpoints,
 
         map: 'sand_planet'
     })
+}
+
+function spawn_players() {
+    // game_update(['objects', 'player1'], {
+    //     id: 'player1',
+    //     x: 100,
+    //     y: 100,
+
+    //     look: 'trooper1',
+    //     ai: ['trooper', 'hitpoints'],
+
+    //     g: 0,
+    //     vx: 0,
+    //     vy: 0,
+    //     v: 0.2,
+
+    //     nickName: 'Player 1',
+    //     hitpoints: 100,
+    //     max_hitpoints: 100,
+
+    //     map: 'sand_planet'
+    // })
 
     game_update(['objects', 'player2'], {
         id: 'player2',
@@ -99,9 +136,38 @@ function spawn_players() {
         vy: 0,
         v: 0.2,
 
-        nickName: 'Mixerka',
-        hitpoints: 100,
-        max_hitpoints: 100,
+        nickName: 'Max',
+        hitpoints: 300,
+        max_hitpoints: 300,
+
+        map: 'sand_planet'
+    })
+
+    game_update(['objects', 'playerMixer'], {
+        id: 'playerMixer',
+        x: 200,
+        y: 200,
+
+        look: 'trooper_v2',
+        lookOptions: {
+            legsSpeed: 300,
+            ang: 180,
+            legs: [
+                'trooper_v2_legs_0',
+                'trooper_v2_legs_1'
+            ]
+        },
+
+        ai: ['trooper', 'hitpoints'],
+
+        g: 0,
+        vx: 0,
+        vy: 0,
+        v: 0.2,
+
+        nickName: 'Mixerka Papa',
+        hitpoints: 300,
+        max_hitpoints: 300,
 
         map: 'sand_planet'
     })

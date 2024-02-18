@@ -15,6 +15,9 @@
 			right: 20px;
 			top: 20px;
 			padding: 20px;
+
+			background-color: rgba(0, 0, 0, 0.20);
+			color: white;
 		}
 
 		#debugImg {
@@ -30,8 +33,27 @@
 </head>
 <body>
 	<div class="adm-control">
-		<input type="text" id="objectId"/>
-		<button onclick="setMyObject()">Управлять</button>
+		<div>
+			id<br>
+			<input type="text" id="objectId"/>
+		</div>
+		<div>
+			Nick<br>
+			<input type="text" id="nick"/>
+		</div>
+		<div>
+			Hitpoints<br>
+			<input type="text" id="hitpoints" value="300"/>
+		</div>
+		<div>
+			<button onclick="spawnMe()">Spawn</button>
+		</div>
+		<div>
+			<button onclick="setMyObject()">Управлять</button>
+		</div>
+		<div>
+			<button onclick="spawn_guns()" >Spawn пушек</button>
+		</div>
 	</div>
 	<canvas id = "canvas" width="1500" height="800"></canvas>
 	<!-- <img id="debugImg" /> -->
@@ -103,6 +125,13 @@
 				input.value = Game.myId
 			}
 		}
+		if (localStorage.myNickname) {
+			let input = document.getElementById("nick")
+			if (input) {
+				input.value = localStorage.myNickname
+			}
+		}
+
 		function setMyObject() {
 			let input = document.getElementById("objectId")
 			let myObjectId = input.value
@@ -265,38 +294,7 @@
 				return
 			}
 
-			var k = Math.tan(object.g / 180 * Math.PI)
-			var V_SHOT = 0.4
-			var vy = V_SHOT / Math.sqrt(k * k + 1)
-			var vx = Math.abs(k * vy)
-
-			if (object.g >= 0 && object.g < 90) {
-				vy = -vy
-			} else if (object.g <= 0 && object.g > -90) {
-				vy = -vy
-				vx = -vx
-			} else if (object.g <= -90 && object.g > -180) {
-				vx = -vx
-			}
-			var life = 3000
-			var date_create = Date.now()
-			var shotId = random(16)
-			game_update(["shots", shotId], {
-				id: shotId,
-				x: object.x + 49 / 2,
-				y: object.y + 30 / 2,
-				g: object.g,
-				vx: vx,
-				vy: vy,
-				v: V_SHOT,
-				date_create: date_create,
-				time_life: life,
-				time_not_life: date_create + life,
-				myid: Game.myId,
-
-				map: object.map,
-			})
-			console.log(["Id:", shotId, "x:", Game.state.shots[shotId].x, "y:", Game.state.shots[shotId].y, "g:", Game.state.shots[shotId].g].join(" "))
+			gunShot(object)
 		}
 
 		var moveHandler = function (event) {

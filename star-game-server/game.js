@@ -30,11 +30,14 @@ function getBlockFromCor(mapThatPic, xpic, ypic) {
     var yblock = 0
     xblock = Math.floor(xblockC / 40)
     yblock = Math.floor(yblockC / 40)
-    return {
-        xBlock: xblock,
-        yBlock: yblock,
-        mapblock: mapThatPic[xblock][yblock]
+    if (mapThatPic[xblock] && mapThatPic[xblock][yblock]) {
+        return {
+            xBlock: xblock,
+            yBlock: yblock,
+            mapblock: mapThatPic[xblock][yblock]
+        }
     }
+    return null
 }
 
 const funcs = {
@@ -123,7 +126,8 @@ function update_world({ broadcast }) {
             } else if (object.map === "big_house") {
                 mapObject = state.maps.big_house
             }
-            if (getBlockFromCor(mapObject, new_x, new_y).mapblock.col !== "yes") {
+            let block = getBlockFromCor(mapObject, new_x, new_y)
+            if (block && block.mapblock.col !== "yes") {
                 object.x = new_x
                 object.y = new_y
                 funcs.bulkPatch.push({
@@ -134,7 +138,7 @@ function update_world({ broadcast }) {
                     path: ['objects', objectId, 'y'],
                     value: object.y,
                 })
-            } else if (getBlockFromCor(mapObject, new_x, new_y).mapblock.col === "yes") {
+            } else if (block && block.mapblock.col === "yes") {
                 object.vx = 0
                 object.vy = 0
                 object.target = null
@@ -151,7 +155,7 @@ function update_world({ broadcast }) {
                     value: object.target,
                 })
             }
-            if (getBlockFromCor(mapObject, new_x, new_y).xBlock === villCor[3] && getBlockFromCor(mapObject, new_x, new_y).yBlock === villCor[4] && object.map === "sand_planet") {
+            if (block && block.xBlock === villCor[3] && block.yBlock === villCor[4] && object.map === "sand_planet") {
                 object.map = "big_house"
                 funcs.bulkPatch.push({
                     path: ['objects', objectId, 'map'],
