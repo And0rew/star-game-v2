@@ -12,7 +12,7 @@ var Game = {
     X_Y_block: 40,
 	isTrade: false
 }
-
+var bigTradeObjects = [["weapon1", "20", 20], ["weapon2", "15", 15], ["weapon3", "30", 30], ["weapon4", "25", 25], ["weapon5", "35", 35], ["weapon6", "35", 35], ["weapon7", "80", 80], ["weapon8", "100", 100], ["weapon9", "30", 30], ["weapon10", "60", 60], ["weapon11", "120", 120]];
 
 function get_block_from_coords(x, y) {
 	let block_num_x = Math.floor(x / Game.X_Y_block)
@@ -492,7 +492,7 @@ var start_game = function(canvas, ctx) {
 
 	var scaleX = 0
 	var scaleY = 0
-	var bigTradeObjects = [["weapon1", "20"], ["weapon2", "15"], ["weapon3", "30"], ["weapon4", "25"], ["weapon5", "35"], ["weapon6", "35"], ["weapon7", "40"], ["weapon8", "100"], ["weapon9", "15"], ["weapon10", "60"], ["weapon11", "120"]];
+	
 	
 
 	var draw_trade = function() {

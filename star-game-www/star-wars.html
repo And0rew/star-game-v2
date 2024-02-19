@@ -280,21 +280,39 @@
 
 		var save
 		var clickHandlerV = function (event) {
-			save = _.size(Game.state.shots)
+			if (Game.isTrade === true) {
+				var myPlayer = Game.state.objects[Game.myId]
+				var xmouse = event.pageX
+				var ymouse = event.pageY
+				var scaleX = (window.innerWidth - 840) / 2
+				var scaleY = (window.innerHeight - 555) / 2
+				var xcell = Math.floor((xmouse - scaleX) / 55)
+				var ycell = Math.floor((ymouse - scaleY) / 55)
+				if (xcell > 9) {
+					xcell = xcell - 10
+				}
+				var cellWeapon = xcell * 10 + ycell
+				var newWeaponFromShop = bigTradeObjects[cellWeapon][0]
+				var sellcost = bigTradeObjects[cellWeapon][2] - bigTradeObjects[cellWeapon][2] / 4
+				console.log(newWeaponFromShop + " " + sellcost)
+				myPlayer.inventory.guns.push([newWeaponFromShop, sellcost])
+			} else {
+				save = _.size(Game.state.shots)
 
-			if (!Game.myId) {
-				return
-			}
-			var object = Game.state.objects[Game.myId]
-			if (!object) {
-				return
-			}
+				if (!Game.myId) {
+					return
+				}
+				var object = Game.state.objects[Game.myId]
+				if (!object) {
+					return
+				}
 
-			if (Game.currentMap !== object.map) {
-				return
-			}
+				if (Game.currentMap !== object.map) {
+					return
+				}
 
-			gunShot(object)
+				gunShot(object)
+			}
 		}
 
 		var moveHandler = function (event) {
