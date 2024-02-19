@@ -286,13 +286,13 @@ var start_game = function(canvas, ctx) {
 					continue
 				}
 
-				shadowCtx.save()
+				// shadowCtx.save()
 				ctx.save()
 				draw_object(ctx, object)
 				if (object.type === 'car') {
 					draw_car_seats(ctx, object)
 				}
-				shadowCtx.restore()
+				// shadowCtx.restore()
 				ctx.restore()
 
 				if (object.nickName != null) {
@@ -378,12 +378,12 @@ var start_game = function(canvas, ctx) {
 		let y = options?.y ?? object.y * Game.bloock_r - Game.camera[1]
 
 		ctx.translate(x, y)
-		shadowCtx.translate(x, y)
+		// shadowCtx.translate(x, y)
 
 		const text_g = object.lookOptions?.ang ?? 0
 
 		ctx.rotate((object.g - text_g) / 180 * Math.PI);
-		shadowCtx.rotate((object.g - text_g) / 180 * Math.PI);
+		// shadowCtx.rotate((object.g - text_g) / 180 * Math.PI);
 
 		if (object.lookOptions?.legs && (object.vx !== 0 || object.vy !== 0)) {
 			if (object.lookOptions.legsIndex === undefined) {
@@ -405,15 +405,15 @@ var start_game = function(canvas, ctx) {
 				Game.bloock_r * legs_tex.width,
 				Game.bloock_r * legs_tex.height
 			)
-			shadowCtx.drawImage(
-				legs_tex,
+			// shadowCtx.drawImage(
+			// 	legs_tex,
 
-				-Game.bloock_r * legs_tex.width / 2,
-				-Game.bloock_r * legs_tex.height / 2,
+			// 	-Game.bloock_r * legs_tex.width / 2,
+			// 	-Game.bloock_r * legs_tex.height / 2,
 
-				Game.bloock_r * legs_tex.width,
-				Game.bloock_r * legs_tex.height
-			)
+			// 	Game.bloock_r * legs_tex.width,
+			// 	Game.bloock_r * legs_tex.height
+			// )
 		}
 
 		if (object.gun) {
@@ -436,22 +436,22 @@ var start_game = function(canvas, ctx) {
 			)
 			ctx.restore()
 
-			shadowCtx.save()
-			shadowCtx.translate(
-				gun.renderOpt.x * Game.bloock_r,
-				gun.renderOpt.y * Game.bloock_r
-			);
-			shadowCtx.rotate(gun.renderOpt.g / 180 * Math.PI);
-			shadowCtx.drawImage(
-				gunTex,
+			// shadowCtx.save()
+			// shadowCtx.translate(
+			// 	gun.renderOpt.x * Game.bloock_r,
+			// 	gun.renderOpt.y * Game.bloock_r
+			// );
+			// shadowCtx.rotate(gun.renderOpt.g / 180 * Math.PI);
+			// shadowCtx.drawImage(
+			// 	gunTex,
 
-				-Game.bloock_r * gun.renderOpt.w / 2,  //- tex2.width / 2,
-				-Game.bloock_r * gun.renderOpt.h / 2, //- tex2.height / 2,
+			// 	-Game.bloock_r * gun.renderOpt.w / 2,  //- tex2.width / 2,
+			// 	-Game.bloock_r * gun.renderOpt.h / 2, //- tex2.height / 2,
 
-				Game.bloock_r * gun.renderOpt.w,
-				Game.bloock_r * gun.renderOpt.h
-			)
-			shadowCtx.restore()
+			// 	Game.bloock_r * gun.renderOpt.w,
+			// 	Game.bloock_r * gun.renderOpt.h
+			// )
+			// shadowCtx.restore()
 		}
 
 		ctx.drawImage(
@@ -464,15 +464,15 @@ var start_game = function(canvas, ctx) {
 			Game.bloock_r * tex2.height
 		)
 		if (!object.renderOpt?.noShadow) {
-			shadowCtx.drawImage(
-				tex2,
+			// shadowCtx.drawImage(
+			// 	tex2,
 
-				-Game.bloock_r * tex2.width / 2,  //- tex2.width / 2,
-				-Game.bloock_r * tex2.height / 2, //- tex2.height / 2,
+			// 	-Game.bloock_r * tex2.width / 2,  //- tex2.width / 2,
+			// 	-Game.bloock_r * tex2.height / 2, //- tex2.height / 2,
 
-				Game.bloock_r * tex2.width,
-				Game.bloock_r * tex2.height
-			)
+			// 	Game.bloock_r * tex2.width,
+			// 	Game.bloock_r * tex2.height
+			// )
 		}
 
 
@@ -576,23 +576,23 @@ var start_game = function(canvas, ctx) {
 					xShopNowP++
 					yShopNowP -= 10
 				}
-	
+
 				textP = myPlayerShopping.inventory.guns[justCorP][0]
-	
+
 				if (Game.resources[textP]) {
 					tex2P = Game.resources[textP]
 				}
-	
+
 				if (!tex2P) {
 					return
 				}
-	
+
 				ctx.drawImage(
 					tex2P,
-	
+
 					scaleX + (55 * xShopNowP) + 615,
 					scaleY + (55 * yShopNowP),
-	
+
 					forImg(55, tex2P.width, tex2P.height)[0],
 					forImg(55, tex2P.width, tex2P.height)[1]
 				)
@@ -629,18 +629,18 @@ var start_game = function(canvas, ctx) {
 		draw_map(100,100)
 
 		// Draw shadows
-		shadowCtx.globalCompositeOperation = 'source-atop';
-		shadowCtx.fillStyle = 'rgba(50, 50, 50, 0.9)'; // Semi-transparent black
-		shadowCtx.fillRect(0, 0, shadowCanvas.width, shadowCanvas.height);
-		shadowCtx.filter = 'blur(2px)'
+		// shadowCtx.globalCompositeOperation = 'source-atop';
+		// shadowCtx.fillStyle = 'rgba(50, 50, 50, 0.9)'; // Semi-transparent black
+		// shadowCtx.fillRect(0, 0, shadowCanvas.width, shadowCanvas.height);
+		// shadowCtx.filter = 'blur(2px)'
 
 		// Apply transformation for perspective (this part is highly dependent on your game's perspective)
-		// shadowCtx.setTransform(1, 0, -0.5, 0.5, 0, 0); // Example transformation
+		// // shadowCtx.setTransform(1, 0, -0.5, 0.5, 0, 0); // Example transformation
 		// Step 3: Draw the shadow on the main canvas with an offset
-		ctx.drawImage(shadowCanvas, 5, 5);
+		// ctx.drawImage(shadowCanvas, 5, 5);
 
-		shadowCtx.globalCompositeOperation = 'source-over';
-		shadowCtx.clearRect(0, 0, innerWidth, innerHeight)
+		// shadowCtx.globalCompositeOperation = 'source-over';
+		// shadowCtx.clearRect(0, 0, innerWidth, innerHeight)
 
 		draw_objects(dt)
 
