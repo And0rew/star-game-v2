@@ -99,6 +99,7 @@
 			40: "Down",
 			69: "e",
 			70: "f",
+			73: "i",
 			187: "Plus",
 			189: "Minus"
 		}
@@ -209,7 +210,7 @@
 				}
 			} else if (keys[event.keyCode] === "f") {
 				if (Game.state.objects["vilTrader"] && Game.state.objects[Game.myId]) {
-					if (Game.isTrade === false) {
+					if (Game.isTrade === false && Game.isInventory === false) {
 						var villT = Game.state.objects["vilTrader"]
 						var myPlayerForF = Game.state.objects[Game.myId]
 						if (modul(villT.x - myPlayerForF.x) < 80 && modul(villT.y - myPlayerForF.y) < 80) {
@@ -220,6 +221,14 @@
 						console.log("isTradeOffF")
 						Game.isTrade = false
 					}
+				}
+			} else if (keys[event.keyCode] === "i") {
+				if (Game.isInventory === false && Game.isTrade === false) {	
+					console.log("isInventoryOnF")
+					Game.isInventory = true
+				} else if (Game.isInventory === true) {
+					console.log("isInventoryOffF")
+					Game.isInventory = false
 				}
 			}
 		});
@@ -304,6 +313,9 @@
 						var sellcost = bigTradeObjects[buyWeapon][2] - bigTradeObjects[buyWeapon][2] / 4
 						console.log(newWeaponFromShop + " " + sellcost)
 						if (myPlayer.inventory.gold < bigTradeObjects[buyWeapon][2]) {
+							return
+						}
+						if (myPlayer.inventory.guns.length > 39) {
 							return
 						}
 						myPlayer.inventory.gold = myPlayer.inventory.gold - bigTradeObjects[buyWeapon][2]

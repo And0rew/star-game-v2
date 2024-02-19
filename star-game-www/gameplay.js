@@ -89,7 +89,12 @@ function spawnMe() {
         hitpoints,
         max_hitpoints: hitpoints,
 
-        map: 'sand_planet'
+        map: 'sand_planet',
+
+        inventory: {
+            gold: 1000,
+            guns: [["weapon1", '15', 15], ["weapon2", '11', 11], ["weapon3", '22', 22]]
+        }
     })
 }
 
@@ -140,7 +145,12 @@ function spawn_players() {
         hitpoints: 300,
         max_hitpoints: 300,
 
-        map: 'sand_planet'
+        map: 'sand_planet',
+
+        inventory: {
+            gold: 1000,
+            guns: [["weapon1", '15', 15], ["weapon2", '11', 11], ["weapon3", '22', 22]]
+        }
     })
 
     game_update(['objects', 'playerMixer'], {
@@ -169,7 +179,12 @@ function spawn_players() {
         hitpoints: 300,
         max_hitpoints: 300,
 
-        map: 'sand_planet'
+        map: 'sand_planet',
+
+        inventory: {
+            gold: 1000,
+            guns: [["weapon1", '15', 15], ["weapon2", '11', 11], ["weapon3", '22', 22]]
+        }
     })
 }
 
@@ -197,6 +212,28 @@ function spawn_shopping_player() {
             gold: 1000,
             guns: [["weapon1", '15', 15], ["weapon2", '11', 11], ["weapon3", '22', 22]]
         }
+    })
+}
+
+function spawn_trader() {
+    game_update(['objects', 'vilTrader'], {
+        id: 'vilTrader',
+        x: 200,
+        y: 100,
+
+        look: 'trooper1',
+        ai: ['trooper', 'hitpoints'],
+
+        g: 0,
+        vx: 0,
+        vy: 0,
+        v: 0.2,
+
+        nickName: 'Торговец',
+        hitpoints: 100,
+        max_hitpoints: 100,
+
+        map: 'sand_planet',
     })
 }
 

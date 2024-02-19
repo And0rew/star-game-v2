@@ -10,7 +10,8 @@ var Game = {
     },
     bloock_r: 1,
     X_Y_block: 40,
-	isTrade: false
+	isTrade: false,
+	isInventory: false
 }
 var bigTradeObjects = [["weapon1", "20", 20], ["weapon2", "15", 15], ["weapon3", "30", 30], ["weapon4", "25", 25], ["weapon5", "35", 35], ["weapon6", "35", 35], ["weapon7", "80", 80], ["weapon8", "100", 100], ["weapon9", "30", 30], ["weapon10", "60", 60], ["weapon11", "120", 120]];
 
@@ -50,6 +51,8 @@ var start_game = function(canvas, ctx) {
 	game_loadImage('ship_6', 'pix/ship_6.png')
 	game_loadImage('rock1', 'pix/rock1.png')
 	game_loadImage('car0', 'pix/car0.png')
+	game_loadImage('human', 'pix/human.png')
+	game_loadImage('pistolForInv', 'pix/pistolForInv.png')
 
 	game_loadImage('gatecenter1', 'pix/gatecenter1.png') //деревня песка
 	game_loadImage('gateup1', 'pix/gateup1.png')
@@ -512,12 +515,12 @@ var start_game = function(canvas, ctx) {
 			}
 		}
 		ctx.fillStyle = "#e5aa7a"
-		ctx.fillRect(scaleX + 110, scaleY, 505, 550)
+		ctx.fillRect(scaleX + 110, scaleY, 495, 550)
 		ctx.fillStyle = "Grey"
 		for (var x = 0; x < 55 * 4; x = x + 55) {
 			for (var y = 0; y < 55 * 10; y = y + 55) {
-				ctx.fillRect(x + scaleX + 615, y + scaleY, 55, 55)
-				ctx.strokeRect(x + scaleX + 615, y + scaleY, 55, 55);
+				ctx.fillRect(x + scaleX + 605, y + scaleY, 55, 55)
+				ctx.strokeRect(x + scaleX + 605, y + scaleY, 55, 55);
 			}
 		}
 
@@ -527,7 +530,7 @@ var start_game = function(canvas, ctx) {
         ctx.textBaseline = "top";
 		ctx.fillText("Buy", scaleX + 120, scaleY + 5);
 		ctx.textAlign = "right";
-		ctx.fillText("Sell", scaleX + 610, scaleY + 5);
+		ctx.fillText("Sell", scaleX + 600, scaleY + 5);
 		ctx.textAlign = "left";
 		ctx.font = "15px Comic Sans MS";
 
@@ -590,20 +593,138 @@ var start_game = function(canvas, ctx) {
 				ctx.drawImage(
 					tex2P,
 
-					scaleX + (55 * xShopNowP) + 615,
+					scaleX + (55 * xShopNowP) + 605,
 					scaleY + (55 * yShopNowP),
 
 					forImg(55, tex2P.width, tex2P.height)[0],
 					forImg(55, tex2P.width, tex2P.height)[1]
 				)
-				ctx.fillText(myPlayerShopping.inventory.guns[justCorP][1], scaleX + (55 * xShopNowP) + 630, scaleY + (55 * yShopNowP) + 40);
+				ctx.fillText(myPlayerShopping.inventory.guns[justCorP][1], scaleX + (55 * xShopNowP) + 620, scaleY + (55 * yShopNowP) + 40);
 				yShopNowP++
 			}
 		ctx.font = "20px Comic Sans MS";
 		ctx.fillStyle = "Black"
         ctx.textBaseline = "top";
 		ctx.textAlign = "right";
-		ctx.fillText("Gold: " + myPlayerShopping.inventory.gold, scaleX + 610, scaleY + 35);
+		ctx.fillText("Gold: " + myPlayerShopping.inventory.gold, scaleX + 600, scaleY + 35);
+		}
+		ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+		ctx.font = "11px Arial";
+	}
+
+	var textI = "sand0"
+	var tex2I
+	var draw_inventory = function () {
+		if (Game.isInventory === false) {
+			return
+		}
+		//посчитать scale x и scale y
+		scaleX = (window.innerWidth - 840) / 2;
+		scaleY = (window.innerHeight - 555) / 2
+		ctx.fillStyle = "Grey"
+		ctx.strokeStyle = "Black"
+		ctx.lineWidth = 1;
+		ctx.fillStyle = "#e5aa7a"
+		ctx.fillRect(scaleX, scaleY, 495, 550)
+		ctx.fillStyle = "Grey"
+		for (var x = 0; x < 55 * 4; x = x + 55) {
+			for (var y = 0; y < 55 * 10; y = y + 55) {
+				ctx.fillRect(x + scaleX + 495, y + scaleY, 55, 55)
+				ctx.strokeRect(x + scaleX + 495, y + scaleY, 55, 55);
+			}
+		}
+
+		ctx.fillRect(scaleX + 390, scaleY + 55, 55, 55)
+		ctx.strokeRect(scaleX + 390, scaleY + 55, 55, 55);
+
+		var textI = "sand0"
+		var tex2I
+
+		textI = "pistolForInv"
+
+		if (Game.resources[textI]) {
+			tex2I = Game.resources[textI]
+		}
+
+		if (!tex2I) {
+			return
+		}
+
+		ctx.drawImage(
+			tex2I,
+
+			scaleX + 390,
+			scaleY + 55,
+
+			forImg(55, tex2I.width, tex2I.height)[0],
+			forImg(55, tex2I.width, tex2I.height)[1]
+		)
+		
+		var myPlayer = Game.state.objects[Game.myId];
+		var yINow = 0
+		var xINow = 0
+		var textP
+		var tex2P
+
+		ctx.textBaseline = "top";
+		ctx.textAlign = "left";
+		ctx.font = "15px Comic Sans MS";
+		ctx.fillStyle = "Black"
+		if (myPlayer && myPlayer.inventory) {
+			for (var justCorP = 0; justCorP < myPlayer.inventory.guns.length; justCorP++) {
+
+
+				if (yINow > 9) {
+					xINow++
+					yINow -= 10
+				}
+
+				textP = myPlayer.inventory.guns[justCorP][0]
+
+				if (Game.resources[textP]) {
+					tex2P = Game.resources[textP]
+				}
+
+				if (!tex2P) {
+					return
+				}
+
+				ctx.drawImage(
+					tex2P,
+
+					scaleX + (55 * xINow) + 495,
+					scaleY + (55 * yINow),
+
+					forImg(55, tex2P.width, tex2P.height)[0],
+					forImg(55, tex2P.width, tex2P.height)[1]
+				)
+				ctx.fillText(myPlayer.inventory.guns[justCorP][1], scaleX + (55 * xINow) + 510, scaleY + (55 * yINow) + 40);
+				yINow++
+			}
+		}
+		console.log(myPlayer.gun)
+		if (myPlayer.gun !== undefined) {
+			console.log(myPlayer.gun !== undefined)
+			textP = myPlayer.gun
+
+			if (Game.resources[textP]) {
+				tex2P = Game.resources[textP]
+			}
+
+			if (!tex2P) {
+				return
+			}
+
+			ctx.drawImage(
+				tex2P,
+
+				scaleX + 390,
+				scaleY + 55,
+
+				forImg(55, tex2P.width, tex2P.height)[0],
+				forImg(55, tex2P.width, tex2P.height)[1]
+			)
 		}
 		ctx.textAlign = "left";
         ctx.textBaseline = "middle";
@@ -647,6 +768,8 @@ var start_game = function(canvas, ctx) {
 		draw_shots(dt)
 
 		draw_trade()
+
+		draw_inventory()
 
 		window.requestAnimationFrame(render)
 	}
