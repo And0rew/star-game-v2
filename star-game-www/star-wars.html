@@ -209,11 +209,16 @@
 				}
 			} else if (keys[event.keyCode] === "f") {
 				if (Game.state.objects["vilTrader"] && Game.state.objects[Game.myId]) {
-					var villT = Game.state.objects["vilTrader"]
-					var myPlayerForF = Game.state.objects[Game.myId]
-					if (modul(villT.x - myPlayerForF.x) < 80 && modul(villT.y - myPlayerForF.y) < 80) {
-						console.log("isTradeOnF")
-						Game.isTrade = true
+					if (Game.isTrade === false) {
+						var villT = Game.state.objects["vilTrader"]
+						var myPlayerForF = Game.state.objects[Game.myId]
+						if (modul(villT.x - myPlayerForF.x) < 80 && modul(villT.y - myPlayerForF.y) < 80) {
+							console.log("isTradeOnF")
+							Game.isTrade = true
+						}
+					} else if (Game.isTrade === true) {
+						console.log("isTradeOffF")
+						Game.isTrade = false
 					}
 				}
 			}
@@ -288,14 +293,42 @@
 				var scaleY = (window.innerHeight - 555) / 2
 				var xcell = Math.floor((xmouse - scaleX) / 55)
 				var ycell = Math.floor((ymouse - scaleY) / 55)
-				if (xcell > 9) {
-					xcell = xcell - 10
+				if (ycell > 9 || ycell < 0) {
+					return
 				}
-				var cellWeapon = xcell * 10 + ycell
-				var newWeaponFromShop = bigTradeObjects[cellWeapon][0]
-				var sellcost = bigTradeObjects[cellWeapon][2] - bigTradeObjects[cellWeapon][2] / 4
-				console.log(newWeaponFromShop + " " + sellcost)
-				myPlayer.inventory.guns.push([newWeaponFromShop, sellcost])
+				if (xcell < 2 && xcell > -1) {
+					console.log(xcell + " " + ycell)
+					var buyWeapon = xcell * 10 + ycell
+					if (bigTradeObjects[buyWeapon] !== undefined) {
+						var newWeaponFromShop = bigTradeObjects[buyWeapon][0]
+						var sellcost = bigTradeObjects[buyWeapon][2] - bigTradeObjects[buyWeapon][2] / 4
+						console.log(newWeaponFromShop + " " + sellcost)
+						if (myPlayer.inventory.gold < bigTradeObjects[buyWeapon][2]) {
+							return
+						}
+						myPlayer.inventory.gold = myPlayer.inventory.gold - bigTradeObjects[buyWeapon][2]
+						myPlayer.inventory.guns.push([newWeaponFromShop, sellcost + '', sellcost])
+						game_update(["objects", myPlayer.id, "inventory", "gold"], myPlayer.inventory.gold)
+						game_update(["objects", myPlayer.id, "inventory", "guns"], myPlayer.inventory.guns)
+					}
+				} else if (xcell > 10 && xcell < 15) {
+					console.log("sell " + xcell + " " + ycell)
+					var sellWeapon = (xcell - 11) * 10 + ycell
+					if (myPlayer.inventory.guns[sellWeapon] !== undefined) {
+						var oldWeaponToShop = myPlayer.inventory.guns[sellWeapon][0]
+						console.log(oldWeaponToShop)
+						myPlayer.inventory.gold = myPlayer.inventory.gold + myPlayer.inventory.guns[sellWeapon][2]
+						myPlayer.inventory.guns = myPlayer.inventory.guns.filter((el, index) => {
+    						console.log('filter', el, index)
+   							if (index === sellWeapon) {
+      							return false
+   							}
+    						return true
+						})
+						game_update(["objects", myPlayer.id, "inventory", "gold"], myPlayer.inventory.gold)
+						game_update(["objects", myPlayer.id, "inventory", "guns"], myPlayer.inventory.guns)
+					}
+				}
 			} else {
 				save = _.size(Game.state.shots)
 

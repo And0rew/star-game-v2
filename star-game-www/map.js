@@ -607,7 +607,7 @@ var start_game = function(canvas, ctx) {
 		}
 		ctx.textAlign = "left";
         ctx.textBaseline = "middle";
-		ctx.font = "15px Arial";
+		ctx.font = "11px Arial";
 	}
 
 	setTimeout(() => {

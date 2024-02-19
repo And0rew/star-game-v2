@@ -195,7 +195,7 @@ function spawn_shopping_player() {
 
         inventory: {
             gold: 1000,
-            guns: [["weapon1", "15"], ["weapon2", "11"], ["weapon3", "22"]]
+            guns: [["weapon1", '15', 15], ["weapon2", '11', 11], ["weapon3", '22', 22]]
         }
     })
 }
