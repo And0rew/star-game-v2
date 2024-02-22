@@ -13,7 +13,7 @@ var Game = {
 	isTrade: false,
 	isInventory: false
 }
-var bigTradeObjects = [["weapon1", "20", 20], ["weapon2", "15", 15], ["weapon3", "30", 30], ["weapon4", "25", 25], ["weapon5", "35", 35], ["weapon6", "35", 35], ["weapon7", "80", 80], ["weapon8", "100", 100], ["weapon9", "30", 30], ["weapon10", "60", 60], ["weapon11", "120", 120]];
+var bigTradeObjects = [["weapon1", "30", 30], ["weapon2", "35", 35], ["weapon3", "45", 45], ["weapon4", "25", 25], ["weapon5", "30", 30], ["weapon6", "40", 40], ["weapon7", "60", 60], ["weapon8", "40", 40], ["weapon9", "100", 100], ["weapon10", "60", 60], ["weapon11", "225", 225]];
 
 function get_block_from_coords(x, y) {
 	let block_num_x = Math.floor(x / Game.X_Y_block)
@@ -40,6 +40,7 @@ var start_game = function(canvas, ctx) {
 	game_loadImage('enemy404', 'pix/enemy404.png')
 	game_loadImage('shot1', 'pix/shot1.png')
 	game_loadImage('shot_round', 'pix/shot_round.png')
+	game_loadImage('shot_fireball', 'pix/shot_fireball.png')
 	game_loadImage('tower1', 'pix/tower1.png')
 	game_loadImage('space1', 'pix/space1.png')
 	game_loadImage('ship_0', 'pix/ship_0.png')
@@ -134,12 +135,22 @@ var start_game = function(canvas, ctx) {
 	game_loadImage('weapon5', 'pix/weapon5.png')
 	game_loadImage('weapon6', 'pix/weapon6.png')
 	game_loadImage('weapon7', 'pix/weapon7.png')
-	game_loadImage('weapon7_sm', 'pix/weapon7_sm.png')
 	game_loadImage('weapon8', 'pix/weapon8.png')
-	game_loadImage('weapon8_sm', 'pix/weapon8_sm.png')
 	game_loadImage('weapon9', 'pix/weapon9.png')
 	game_loadImage('weapon10', 'pix/weapon10.png')
 	game_loadImage('weapon11', 'pix/weapon11.png')
+
+	game_loadImage('weapon1_sm', 'pix/weapon1_sm.png')
+	game_loadImage('weapon2_sm', 'pix/weapon2_sm.png')
+	game_loadImage('weapon3_sm', 'pix/weapon3_sm.png')
+	game_loadImage('weapon4_sm', 'pix/weapon4_sm.png')
+	game_loadImage('weapon5_sm', 'pix/weapon5_sm.png')
+	game_loadImage('weapon6_sm', 'pix/weapon6_sm.png')
+	game_loadImage('weapon7_sm', 'pix/weapon7_sm.png')
+	game_loadImage('weapon8_sm', 'pix/weapon8_sm.png')
+	game_loadImage('weapon9_sm', 'pix/weapon9_sm.png')
+	game_loadImage('weapon10_sm', 'pix/weapon10_sm.png')
+	game_loadImage('weapon11_sm', 'pix/weapon11_sm.png')
 
 	game_loadImage('planet_earth', 'pix/earth.png')
 	game_loadImage('planet_mars', 'pix/mars.png')
