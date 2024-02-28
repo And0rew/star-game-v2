@@ -54,6 +54,9 @@
 		<div>
 			<button onclick="spawn_guns()" >Spawn пушек</button>
 		</div>
+		<div>
+			<button onclick="spawnEnemies()" >Spawn вражек</button>
+		</div>
 	</div>
 	<canvas id = "canvas" width="1500" height="800"></canvas>
 	<!-- <img id="debugImg" /> -->
@@ -223,7 +226,7 @@
 					}
 				}
 			} else if (keys[event.keyCode] === "i") {
-				if (Game.isInventory === false && Game.isTrade === false) {	
+				if (Game.isInventory === false && Game.isTrade === false) {
 					console.log("isInventoryOnF")
 					Game.isInventory = true
 				} else if (Game.isInventory === true) {

@@ -9,17 +9,17 @@ function addScript(label, func) {
     scripts[label] = func
 }
 
-function applyAI(object, game, dt) {
+function applyAI(object, game, dt, t) {
     if (!object.ai) {
         return
     }
-    
+
     const labels = _.isArray(object.ai) ? object.ai : [object.ai]
     for (const label of labels) {
         if (scripts[label]) {
             const func = scripts[label]
             try {
-                func(object, game, dt)
+                func(object, game, dt, t)
             } catch(e) {
                 console.log('AI apply error for ', label, object)
                 console.error(e)
