@@ -245,6 +245,32 @@
 		var xm = 0
 		var ym = 0
 
+		var getWeapon = function (weaponTex) {
+			if (weaponTex === "weapon1") {
+				return "weapon1"
+			} else if (weaponTex === "weapon2") {
+				return "weapon2"
+			} else if (weaponTex === "weapon3") {
+				return "weapon3"
+			} else if (weaponTex === "weapon4") {
+				return "weapon4"
+			} else if (weaponTex === "weapon5") {
+				return "weapon5"
+			} else if (weaponTex === "weapon6") {
+				return "weapon6"
+			} else if (weaponTex === "weapon7") {
+				return "shotgun_0"
+			} else if (weaponTex === "weapon8") {
+				return "assault_rifle_0"
+			} else if (weaponTex === "weapon9") {
+				return "weapon9"
+			} else if (weaponTex === "weapo10") {
+				return "weapo10"
+			} else if (weaponTex === "weapon11") {
+				return "weapon11"
+			}
+		}
+
 		var clickHandler = function (event) {
 			var xm = Math.floor((event.clientX + Game.camera[0]) / Game.bloock_r)
 			var ym = Math.floor((event.clientY + Game.camera[1]) / Game.bloock_r)
@@ -296,49 +322,86 @@
 		var clickHandlerV = function (event) {
 			if (Game.isTrade === true) {
 				var myPlayer = Game.state.objects[Game.myId]
-				var xmouse = event.pageX
-				var ymouse = event.pageY
-				var scaleX = (window.innerWidth - 840) / 2
-				var scaleY = (window.innerHeight - 555) / 2
-				var xcell = Math.floor((xmouse - scaleX) / 55)
-				var ycell = Math.floor((ymouse - scaleY) / 55)
-				if (ycell > 9 || ycell < 0) {
-					return
-				}
-				if (xcell < 2 && xcell > -1) {
-					console.log(xcell + " " + ycell)
-					var buyWeapon = xcell * 10 + ycell
-					if (bigTradeObjects[buyWeapon] !== undefined) {
-						var newWeaponFromShop = bigTradeObjects[buyWeapon][0]
-						var sellcost = bigTradeObjects[buyWeapon][2] - bigTradeObjects[buyWeapon][2] / 4
-						console.log(newWeaponFromShop + " " + sellcost)
-						if (myPlayer.inventory.gold < bigTradeObjects[buyWeapon][2]) {
-							return
-						}
-						if (myPlayer.inventory.guns.length > 39) {
-							return
-						}
-						myPlayer.inventory.gold = myPlayer.inventory.gold - bigTradeObjects[buyWeapon][2]
-						myPlayer.inventory.guns.push([newWeaponFromShop, sellcost + '', sellcost])
-						game_update(["objects", myPlayer.id, "inventory", "gold"], myPlayer.inventory.gold)
-						game_update(["objects", myPlayer.id, "inventory", "guns"], myPlayer.inventory.guns)
+				if (myPlayer) {
+					var xmouse = event.pageX
+					var ymouse = event.pageY
+					var scaleX = (window.innerWidth - 840) / 2
+					var scaleY = (window.innerHeight - 555) / 2
+					var xcell = Math.floor((xmouse - scaleX) / 55)
+					var ycell = Math.floor((ymouse - scaleY) / 55)
+					if (ycell > 9 || ycell < 0) {
+						return
 					}
-				} else if (xcell > 10 && xcell < 15) {
-					console.log("sell " + xcell + " " + ycell)
-					var sellWeapon = (xcell - 11) * 10 + ycell
-					if (myPlayer.inventory.guns[sellWeapon] !== undefined) {
-						var oldWeaponToShop = myPlayer.inventory.guns[sellWeapon][0]
-						console.log(oldWeaponToShop)
-						myPlayer.inventory.gold = myPlayer.inventory.gold + myPlayer.inventory.guns[sellWeapon][2]
-						myPlayer.inventory.guns = myPlayer.inventory.guns.filter((el, index) => {
-    						console.log('filter', el, index)
-   							if (index === sellWeapon) {
-      							return false
-   							}
-    						return true
-						})
-						game_update(["objects", myPlayer.id, "inventory", "gold"], myPlayer.inventory.gold)
-						game_update(["objects", myPlayer.id, "inventory", "guns"], myPlayer.inventory.guns)
+					if (xcell < 2 && xcell > -1) {
+						console.log(xcell + " " + ycell)
+						var buyWeapon = xcell * 10 + ycell
+						if (bigTradeObjects[buyWeapon] !== undefined) {
+							var newWeaponFromShop = bigTradeObjects[buyWeapon][0]
+							var newWeaponSetting = getWeapon(newWeaponFromShop)
+							var sellcost = bigTradeObjects[buyWeapon][2] - bigTradeObjects[buyWeapon][2] / 4
+							console.log(newWeaponFromShop + " " + sellcost)
+							if (myPlayer.inventory.gold < bigTradeObjects[buyWeapon][2]) {
+								return
+							}
+							if (myPlayer.inventory.guns.length > 39) {
+								return
+							}
+							myPlayer.inventory.gold = myPlayer.inventory.gold - bigTradeObjects[buyWeapon][2]
+							myPlayer.inventory.guns.push([newWeaponSetting, sellcost + '', sellcost])
+							game_update(["objects", myPlayer.id, "inventory", "gold"], myPlayer.inventory.gold)
+							game_update(["objects", myPlayer.id, "inventory", "guns"], myPlayer.inventory.guns)
+						}
+					} else if (xcell > 10 && xcell < 15) {
+						console.log("sell " + xcell + " " + ycell)
+						var sellWeapon = (xcell - 11) * 10 + ycell
+						if (myPlayer.inventory.guns[sellWeapon] !== undefined) {
+							var oldWeaponToShop = myPlayer.inventory.guns[sellWeapon][0]
+							console.log(oldWeaponToShop)
+							myPlayer.inventory.gold = myPlayer.inventory.gold + myPlayer.inventory.guns[sellWeapon][2]
+							myPlayer.inventory.guns = myPlayer.inventory.guns.filter((el, index) => {
+								console.log('filter', el, index)
+								if (index === sellWeapon) {
+									return false
+								}
+								return true
+							})
+							game_update(["objects", myPlayer.id, "inventory", "gold"], myPlayer.inventory.gold)
+							game_update(["objects", myPlayer.id, "inventory", "guns"], myPlayer.inventory.guns)
+						}
+					}
+				}
+			} else if (Game.isInventory === true) {
+				var myPlayer = Game.state.objects[Game.myId]
+				if (myPlayer) {
+					var xmouse = event.pageX
+					var ymouse = event.pageY
+					var scaleX = (window.innerWidth - 840) / 2
+					var scaleY = (window.innerHeight - 555) / 2
+					var xcell = Math.floor((xmouse - scaleX) / 55)
+					var ycell = Math.floor((ymouse - scaleY) / 55)
+					if (ycell > 9 || ycell < 0) {
+						return
+					}
+					if (xcell < 13 && xcell > 8) {
+						console.log(xcell + " " + ycell)
+						var invWeapon = (xcell - 9) * 10 + ycell
+						console.log(invWeapon)
+						console.log(myPlayer.inventory.guns[invWeapon])
+						if (myPlayer.inventory.guns[invWeapon] !== undefined) {
+							if (myPlayer.gun !== undefined) {
+								myPlayer.inventory.guns.push([myPlayer.gun, myPlayer.gunSell[0], myPlayer.gunSell[1]])
+								myPlayer.gun = myPlayer.inventory.guns[invWeapon][0]
+								myPlayer.gunSell = [myPlayer.inventory.guns[invWeapon][1], myPlayer.inventory.guns[invWeapon][2]]
+								game_update(["objects", myPlayer.id, "inventory", "guns"], myPlayer.inventory.guns)
+								game_update(["objects", myPlayer.id, "gun"], myPlayer.gun)
+								game_update(["objects", myPlayer.id, "gunSell"], myPlayer.gunSell)
+							} else {
+								myPlayer.gun = myPlayer.inventory.guns[invWeapon][0]
+								myPlayer.gunSell = [myPlayer.inventory.guns[invWeapon][1], myPlayer.inventory.guns[invWeapon][2]]
+								game_update(["objects", myPlayer.id, "gun"], myPlayer.gun)
+								game_update(["objects", myPlayer.id, "gunSell"], myPlayer.gunSell)
+							}
+						}
 					}
 				}
 			} else {

@@ -554,7 +554,6 @@ var start_game = function(canvas, ctx) {
 				xShopNow++
 				yShopNow -= 10
 			}
-
 			text = bigTradeObjects[justCor][0]
 
 			if (Game.resources[text]) {
@@ -581,18 +580,19 @@ var start_game = function(canvas, ctx) {
 		var yShopNowP = 0
 		var textP = "sand0"
 		var tex2P
+		var doTexP
 		var myPlayerShopping = Game.state.objects[Game.myId];
 		if (myPlayerShopping && myPlayerShopping.inventory) {
 			for (var justCorP = 0; justCorP < myPlayerShopping.inventory.guns.length; justCorP++) {
 
-
+				
 				if (yShopNowP > 9) {
 					xShopNowP++
 					yShopNowP -= 10
 				}
-
-				textP = myPlayerShopping.inventory.guns[justCorP][0]
-
+				doTexP = myPlayerShopping.inventory.guns[justCorP][0]
+				textP = ALL_GUNS[doTexP].tex
+				textP = textP.slice(0, textP.length - 3)
 				if (Game.resources[textP]) {
 					tex2P = Game.resources[textP]
 				}
@@ -651,7 +651,6 @@ var start_game = function(canvas, ctx) {
 
 		var textI = "sand0"
 		var tex2I
-
 		textI = "pistolForInv"
 
 		if (Game.resources[textI]) {
@@ -677,12 +676,13 @@ var start_game = function(canvas, ctx) {
 		var xINow = 0
 		var textP
 		var tex2P
+		var doTexP
 
 		ctx.textBaseline = "top";
 		ctx.textAlign = "left";
 		ctx.font = "15px Comic Sans MS";
 		ctx.fillStyle = "Black"
-		if (myPlayer && myPlayer.inventory) {
+		if (myPlayer && myPlayer.inventory && myPlayer.inventory.guns[0]) {
 			for (var justCorP = 0; justCorP < myPlayer.inventory.guns.length; justCorP++) {
 
 
@@ -690,8 +690,10 @@ var start_game = function(canvas, ctx) {
 					xINow++
 					yINow -= 10
 				}
+				doTexP = myPlayer.inventory.guns[justCorP][0]
+				textP = ALL_GUNS[doTexP].tex
+				textP = textP.slice(0, textP.length - 3)
 
-				textP = myPlayer.inventory.guns[justCorP][0]
 
 				if (Game.resources[textP]) {
 					tex2P = Game.resources[textP]
@@ -716,8 +718,9 @@ var start_game = function(canvas, ctx) {
 		}
 		console.log(myPlayer.gun)
 		if (myPlayer.gun !== undefined) {
-			console.log(myPlayer.gun !== undefined)
-			textP = myPlayer.gun
+			var textP1 = myPlayer.gun
+			var textP2 = ALL_GUNS[textP1].tex
+			var textP = textP2.slice(0, textP2.length - 3)
 
 			if (Game.resources[textP]) {
 				tex2P = Game.resources[textP]

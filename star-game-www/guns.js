@@ -3,7 +3,7 @@ let ALL_GUNS = {
     id: 'shotgun_0',
     name: 'Shotgun',
     tex: 'weapon7_sm',
-    ground: 'true',
+    ground: true,
     renderOpt: {
       w: 41,
       h: 20,
@@ -30,7 +30,7 @@ let ALL_GUNS = {
     id: 'assault_rifle_0',
     name: 'Assault Rifle',
     tex: 'weapon8_sm',
-    ground: 'true',
+    ground: true,
     renderOpt: {
       w: 55,
       h: 25,
@@ -53,11 +53,11 @@ let ALL_GUNS = {
       }
     }
   },
-  test_weapon1: {
-    id: 'test_weapon1',
-    name: 'test_weapon1',
+  weapon1: {
+    id: 'weapon1',
+    name: 'weapon1',
     tex: 'weapon1_sm',
-    ground: 'true',
+    ground: true,
     renderOpt: {
       w: 39,
       h: 30,
@@ -78,11 +78,11 @@ let ALL_GUNS = {
       spawnOneShot({ object, gun, g: object.g })
     }
   },
-  test_weapon2: {
-    id: 'test_weapon2',
-    name: 'test_weapon2',
+  weapon2: {
+    id: 'weapon2',
+    name: 'weapon2',
     tex: 'weapon2_sm',
-    ground: 'true',
+    ground: true,
     renderOpt: {
       w: 29,
       h: 28,
@@ -104,11 +104,11 @@ let ALL_GUNS = {
       spawnOneShot({ object, gun, g: object.g })
     }
   },
-  test_weapon3: {
-    id: 'test_weapon3',
-    name: 'test_weapon3',
+  weapon3: {
+    id: 'weapon3',
+    name: 'weapon3',
     tex: 'weapon3_sm',
-    ground: 'true',
+    ground: true,
     renderOpt: {
       w: 38,
       h: 28,
@@ -136,11 +136,11 @@ let ALL_GUNS = {
       }, 200)
     }
   },
-  test_weapon4: {
-    id: 'test_weapon4',
-    name: 'test_weapon4',
+  weapon4: {
+    id: 'weapon4',
+    name: 'weapon4',
     tex: 'weapon4_sm',
-    ground: 'true',
+    ground: true,
     renderOpt: {
       w: 32,
       h: 25,
@@ -175,11 +175,11 @@ let ALL_GUNS = {
       }, 500)
     }
   },
-  test_weapon5: {
-    id: 'test_weapon5',
-    name: 'test_weapon5',
+  weapon5: {
+    id: 'weapon5',
+    name: 'weapon5',
     tex: 'weapon5_sm',
-    ground: 'true',
+    ground: true,
     renderOpt: {
       w: 35,
       h: 25,
@@ -201,11 +201,11 @@ let ALL_GUNS = {
       spawnOneShot({ object, gun, g: object.g })
     }
   },
-  test_weapon6: {
-    id: 'test_weapon6',
-    name: 'test_weapon6',
+  weapon6: {
+    id: 'weapon6',
+    name: 'weapon6',
     tex: 'weapon6_sm',
-    ground: 'true',
+    ground: true,
     renderOpt: {
       w: 33,
       h: 22,
@@ -231,11 +231,11 @@ let ALL_GUNS = {
       spawnOneShot({ object, gun, g: object.g + 2 })
     }
   },
-  test_weapon9: {
-    id: 'test_weapon9',
-    name: 'test_weapon9',
+  weapon9: {
+    id: 'weapon9',
+    name: 'weapon9',
     tex: 'weapon9_sm',
-    ground: 'true',
+    ground: true,
     renderOpt: {
       w: 26,
       h: 23,
@@ -260,11 +260,11 @@ let ALL_GUNS = {
       spawnOneShot({ object, gun, g: object.g + 4 })
     }
   },
-  test_weapon10: {
-    id: 'test_weapon10',
-    name: 'test_weapon10',
+  weapon10: {
+    id: 'weapon10',
+    name: 'weapon10',
     tex: 'weapon10_sm',
-    ground: 'true',
+    ground: true,
     renderOpt: {
       w: 40,
       h: 24,
@@ -288,11 +288,11 @@ let ALL_GUNS = {
       spawnOneShot({ object, gun, g: object.g + 2 })
     }
   },
-  test_weapon11: {
-    id: 'test_weapon11',
-    name: 'test_weapon11',
+  weapon11: {
+    id: 'weapon11',
+    name: 'weapon11',
     tex: 'weapon11_sm',
-    ground: 'true',
+    ground: true,
     renderOpt: {
       w: 59,
       h: 23,
@@ -327,33 +327,33 @@ function spawn_guns() {
   for (let i in ALL_GUNS) {
     let gun = ALL_GUNS[i]
     let id = genId()
-
-    if (gun.ground === false) {
-      continue
+    
+    console.log(gun)
+    console.log(gun.ground)
+    if (gun.ground === true) {
+      game_update(['objects', id], {
+        type: 'gun',
+  
+        id: id,
+        gunId: gun.id,
+  
+        x: fromX,
+        y: fromY,
+  
+        g: 0, vx: 0, vy: 0, v: 0,
+  
+        look: gun.tex,
+        map: 'sand_planet',
+  
+        renderOpt: {
+          noShadow: true,
+        },
+  
+        render_layer: 1,
+      })
+  
+      fromY += stepY
     }
-
-    game_update(['objects', id], {
-      type: 'gun',
-
-      id: id,
-      gunId: gun.id,
-
-      x: fromX,
-      y: fromY,
-
-      g: 0, vx: 0, vy: 0, v: 0,
-
-      look: gun.tex,
-      map: 'sand_planet',
-
-      renderOpt: {
-        noShadow: true,
-      },
-
-      render_layer: 1,
-    })
-
-    fromY += stepY
   }
 }
 
