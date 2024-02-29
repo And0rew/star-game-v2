@@ -100,6 +100,7 @@
 			69: "e",
 			70: "f",
 			73: "i",
+			87: "w",
 			187: "Plus",
 			189: "Minus"
 		}
@@ -392,15 +393,38 @@
 								myPlayer.inventory.guns.push([myPlayer.gun, myPlayer.gunSell[0], myPlayer.gunSell[1]])
 								myPlayer.gun = myPlayer.inventory.guns[invWeapon][0]
 								myPlayer.gunSell = [myPlayer.inventory.guns[invWeapon][1], myPlayer.inventory.guns[invWeapon][2]]
+								myPlayer.inventory.guns = myPlayer.inventory.guns.filter((el, index) => {
+									console.log('filter', el, index)
+									if (index === invWeapon) {
+										return false
+									}
+									return true
+								})
 								game_update(["objects", myPlayer.id, "inventory", "guns"], myPlayer.inventory.guns)
 								game_update(["objects", myPlayer.id, "gun"], myPlayer.gun)
 								game_update(["objects", myPlayer.id, "gunSell"], myPlayer.gunSell)
 							} else {
 								myPlayer.gun = myPlayer.inventory.guns[invWeapon][0]
 								myPlayer.gunSell = [myPlayer.inventory.guns[invWeapon][1], myPlayer.inventory.guns[invWeapon][2]]
+								myPlayer.inventory.guns = myPlayer.inventory.guns.filter((el, index) => {
+									if (index === invWeapon) {
+										return false
+									}
+									return true
+								})
 								game_update(["objects", myPlayer.id, "gun"], myPlayer.gun)
 								game_update(["objects", myPlayer.id, "gunSell"], myPlayer.gunSell)
 							}
+						}
+					} else if (xcell === 7 && ycell === 1) {
+						console.log(xcell + " " + ycell)
+						if (myPlayer.gun !== undefined) {
+							myPlayer.inventory.guns.push([myPlayer.gun, myPlayer.gunSell[0], myPlayer.gunSell[1]])
+							myPlayer.gun = undefined
+							myPlayer.gunSell = undefined
+							game_update(["objects", myPlayer.id, "inventory", "guns"], myPlayer.inventory.guns)
+							game_update(["objects", myPlayer.id, "gun"], myPlayer.gun)
+							game_update(["objects", myPlayer.id, "gunSell"], myPlayer.gunSell)
 						}
 					}
 				}

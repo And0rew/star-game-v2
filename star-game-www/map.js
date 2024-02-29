@@ -646,32 +646,36 @@ var start_game = function(canvas, ctx) {
 			}
 		}
 
-		ctx.fillRect(scaleX + 390, scaleY + 55, 55, 55)
-		ctx.strokeRect(scaleX + 390, scaleY + 55, 55, 55);
+		ctx.fillRect(scaleX + 385, scaleY + 55, 55, 55)
+		ctx.strokeRect(scaleX + 385, scaleY + 55, 55, 55);
 
-		var textI = "sand0"
-		var tex2I
-		textI = "pistolForInv"
-
-		if (Game.resources[textI]) {
-			tex2I = Game.resources[textI]
-		}
-
-		if (!tex2I) {
-			return
-		}
-
-		ctx.drawImage(
-			tex2I,
-
-			scaleX + 390,
-			scaleY + 55,
-
-			forImg(55, tex2I.width, tex2I.height)[0],
-			forImg(55, tex2I.width, tex2I.height)[1]
-		)
-		
 		var myPlayer = Game.state.objects[Game.myId];
+
+		if (myPlayer.gun === undefined) {
+
+			var textI = "sand0"
+			var tex2I
+			textI = "pistolForInv"
+
+			if (Game.resources[textI]) {
+				tex2I = Game.resources[textI]
+			}
+
+			if (!tex2I) {
+				return
+			}
+
+			ctx.drawImage(
+				tex2I,
+
+				scaleX + 385,
+				scaleY + 55,
+
+				forImg(55, tex2I.width, tex2I.height)[0],
+				forImg(55, tex2I.width, tex2I.height)[1]
+			)
+		}
+		
 		var yINow = 0
 		var xINow = 0
 		var textP
@@ -733,7 +737,7 @@ var start_game = function(canvas, ctx) {
 			ctx.drawImage(
 				tex2P,
 
-				scaleX + 390,
+				scaleX + 385,
 				scaleY + 55,
 
 				forImg(55, tex2P.width, tex2P.height)[0],
@@ -743,6 +747,10 @@ var start_game = function(canvas, ctx) {
 		ctx.textAlign = "left";
         ctx.textBaseline = "middle";
 		ctx.font = "11px Arial";
+	}
+
+	function drawTalk () {
+		
 	}
 
 	setTimeout(() => {
