@@ -64,6 +64,8 @@ function spawnMe() {
     localStorage.myNickname = nickName
 
     game_update(['objects', id], {
+        type: 'character',
+
         id: id,
         x: 200,
         y: 200,
@@ -78,7 +80,7 @@ function spawnMe() {
             ]
         },
 
-        ai: ['trooper', 'hitpoints'],
+        ai: ['hitpoints'],
 
         g: 0,
         vx: 0,
@@ -222,7 +224,7 @@ function spawn_trader() {
         y: 100,
 
         look: 'trooper1',
-        ai: ['trooper', 'hitpoints'],
+        ai: ['hitpoints'],
 
         g: 0,
         vx: 0,
@@ -234,6 +236,69 @@ function spawn_trader() {
         max_hitpoints: 100,
 
         map: 'sand_planet',
+    })
+}
+
+function spawnEnemies() {
+    const hitpoints = 300
+    const baseEnemy = {
+        type: 'character',
+
+        look: 'trooper_v2',
+        lookOptions: {
+            legsSpeed: 300,
+            ang: 180,
+            legs: [
+                'trooper_v2_legs_0',
+                'trooper_v2_legs_1'
+            ]
+        },
+        ai: ['trooper', 'hitpoints'],
+
+        g: 0,
+        vx: 0,
+        vy: 0,
+        v: 0.2,
+
+        hitpoints,
+        max_hitpoints: hitpoints,
+
+        map: 'sand_planet',
+
+        inventory: {
+            gold: 100,
+            guns: []
+        }
+    }
+
+    const id0 = genId()
+    game_update(['objects', id0], {
+        ...baseEnemy,
+        nickName: generateName(),
+        id: id0,
+        x: 300,
+        y: 300,
+        group: 'punks'
+    })
+
+    const id1 = genId()
+    game_update(['objects', id1], {
+        ...baseEnemy,
+        nickName: generateName(),
+        id: id1,
+        x: 300,
+        y: 600,
+        group: 'monks',
+    })
+
+    const id2 = genId()
+    game_update(['objects', id2], {
+        ...baseEnemy,
+        nickName: generateName(),
+        id: id2,
+        x: 600,
+        y: 600,
+        group: 'group0',
     })
 }
 
@@ -483,4 +548,25 @@ var new_game = function () {
     vy: 0,
     v: 0.2
     })
+}
+
+
+
+// Expanded arrays of first and last names
+const firstNames = ['Alex', 'Jax', 'Kai', 'Nova', 'Ryder', 'Sky', 'Zed', 'Mila', 'Trix', 'Luna', 'Ava', 'Leo', 'Mia', 'Niko', 'Sage', 'Tara', 'Zane', 'Eve', 'Jade', 'Kira'];
+const lastNames = ['Morrow', 'Vega', 'Knight', 'Rex', 'Steel', 'Phoenix', 'Shadow', 'Blaze', 'Frost', 'Storm', 'Drake', 'Hawk', 'Wolf', 'Cross', 'Stone', 'Bishop', 'Knight', 'Rogue', 'Spear', 'Fox'];
+
+// Function to generate a random integer between min and max (inclusive)
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// Function to generate a random name
+function generateName() {
+    const firstName = firstNames[getRandomInt(0, firstNames.length - 1)];
+    const lastName = lastNames[getRandomInt(0, lastNames.length - 1)];
+
+    return `${firstName} ${lastName}`;
 }

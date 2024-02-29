@@ -112,7 +112,7 @@ function update_world({ broadcast }) {
         const object = state.objects[objectId]
 
         if (object.ai) {
-            applyAI(object, game , dt)
+            applyAI(object, game , dt, t)
         }
 
         if (object.vx !== 0 || object.vy !== 0) {
@@ -260,7 +260,7 @@ function apply_delete_object(deleteObject) {
     }
 }
 
-function generate_object(id, x, y, look, groop, nickName, hitpoints, map, game) {
+function generate_object(id, x, y, look, group, nickName, hitpoints, map, game) {
     //_.set(state, ['objects', id], {
         console.log("generate_object")
         game.funcs.update(['objects', id, 'id'], id)
@@ -268,7 +268,7 @@ function generate_object(id, x, y, look, groop, nickName, hitpoints, map, game) 
         game.funcs.update(['objects', id, 'x'], x)
 
         game.funcs.update(['objects', id, 'look'], look)
-        game.funcs.update(['objects', id, 'groop'], groop)
+        game.funcs.update(['objects', id, 'group'], group)
         game.funcs.update(['objects', id, 'ai'], ['trooper', 'hitpoints'])
 
         game.funcs.update(['objects', id, 'g'], 0)
@@ -287,7 +287,7 @@ function generate_object(id, x, y, look, groop, nickName, hitpoints, map, game) 
         //     x,
         //     y,
         //     look,
-        //     groop,
+        //     group,
         //     ai: ['trooper', 'hitpoints'],
         //     g: 0,
         //     vx: 0,
@@ -307,7 +307,7 @@ function generate_object(id, x, y, look, groop, nickName, hitpoints, map, game) 
         y: y,
 
         look: look,
-        groop: groop,
+        group: group,
         ai: ['trooper', 'hitpoints'],
 
         g: 0,
@@ -628,7 +628,7 @@ function generatePalatk (who, game, map_name) {
         game.funcs.update(['objects', id, 'y'], palatkCorY)
 
         game.funcs.update(['objects', id, 'look'], "palatkAll")
-        game.funcs.update(['objects', id, 'groop'], "palatk")
+        game.funcs.update(['objects', id, 'group'], "palatk")
         game.funcs.update(['objects', id, 'ai'], ['trooper', 'hitpoints'])
 
         game.funcs.update(['objects', id, 'g'], 0)
@@ -646,7 +646,7 @@ function generatePalatk (who, game, map_name) {
             x: palatkCorX * 40,
             y: palatkCorY * 40,
             look: "palatkAll",
-            groop: "palatk",
+            group: "palatk",
             ai: ['trooper', 'hitpoints'],
             g: 0,
             vx: 0,
