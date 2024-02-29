@@ -598,12 +598,12 @@ function generateAllVilage(map, type) {
 }
 
 function generateTable(naph, x, y) {
-    generateSome("seatleft", naph, x, y)
-    generateSome("table1", naph, x + 1, y)
-    generateSome("seatright", naph, x + 2, y)
-    generateSome("seatleft", naph, x, y + 1)
-    generateSome("table1", naph, x + 1, y + 1)
-    generateSome("seatright", naph, x + 2, y + 1)
+    generateSome("seatleft", naph, x, y, "no")
+    generateSome("table1", naph, x + 1, y, "yes")
+    generateSome("seatright", naph, x + 2, y, "no")
+    generateSome("seatleft", naph, x, y + 1, "no")
+    generateSome("table1", naph, x + 1, y + 1, "yes")
+    generateSome("seatright", naph, x + 2, y + 1, "no")
 }
 var palatkCorX = 0
 var palatkCorY = 0
@@ -735,43 +735,44 @@ function generate_big_house() {
     for (var x = 0; x < 100; x++) {
         for (var y = 0; y < 100; y++) {
             map[x][y] = {
-                text: "nothing"
+                text: "nothing",
+                col: "no"
             }
         }
     }
-    generateSome("wallbhouseupleft", map, 0, 0)
+    generateSome("wallbhouseupleft", map, 0, 0, "yes")
     for (var x = 1; x < 12; x++) {
-        generateSome("wallbhouseup", map, x, 0)
+        generateSome("wallbhouseup", map, x, 0, "yes")
     }
-    generateSome("wallbhouseupright", map, 12, 0)
+    generateSome("wallbhouseupright", map, 12, 0, "yes")
     for (var y = 1; y < 7; y++) {
-        generateSome("wallbhouseright", map, 12, y)
+        generateSome("wallbhouseright", map, 12, y, "yes")
     }
-    generateSome("wallbhousedownright", map, 12, 7)
+    generateSome("wallbhousedownright", map, 12, 7, "yes")
     for (var x = 1; x < 12; x++) {
-        generateSome("wallbhousedown", map, x, 7)
+        generateSome("wallbhousedown", map, x, 7, "yes")
     }
-    generateSome("wallbhousedownleft", map, 0, 7)
+    generateSome("wallbhousedownleft", map, 0, 7, "yes")
     for (var y = 2; y < 7; y++) {
-        generateSome("wallbhouseleft", map, 0, y)
+        generateSome("wallbhouseleft", map, 0, y, "yes")
     }
-    generateSome("doorbhouse", map, 0, 1)
+    generateSome("doorbhouse", map, 0, 1, "no")
     for (var x = 1; x < 12; x++) {
         for (var y = 1; y < 7; y++) {
-            generateSome("floor", map, x, y)
+            generateSome("floor", map, x, y, "no")
         }
     }
     for (var x = 3; x < 12; x++) {
-        generateSome("table1", map, x, 5)
+        generateSome("table1", map, x, 5, "yes")
     }
 
     generateTable(map, 3, 1)
     generateTable(map, 6, 1)
     generateTable(map, 9, 1)
-    generateSome("seat1", map, 4, 4)
-    generateSome("seat1", map, 6, 4)
-    generateSome("seat1", map, 8, 4)
-    generateSome("seat1", map, 10, 4)
+    generateSome("seat1", map, 4, 4, "no")
+    generateSome("seat1", map, 6, 4, "no")
+    generateSome("seat1", map, 8, 4, "no")
+    generateSome("seat1", map, 10, 4, "no")
     return map
 }
 

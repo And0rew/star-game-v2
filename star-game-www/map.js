@@ -250,6 +250,11 @@ var start_game = function(canvas, ctx) {
 		for(var render_layer = 1; render_layer < 3; render_layer++) {
 			for (var key in Game.state.objects) {
 				var object = Game.state.objects[key]
+				if (object.id === Game.myId && object.map !== Game.currentMap) {
+					Game.currentMap = object.map
+					Game.camera = [-340, -200]
+					Game.bloock_r = 1
+				}
 
 				if (object.map && Game.currentMap !== object.map) {
 					continue
@@ -369,11 +374,6 @@ var start_game = function(canvas, ctx) {
 	}
 
 	var draw_object = function (ctx, object, options = {}) {
-		// if (object.map !== Game.currentMap) {
-		// 	console.log(object.map)
-		// 	Game.currentMap === object.map
-		// 	console.log(Game.currentMap)
-		// }
 		let tex2
 
 		if (object.look === "trooper1") {
