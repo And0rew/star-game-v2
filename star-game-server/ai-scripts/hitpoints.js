@@ -1,8 +1,5 @@
 
 var uron = 20
-var RadPop = 0
-var ux = 0
-var uy = 0
 
 module.exports = (addScript) => {
     addScript('hitpoints', (object, game) => {
@@ -11,8 +8,10 @@ module.exports = (addScript) => {
             if (!shot) {
                 return
             }
-    
-    
+
+            let RadPop = 31
+            let ux = 49 / 2
+            let uy = 30 / 2
             if (object.look === "trooper1") {
                 RadPop = 31
                 ux = 49 / 2
@@ -22,30 +21,30 @@ module.exports = (addScript) => {
                 ux = 40
                 uy = 40
             }
-    
+
             // console.log(
-            //     'Checking shot', 
+            //     'Checking shot',
             //     {
             //         shot,
             //         object,
             //     }
             // )
-    
+
             if (shot.x > object.x + ux - RadPop && shot.x < object.x + ux + RadPop) {
                 if (shot.y > object.y + uy - RadPop && shot.y < object.y + uy + RadPop) {
-                    if (object.id != shot.myid) {                                                            
+                    if (object.id != shot.myid) {
                         game.funcs.delete('shots', key)
                         if (object.hitpoints <= 0) {
                             game.funcs.delete('objects', object.id)
                         } else {
                             game.funcs.update(
-                                ['objects', object.id, 'hitpoints'], 
+                                ['objects', object.id, 'hitpoints'],
                                 object.hitpoints - uron
                             )
                         }
                     }
                 }
-            }        
+            }
         }
     })
 }

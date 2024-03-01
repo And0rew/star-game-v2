@@ -243,6 +243,7 @@ function spawnEnemies() {
     const hitpoints = 300
     const baseEnemy = {
         type: 'character',
+        gun: 'shotgun_0',
 
         look: 'trooper_v2',
         lookOptions: {

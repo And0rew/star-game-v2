@@ -3,6 +3,10 @@ const {
 	getTurnToTarget,
 } = require('../utils')
 
+const {
+	gunShot
+} = require('../../star-game-www/guns')
+
 const allEnemies = {}
 
 
@@ -13,6 +17,7 @@ const attackState = {}
 // TODO: Давно не палили по цели? Пальни
 
 const SEE_SIGHT = 280
+const ATTACK_RATE = 1000
 
 module.exports = (addScript) => {
 	addScript('trooper', (object, game, dt, t) => {
@@ -39,6 +44,11 @@ module.exports = (addScript) => {
 			// Смотри на цель
 			const g = getTurnToTarget(object, targetObject)
 			game.funcs.update(['objects', object.id, 'g'], g)
+
+			if (!attackState[object.id] || (t - attackState[object.id]) > ATTACK_RATE) {
+				gunShot(object)
+				attackState[object.id]=t
+			}
 		} else {
 			// Найти цель
 			let minDistance
