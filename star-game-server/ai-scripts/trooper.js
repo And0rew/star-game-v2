@@ -19,12 +19,29 @@ const attackState = {}
 const SEE_SIGHT = 280
 const ATTACK_RATE = 1000
 
+const WALK_RANGE = 80
+const WALK_DIFF_RAND = 1000
+const WALK_RATE = 600 // Как часть принимать решение ходить?
+
 module.exports = (addScript) => {
 	addScript('trooper', (object, game, dt, t) => {
-		// TODO: сделать проверку реже
+
+		if (!object.target) {
+			const walkRate = WALK_RATE + WALK_DIFF_RAND * Math.random()
+			// Немного пойти куда нить, если стоишь. Что стоять то?
+			if (!walkingState[object.id] || (t - walkingState[object.id]) > walkRate) {
+				let dir = 1
+				if (Math.random() < 0.5) {
+					dir = -1
+				}
+				const xToGo = object.x + dir * Math.round(WALK_RANGE * Math.random())
+				const yToGo = object.y + dir * Math.round(WALK_RANGE * Math.random())
+				game_update(["objects", object.id, "target"], [xToGo, yToGo])
+				walkingState[object.id] = t
+			}
+		}
 
 		if (allEnemies[object.id]) {
-
 			const targetObjectId = allEnemies[object.id]
 			const targetObject = game.state.objects[targetObjectId]
 

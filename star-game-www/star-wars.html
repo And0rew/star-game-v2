@@ -299,22 +299,22 @@
 				object = Game.state.objects[object.carInId]
 			}
 
-			var dx = xm - object.x
-			var dy = ym - object.y
+			// var dx = xm - object.x
+			// var dy = ym - object.y
 
-			var k = Math.abs(dx / dy)
+			// var k = Math.abs(dx / dy)
 
-			var vy = object.v / Math.sqrt(k * k + 1)
-			var vx = k * vy
+			// var vy = object.v / Math.sqrt(k * k + 1)
+			// var vx = k * vy
 
-			if (xm < object.x) {
-				vx = -vx
-			}
-			if (ym < object.y) {
-				vy = -vy
-			}
+			// if (xm < object.x) {
+			// 	vx = -vx
+			// }
+			// if (ym < object.y) {
+			// 	vy = -vy
+			// }
 
-			console.log('target vx, vy', [vx, vy])
+			// console.log('target vx, vy', [vx, vy])
 
 			// идея один. Запомни в игроке куда нажали
 			game_update(["objects", object.id, "target"], [xm, ym])

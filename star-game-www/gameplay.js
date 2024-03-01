@@ -259,7 +259,7 @@ function spawnEnemies() {
         g: 0,
         vx: 0,
         vy: 0,
-        v: 0.2,
+        v: 0.1,
 
         hitpoints,
         max_hitpoints: hitpoints,
