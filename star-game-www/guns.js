@@ -43,14 +43,23 @@ let ALL_GUNS = {
     shot: {
       damage: 20, // перезарядка маленькая
       v: 0.4,
-      life: 800,
+      life: 1200,
       x: 0,
       y: 0,
+      tex: 'shot_round',
     },
     spawnShots: (object, gun) => {
-      for (let i = -2; i <= 2; i++) {
-        spawnOneShot({ object, gun, g: object.g + i * 45, l: 160})
-      }
+      spawnOneShot({ object, gun, g: object.g, l: 30 })
+
+      setTimeout(() => {
+        spawnOneShot({ object, gun, g: object.g, l: 30})
+      }, 100)
+      setTimeout(() => {
+        spawnOneShot({ object, gun, g: object.g, l: 30})
+      }, 200)
+      setTimeout(() => {
+        spawnOneShot({ object, gun, g: object.g, l: 30})
+      }, 300)
     }
   },
   weapon1: {
