@@ -776,8 +776,8 @@ var start_game = function(canvas, ctx) {
 		// Game.camera[1] = Game.camera[1] - 20
 		if (Game.cameraMode == 'follow' && Game.myId && Game.state.objects[Game.myId]) {
 			const objectMe = Game.state.objects[Game.myId]
-			Game.camera[0] = objectMe.x - Game.cameraSize[0] / 2
-			Game.camera[1] = objectMe.y - Game.cameraSize[1] / 2
+			Game.camera[0] = objectMe.x * Game.bloock_r - Game.cameraSize[0] / 2
+			Game.camera[1] = objectMe.y * Game.bloock_r - Game.cameraSize[1] / 2
 		}
 
 		draw_map(100,100)
