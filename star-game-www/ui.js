@@ -17,9 +17,6 @@ function drawUI(dt, t) {
     if (lastShot) {
       const diff = t - lastShot
       if (diff < SHOT_RATE) {
-        console.log('diff', diff)
-        console.log('%', 1 - diff / SHOT_RATE)
-
         const w = Math.round( (1 - diff / SHOT_RATE) * CELL_W)
         ctx.fillStyle = "rgba(200,200,200,0.5)"
         ctx.fillRect(80, Game.cameraSize[1] - 80, w, CELL_H)
