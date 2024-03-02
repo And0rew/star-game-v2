@@ -32,6 +32,10 @@
 	</style>
 </head>
 <body>
+	<script>
+		exports = {}
+		global = {}
+	</script>
 	<div class="adm-control">
 		<div>
 			id<br>
@@ -88,6 +92,9 @@
 
 				shadowCanvas.width = window.innerWidth;
 				shadowCanvas.height = window.innerHeight;
+
+				Game.cameraSize[0] = canvas.width
+				Game.cameraSize[1] = canvas.height
 		}
 
 		// Initial resize
@@ -105,8 +112,12 @@
 			70: "f",
 			73: "i",
 			87: "w",
+			67: "c",
 			187: "Plus",
-			189: "Minus"
+			189: "Minus",
+			81: "q",
+			87: "w",
+			82: "r",
 		}
 		var obModul = function (number) {
 			if (number > 0) {
@@ -145,6 +156,8 @@
    			localStorage.myObjectId = myObjectId
 		}
 		$("body").keydown(function (event) {
+			// console.log('event.keyCode', event.keyCode)
+
 			if (keys[event.keyCode] === "Left") {
 				Game.camera[0] = Game.camera[0] - 20
 			} else if (keys[event.keyCode] === "Right") {
@@ -159,6 +172,12 @@
 				Game.bloock_r = Game.bloock_r - 0.05
 				if (Game.bloock_r < 0.05) {
 					Game.bloock_r = 0.05
+				}
+			} else if (keys[event.keyCode] === "c") {
+				if (Game.cameraMode == 'fixed') {
+					Game.cameraMode = 'follow'
+				} else {
+					Game.cameraMode = 'fixed'
 				}
 			} else if (keys[event.keyCode] === "e") {
 				var myPlayer = Game.state.objects[Game.myId]
@@ -296,22 +315,22 @@
 				object = Game.state.objects[object.carInId]
 			}
 
-			var dx = xm - object.x
-			var dy = ym - object.y
+			// var dx = xm - object.x
+			// var dy = ym - object.y
 
-			var k = Math.abs(dx / dy)
+			// var k = Math.abs(dx / dy)
 
-			var vy = object.v / Math.sqrt(k * k + 1)
-			var vx = k * vy
+			// var vy = object.v / Math.sqrt(k * k + 1)
+			// var vx = k * vy
 
-			if (xm < object.x) {
-				vx = -vx
-			}
-			if (ym < object.y) {
-				vy = -vy
-			}
+			// if (xm < object.x) {
+			// 	vx = -vx
+			// }
+			// if (ym < object.y) {
+			// 	vy = -vy
+			// }
 
-			console.log('target vx, vy', [vx, vy])
+			// console.log('target vx, vy', [vx, vy])
 
 			// идея один. Запомни в игроке куда нажали
 			game_update(["objects", object.id, "target"], [xm, ym])

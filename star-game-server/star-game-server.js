@@ -7,6 +7,9 @@ const { nanoid } = require('nanoid')
 const game = require('./game')
 
 
+// Common global code
+require('../star-game-www/utils')
+
 
 const app = express()
 ws(app)

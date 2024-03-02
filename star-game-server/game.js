@@ -61,6 +61,13 @@ let lastBroadcastFunc = null
 
 const game = { state, funcs }
 
+function game_update(path, value) {
+    game.funcs.update(path, value)
+}
+
+// hack for client-first code
+global.game_update = game_update
+
 function game_start({ broadcast }) {
     lastBroadcastFunc = broadcast
 

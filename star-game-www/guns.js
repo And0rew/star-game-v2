@@ -301,7 +301,7 @@ let ALL_GUNS = {
       g: 90,
      },
      damage: 10,
-  
+
      shot: {
        damage: 30, //перезарядка средняя
        v: 1,
@@ -327,31 +327,31 @@ function spawn_guns() {
   for (let i in ALL_GUNS) {
     let gun = ALL_GUNS[i]
     let id = genId()
-    
+
     console.log(gun)
     console.log(gun.ground)
     if (gun.ground === true) {
       game_update(['objects', id], {
         type: 'gun',
-  
+
         id: id,
         gunId: gun.id,
-  
+
         x: fromX,
         y: fromY,
-  
+
         g: 0, vx: 0, vy: 0, v: 0,
-  
+
         look: gun.tex,
         map: 'sand_planet',
-  
+
         renderOpt: {
           noShadow: true,
         },
-  
+
         render_layer: 1,
       })
-  
+
       fromY += stepY
     }
   }
@@ -409,7 +409,7 @@ function oldGunShot(object) {
     date_create: date_create,
     time_life: life,
     time_not_life: date_create + life,
-    myid: Game.myId,
+    myid: object.id,
     map: object.map,
   })
   console.log(["Id:", shotId, "x:", Game.state.shots[shotId].x, "y:", Game.state.shots[shotId].y, "g:", Game.state.shots[shotId].g].join(" "))
@@ -472,3 +472,6 @@ function spawnOneShot({ object, gun, x, y, g, l = 0 }) {
     tex: gun.shot.tex,
   })
 }
+
+exports.ALL_GUNS = ALL_GUNS
+exports.gunShot = gunShot
