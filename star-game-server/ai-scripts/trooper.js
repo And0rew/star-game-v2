@@ -17,7 +17,7 @@ const attackState = {}
 // TODO: Давно не палили по цели? Пальни
 
 const SEE_SIGHT = 280
-const ATTACK_RATE = 1000
+const ATTACK_RATE = 2000
 
 const WALK_RANGE = 80
 const WALK_DIFF_RAND = 1000

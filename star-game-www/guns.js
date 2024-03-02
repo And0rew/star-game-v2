@@ -473,5 +473,28 @@ function spawnOneShot({ object, gun, x, y, g, l = 0 }) {
   })
 }
 
+const SHOT_RATE = 500
+let lastShot
+function playerShot() {
+  if (!Game.myId) {
+    return
+  }
+  var object = Game.state.objects[Game.myId]
+  if (!object) {
+    return
+  }
+
+  if (Game.currentMap !== object.map) {
+    return
+  }
+
+  const now = Date.now()
+  if (!lastShot || (now - lastShot) > SHOT_RATE) {
+    gunShot(object)
+    lastShot = now
+  }
+}
+
+
 exports.ALL_GUNS = ALL_GUNS
 exports.gunShot = gunShot

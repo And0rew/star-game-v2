@@ -800,6 +800,8 @@ var start_game = function(canvas, ctx) {
 
 		draw_shots(dt)
 
+		drawUI(dt, t)
+
 		draw_trade()
 
 		draw_inventory()
