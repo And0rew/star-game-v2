@@ -43,14 +43,23 @@ let ALL_GUNS = {
     shot: {
       damage: 20, // перезарядка маленькая
       v: 0.4,
-      life: 800,
+      life: 1200,
       x: 0,
       y: 0,
+      tex: 'shot_round',
     },
     spawnShots: (object, gun) => {
-      for (let i = -2; i <= 2; i++) {
-        spawnOneShot({ object, gun, g: object.g + i * 45, l: 160})
-      }
+      spawnOneShot({ object, gun, g: object.g, l: 30 })
+
+      setTimeout(() => {
+        spawnOneShot({ object, gun, g: object.g, l: 30})
+      }, 100)
+      setTimeout(() => {
+        spawnOneShot({ object, gun, g: object.g, l: 30})
+      }, 200)
+      setTimeout(() => {
+        spawnOneShot({ object, gun, g: object.g, l: 30})
+      }, 300)
     }
   },
   weapon1: {
@@ -472,6 +481,29 @@ function spawnOneShot({ object, gun, x, y, g, l = 0 }) {
     tex: gun.shot.tex,
   })
 }
+
+const SHOT_RATE = 500
+let lastShot
+function playerShot() {
+  if (!Game.myId) {
+    return
+  }
+  var object = Game.state.objects[Game.myId]
+  if (!object) {
+    return
+  }
+
+  if (Game.currentMap !== object.map) {
+    return
+  }
+
+  const now = Date.now()
+  if (!lastShot || (now - lastShot) > SHOT_RATE) {
+    gunShot(object)
+    lastShot = now
+  }
+}
+
 
 exports.ALL_GUNS = ALL_GUNS
 exports.gunShot = gunShot

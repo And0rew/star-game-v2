@@ -76,6 +76,7 @@
 	<script src="guns.js" ></script>
 	<script src="talks.js" ></script>
 	<script src="utils.js" ></script>
+	<script src="ui.js" ></script>
 	<script>
 		var shadowCanvas = document.createElement('canvas');
 		// var // shadowCtx = shadowCanvas.getContext('2d');
@@ -179,6 +180,8 @@
 				} else {
 					Game.cameraMode = 'fixed'
 				}
+			} else if (keys[event.keyCode] === "q") {
+				playerShot()
 			} else if (keys[event.keyCode] === "e") {
 				var myPlayer = Game.state.objects[Game.myId]
 
@@ -454,19 +457,7 @@
 			} else {
 				save = _.size(Game.state.shots)
 
-				if (!Game.myId) {
-					return
-				}
-				var object = Game.state.objects[Game.myId]
-				if (!object) {
-					return
-				}
-
-				if (Game.currentMap !== object.map) {
-					return
-				}
-
-				gunShot(object)
+				playerShot()
 			}
 		}
 
