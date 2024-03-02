@@ -289,6 +289,7 @@ function spawnEnemies() {
         id: id0,
         x: 300,
         y: 300,
+        look: 'trooper_body_v2_orange',
         group: 'punks',
         gun: gunId0
     })
@@ -301,6 +302,7 @@ function spawnEnemies() {
         id: id1,
         x: 300,
         y: 600,
+        look: 'trooper_body_v2_yellow',
         group: 'monks',
         gun: gunId1,
     })

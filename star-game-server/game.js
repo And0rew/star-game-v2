@@ -426,6 +426,15 @@ function generateHouseBig(maph, x, y) {
     generateSome("housedownright", maph, x + 3, y + 5, "yes")
 }
 
+function generate_weapon_trade (naph, x, y) {
+    generateSome("privupleft", naph, x, y, "yes")
+    generateSome("privup", naph, x + 1, y, "no")
+    generateSome("privupright", naph, x + 2, y, "yes")
+    generateSome("privdownleft", naph, x, y + 1, "yes")
+    generateSome("privdown", naph, x + 1, y + 1, "yes")
+    generateSome("privdownright", naph, x + 2, y + 1, "yes")
+}
+
 function generateVilageHouses(how, naph, x, y) {
     if (how === 1) {
         generateHouseOne(naph, x + 5, y + 4)
