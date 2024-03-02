@@ -77,6 +77,7 @@ function game_start({ broadcast }) {
 
     spawn_planets_0(state, 'space0')
     generatePalatk("playerSpawner", state, 'sand_planet')
+    generate_object("vilTrader", (villCor[5] + 1) * 40 + 20, villCor[6] * 40 + 20, "trooper1", "trader", ['hitpoints'], "торговец", 20000, "sand_planet", game)
 
     setInterval(() => {
         update_world({ broadcast })
@@ -105,7 +106,7 @@ function update_world({ broadcast }) {
                 console.log('spawn enemy')
                 console.log(state.objects.playerSpawner.x)
                 console.log(state.objects.playerSpawner.y + (1.5 * 40))
-                generate_object("enemy" + Date.now(), state.objects.playerSpawner.x, state.objects.playerSpawner.y + (1.5 * 40), "enemy1", "enemyOnSand", "enemy", 200, "sand_planet", game)
+                generate_object("enemy" + Date.now(), state.objects.playerSpawner.x, state.objects.playerSpawner.y + (1.5 * 40), "enemy1", "enemyOnSand", ['trooper', 'hitpoints'], "enemy", 200, "sand_planet", game)
                 colOfEnemySandNow = colOfEnemySandNow + 1
             }
             timeToSpawn = timeToSpawn - 50000
@@ -267,7 +268,7 @@ function apply_delete_object(deleteObject) {
     }
 }
 
-function generate_object(id, x, y, look, group, nickName, hitpoints, map, game) {
+function generate_object(id, x, y, look, group, ai, nickName, hitpoints, map, game) {
     //_.set(state, ['objects', id], {
         console.log("generate_object")
         game.funcs.update(['objects', id, 'id'], id)
@@ -276,9 +277,9 @@ function generate_object(id, x, y, look, group, nickName, hitpoints, map, game) 
 
         game.funcs.update(['objects', id, 'look'], look)
         game.funcs.update(['objects', id, 'group'], group)
-        game.funcs.update(['objects', id, 'ai'], ['trooper', 'hitpoints'])
+        game.funcs.update(['objects', id, 'ai'], ai)
 
-        game.funcs.update(['objects', id, 'g'], 0)
+        game.funcs.update(['objects', id, 'g'], 180)
         game.funcs.update(['objects', id, 'vx'], 0)
         game.funcs.update(['objects', id, 'vy'], 0)
         game.funcs.update(['objects', id, 'v'], 0.2)
@@ -470,6 +471,7 @@ function generateVilageHouses(how, naph, x, y) {
                 generateSome("Road2", naph, x + xp, y + yp, "no")
             }
         }
+        generate_weapon_trade (naph, x + 12, y + 10)
         generateHouseBig(naph, x + 17, y + 6)
         generateSome("Road2", naph, x + 16, y + 9, "no")
     } else if (how === 2) {
@@ -511,6 +513,7 @@ function generateVilageHouses(how, naph, x, y) {
                 generateSome("Road2", naph, x + xh, y + yh, "no")
             }
         }
+        generate_weapon_trade (naph, x + 17, y + 12)
         generateHouseBig(naph, x + 5, y + 11)
         generateSome("Road2", naph, x + 4, y + 14, "no")
         for(var yh = 11; yh < 15; yh++) {
@@ -548,6 +551,7 @@ function generateVilageHouses(how, naph, x, y) {
                 generateSome("Road2", naph, x + xr, y + yr, "no")
             }
         }
+        generate_weapon_trade (naph, x + 5, y + 4)
         generateHouseBig(naph, x + 17, y + 15)
         generateSome("Road2", naph, x + 16, y + 18, "no")
     }
@@ -603,6 +607,17 @@ function generateAllVilage(map, type) {
         } else if (ran === 3) {
             villCor[3] = xgv + 17
             villCor[4] = ygv + 18
+        }
+
+        if (ran === 1) {
+            villCor[5] = xgv + 12
+            villCor[6] = ygv + 10
+        } else if (ran === 2) {
+            villCor[5] = xgv + 17
+            villCor[6] = ygv + 12
+        } else if (ran === 3) {
+            villCor[5] = xgv + 5
+            villCor[6] = ygv + 4
         }
 
         console.log(ran)
