@@ -62,8 +62,13 @@ function spawnMe() {
 
     localStorage.myNickname = nickName
 
+    const guns = ['shotgun_0', 'weapon1', 'weapon2', 'weapon3', 'weapon9', 'weapon10', 'weapon11']
+    const gunId = guns[Math.round(Math.random() * (guns.length-1))]
+
     game_update(['objects', id], {
         type: 'character',
+
+        gun: gunId,
 
         id: id,
         x: 200,
