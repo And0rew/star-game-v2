@@ -10,7 +10,6 @@
 //         vx: 0,
 //         vy: 0,
 //         v: 0,
-
 //         planet_center_x: 1500,
 //         planet_center_y: 1500,
 //         orbit_radius: 800,
@@ -272,17 +271,25 @@ function spawnEnemies() {
         }
     }
 
+    const guns = ['shotgun_0', 'weapon1', 'weapon2', 'weapon3']
+    // for (const gunId in ALL_GUNS) {
+    //     guns.push(gunId)
+    // }
+
     const id0 = genId()
+    const gunId0 = guns[Math.round(Math.random() * (guns.length-1))]
     game_update(['objects', id0], {
         ...baseEnemy,
         nickName: generateName(),
         id: id0,
         x: 300,
         y: 300,
-        group: 'punks'
+        group: 'punks',
+        gun: gunId0
     })
 
     const id1 = genId()
+    const gunId1 = guns[Math.round(Math.random() * (guns.length-1))]
     game_update(['objects', id1], {
         ...baseEnemy,
         nickName: generateName(),
@@ -290,9 +297,11 @@ function spawnEnemies() {
         x: 300,
         y: 600,
         group: 'monks',
+        gun: gunId1,
     })
 
     const id2 = genId()
+    const gunId2 = guns[Math.round(Math.random() * (guns.length-1))]
     game_update(['objects', id2], {
         ...baseEnemy,
         nickName: generateName(),
@@ -300,6 +309,7 @@ function spawnEnemies() {
         x: 600,
         y: 600,
         group: 'group0',
+        gun: gunId2,
     })
 }
 

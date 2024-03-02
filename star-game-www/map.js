@@ -1,7 +1,9 @@
 var Game = {
+		cameraMode: 'fixed',
     resources: {},
     camera:[0, 0],
-	myId: "",
+		cameraSize: [0, 0],
+		myId: "",
 		currentMap: 'sand_planet',
     state: {
     	maps: {},
@@ -506,8 +508,8 @@ var start_game = function(canvas, ctx) {
 
 	var scaleX = 0
 	var scaleY = 0
-	
-	
+
+
 
 	var draw_trade = function() {
 		if (Game.isTrade === false) {
@@ -585,7 +587,7 @@ var start_game = function(canvas, ctx) {
 		if (myPlayerShopping && myPlayerShopping.inventory) {
 			for (var justCorP = 0; justCorP < myPlayerShopping.inventory.guns.length; justCorP++) {
 
-				
+
 				if (yShopNowP > 9) {
 					xShopNowP++
 					yShopNowP -= 10
@@ -675,7 +677,7 @@ var start_game = function(canvas, ctx) {
 				forImg(55, tex2I.width, tex2I.height)[1]
 			)
 		}
-		
+
 		var yINow = 0
 		var xINow = 0
 		var textP
@@ -750,7 +752,7 @@ var start_game = function(canvas, ctx) {
 	}
 
 	function drawTalk () {
-		
+
 	}
 
 	setTimeout(() => {
@@ -768,6 +770,15 @@ var start_game = function(canvas, ctx) {
 
 
 		ctx.clearRect(0, 0, innerWidth, innerHeight)
+
+
+		// Game.camera[0] = Game.camera[0] - 20
+		// Game.camera[1] = Game.camera[1] - 20
+		if (Game.cameraMode == 'follow' && Game.myId && Game.state.objects[Game.myId]) {
+			const objectMe = Game.state.objects[Game.myId]
+			Game.camera[0] = objectMe.x - Game.cameraSize[0] / 2
+			Game.camera[1] = objectMe.y - Game.cameraSize[1] / 2
+		}
 
 		draw_map(100,100)
 

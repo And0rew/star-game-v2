@@ -91,6 +91,9 @@
 
 				shadowCanvas.width = window.innerWidth;
 				shadowCanvas.height = window.innerHeight;
+
+				Game.cameraSize[0] = canvas.width
+				Game.cameraSize[1] = canvas.height
 		}
 
 		// Initial resize
@@ -108,6 +111,7 @@
 			70: "f",
 			73: "i",
 			87: "w",
+			67: "c",
 			187: "Plus",
 			189: "Minus"
 		}
@@ -148,6 +152,8 @@
    			localStorage.myObjectId = myObjectId
 		}
 		$("body").keydown(function (event) {
+			// console.log('event.keyCode', event.keyCode)
+
 			if (keys[event.keyCode] === "Left") {
 				Game.camera[0] = Game.camera[0] - 20
 			} else if (keys[event.keyCode] === "Right") {
@@ -162,6 +168,12 @@
 				Game.bloock_r = Game.bloock_r - 0.05
 				if (Game.bloock_r < 0.05) {
 					Game.bloock_r = 0.05
+				}
+			} else if (keys[event.keyCode] === "c") {
+				if (Game.cameraMode == 'fixed') {
+					Game.cameraMode = 'follow'
+				} else {
+					Game.cameraMode = 'fixed'
 				}
 			} else if (keys[event.keyCode] === "e") {
 				var myPlayer = Game.state.objects[Game.myId]
