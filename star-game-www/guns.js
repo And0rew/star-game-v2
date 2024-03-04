@@ -482,7 +482,7 @@ function spawnOneShot({ object, gun, x, y, g, l = 0 }) {
   })
 }
 
-const SHOT_RATE = 500
+const SHOT_RATE = 800
 let lastShot
 function playerShot() {
   if (!Game.myId) {

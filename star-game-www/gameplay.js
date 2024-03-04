@@ -276,7 +276,7 @@ function spawnEnemies() {
         }
     }
 
-    const guns = ['shotgun_0', 'weapon1', 'weapon2', 'weapon3']
+    const guns = ['shotgun_0', 'assault_rifle_0', 'weapon1', 'weapon2', 'weapon3']
     // for (const gunId in ALL_GUNS) {
     //     guns.push(gunId)
     // }
